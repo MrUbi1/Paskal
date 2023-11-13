@@ -1,11 +1,11 @@
 Package: sample4audit
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Sample size for performance audit, among other useful tools
 Version: 0.1.0
-Author: Who wrote it
+Author: MPR
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: The package includes functions to calculate the sample size or, alternatively, to calculate the sampling error that has been worked with when the sample size is given. Includes functions for estimating different parameters in different contexts.    The package includes some functions to facilitate the stratification of monetary populations.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.3
