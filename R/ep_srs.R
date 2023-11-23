@@ -1,10 +1,14 @@
-
-
-
-
-
-
-
+#' Sample error e for simple random sampling of proportion
+#'
+#' @param C Level of confidence (0 <= C <= 1)
+#' @param n Given sample size
+#' @param p Expected or estimated (preferred) proportion in the population.
+#' @param N Population size. Must be a positive integer.
+#'
+#' @return The function returns the sample error consistent with the estimation of the proportion of occurrende of a phenomena, given the sample size.
+#' @export
+#'
+#' @examples np_srs(0.95, 151, 0.5, 9999999999)
 
 
 ep_srs <- function(C, n, p, N = Inf) {

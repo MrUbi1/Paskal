@@ -5,7 +5,7 @@
 #' @param e Sampling error (0 <= e <= 1).
 #' @param N Population size, by default is infinite. Must be a positive integer.
 #'
-#' @return The function returns the sample size needed to estimate the proportion of occurrende of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume.
+#' @return The function returns the sample size needed to estimate the proportion of occurrence of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume.
 #' @export
 #'
 #' @examples np_srs(0.95, 0.03)
