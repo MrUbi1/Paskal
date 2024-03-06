@@ -8,7 +8,7 @@
 #' @return The function returns the sample error consistent with the estimation of the proportion of occurrende of a phenomena, given the sample size.
 #' @export
 #'
-#' @examples np_srs(0.95, 151, 0.5, 9999999999)
+#' @examples ep_srs(0.95, 151, 0.5, 9999999999)
 
 
 ep_srs <- function(C, n, p, N = Inf) {
