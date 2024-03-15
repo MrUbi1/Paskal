@@ -2,4 +2,4 @@
 
 export(ep_srs)
 export(nm_srs)
-export(np_srs)
+export(np_SRS)
