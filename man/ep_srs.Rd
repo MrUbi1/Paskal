@@ -2,9 +2,9 @@
 % Please edit documentation in R/ep_srs.R
 \name{ep_srs}
 \alias{ep_srs}
-\title{Sample error e for simple random sampling of proportion}
+\title{Sample error 'e' when estimating the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sample size 'n'}
 \usage{
-ep_srs(C, n, p, N = Inf)
+ep_srs(C, n, p = 0.5, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
@@ -16,11 +16,14 @@ ep_srs(C, n, p, N = Inf)
 \item{N}{Population size. Must be a positive integer.}
 }
 \value{
-The function returns the sample error consistent with the estimation of the proportion of occurrende of a phenomena, given the sample size.
+The function returns the sample error consistent with the estimation of the proportion of occurrence of a phenomena, given the sample size.
 }
 \description{
-Sample error e for simple random sampling of proportion
+Sample error 'e' when estimating the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sample size 'n'
 }
 \examples{
-ep_srs(0.95, 151, 0.5, 9999999999)
+ep_srs(0.90, 415)
+ep_srs(0.90, 415, 0.5)
+ep_srs(0.90, 415, 0.5, 20000)
+ep_srs(0.90, 415, N = 20000)
 }

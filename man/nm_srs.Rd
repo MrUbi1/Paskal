@@ -2,16 +2,16 @@
 % Please edit documentation in R/nm_srs.R
 \name{nm_srs}
 \alias{nm_srs}
-\title{Sample size n for simple random sampling of mean}
+\title{Sample size 'n' needed to estimate the mean 'm' with a Simple Random Sampling (SRS) plan, given the sampling error 'E'}
 \usage{
-nm_srs(C, e, s, N = Inf)
+nm_srs(C, E, s, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
 
-\item{e}{Sampling error (0 <= e <= 1).}
+\item{E}{Sampling error (E > 1).}
 
-\item{s}{To be completed}
+\item{s}{Standard deviation}
 
 \item{N}{Population size, by default is infinite. Must be a positive integer.}
 }
@@ -19,11 +19,10 @@ nm_srs(C, e, s, N = Inf)
 The function returns the sample size needed to estimate the mean of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume.
 }
 \description{
-Sample size n for simple random sampling of mean
+Sample size 'n' needed to estimate the mean 'm' with a Simple Random Sampling (SRS) plan, given the sampling error 'E'
 }
 \examples{
-np_srs(0.95, 0.03)
-np_srs(0.95, 0.03, 0.5)
-np_srs(0.95, 0.03, 0.5, 1000)
-np_srs(0.95, 0.03, N = 1000)
+nm_srs(0.95, 50, 400)
+nm_srs(0.95, 50, 400, 10000)
+nm_srs(0.95, 100, 400, 10000)
 }
