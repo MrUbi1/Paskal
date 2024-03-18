@@ -1,0 +1,53 @@
+#' Sample error when estimating the mean with a Simple Random Sampling plan
+#'
+#' @param C Level of confidence (0 <= C <= 1)
+#' @param n Given sample size
+#' @param s Standard deviation
+#' @param N Population size. Must be a positive integer.
+#'
+#' @return The function returns the sample error consistent with the estimation of the mean, given the sample size.
+#' @export
+#'
+#' @examples em_srs(0.95, 140, 600)
+#' @examples em_srs(0.95, 140, 800)
+#' @examples em_srs(0.95, 140, 800, 2000)
+
+
+# Sample error function
+em_srs <- function(C, n, s, N = Inf) {
+
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (n <= 0 ) {
+    stop("Parameter 'n' must be higher than 0")
+  }
+
+  if (s < 0) {
+    stop("Parameter 's' must be a positive integer")
+  }
+
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+
+  # Function of difference, aimed to iterate with different values of 'E'
+  difference <- function(E) {
+    n_theo = (qnorm(C + (1 - C) / 2, 0, 1)^2 * s^2 / E^2)
+    fcf <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
+    n_adjusted <- n_theo * fcf
+    return(abs(n_adjusted - n))
+  }
+
+  # Find the value of 'E' that minimizes the difference
+  result <- optimize(f = difference, interval = c(0, 1000000))
+
+  # Return the result containing the optimal (minimum) 'E' value
+  return(result$minimum)
+}
+
+
