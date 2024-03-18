@@ -2,7 +2,7 @@
 % Please edit documentation in R/np_srs.R
 \name{np_srs}
 \alias{np_srs}
-\title{Sample size 'n' needed to estimate the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sampling error 'e'}
+\title{Sample size needed to estimate the proportion with a Simple Random Sampling plan}
 \usage{
 np_srs(C, e, p = 0.5, N = Inf)
 }
@@ -19,7 +19,7 @@ np_srs(C, e, p = 0.5, N = Inf)
 The function returns the sample size needed to estimate the proportion of occurrence of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume, when conducting a Simple Random Sampling plan, among others with some restrictions.
 }
 \description{
-Sample size 'n' needed to estimate the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sampling error 'e'
+Sample size needed to estimate the proportion with a Simple Random Sampling plan
 }
 \examples{
 np_srs(0.90, 0.04)

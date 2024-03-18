@@ -2,7 +2,7 @@
 % Please edit documentation in R/nm_srs.R
 \name{nm_srs}
 \alias{nm_srs}
-\title{Sample size 'n' needed to estimate the mean 'm' with a Simple Random Sampling (SRS) plan, given the sampling error 'E'}
+\title{Sample size needed to estimate the mean with a Simple Random Sampling plan}
 \usage{
 nm_srs(C, E, s, N = Inf)
 }
@@ -19,7 +19,7 @@ nm_srs(C, E, s, N = Inf)
 The function returns the sample size needed to estimate the mean of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume.
 }
 \description{
-Sample size 'n' needed to estimate the mean 'm' with a Simple Random Sampling (SRS) plan, given the sampling error 'E'
+Sample size needed to estimate the mean with a Simple Random Sampling plan
 }
 \examples{
 nm_srs(0.95, 50, 400)

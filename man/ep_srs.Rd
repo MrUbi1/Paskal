@@ -2,7 +2,7 @@
 % Please edit documentation in R/ep_srs.R
 \name{ep_srs}
 \alias{ep_srs}
-\title{Sample error 'e' when estimating the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sample size 'n'}
+\title{Sampling error when estimating the proportion with a Simple Random Sampling plan}
 \usage{
 ep_srs(C, n, p = 0.5, N = Inf)
 }
@@ -19,7 +19,7 @@ ep_srs(C, n, p = 0.5, N = Inf)
 The function returns the sample error consistent with the estimation of the proportion of occurrence of a phenomena, given the sample size.
 }
 \description{
-Sample error 'e' when estimating the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sample size 'n'
+Sampling error when estimating the proportion with a Simple Random Sampling plan
 }
 \examples{
 ep_srs(0.90, 415)

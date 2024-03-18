@@ -1,4 +1,4 @@
-#' Sample error when estimating the mean with a Simple Random Sampling plan
+#' Sampling error when estimating the mean with a Simple Random Sampling plan
 #'
 #' @param C Level of confidence (0 <= C <= 1)
 #' @param n Given sample size

@@ -2,7 +2,7 @@
 % Please edit documentation in R/em_srs.R
 \name{em_srs}
 \alias{em_srs}
-\title{Sample error 'e' when estimating the mean 'm' with a Simple Random Sampling (SRS) plan, given the sample size 'n'}
+\title{Sampling error when estimating the mean with a Simple Random Sampling plan}
 \usage{
 em_srs(C, n, s, N = Inf)
 }
@@ -19,7 +19,7 @@ em_srs(C, n, s, N = Inf)
 The function returns the sample error consistent with the estimation of the mean, given the sample size.
 }
 \description{
-Sample error 'e' when estimating the mean 'm' with a Simple Random Sampling (SRS) plan, given the sample size 'n'
+Sampling error when estimating the mean with a Simple Random Sampling plan
 }
 \examples{
 em_srs(0.95, 140, 600)

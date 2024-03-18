@@ -1,4 +1,4 @@
-#' Sample error 'e' when estimating the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sample size 'n'
+#' Sampling error when estimating the proportion with a Simple Random Sampling plan
 #'
 #' @param C Level of confidence (0 <= C <= 1)
 #' @param n Given sample size

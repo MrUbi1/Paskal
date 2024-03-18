@@ -1,4 +1,4 @@
-#' Sample size 'n' needed to estimate the mean 'm' with a Simple Random Sampling (SRS) plan, given the sampling error 'E'
+#' Sample size needed to estimate the mean with a Simple Random Sampling plan
 #'
 #' @param C Level of confidence (0 <= C <= 1)
 #' @param E Sampling error (E > 1).

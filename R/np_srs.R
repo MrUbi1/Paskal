@@ -1,4 +1,4 @@
-#' Sample size 'n' needed to estimate the proportion 'p' with a Simple Random Sampling (SRS) plan, given the sampling error 'e'
+#' Sample size needed to estimate the proportion with a Simple Random Sampling plan
 #'
 #' @param C Level of confidence. (0 <= C <= 1)
 #' @param p Expected proportion in the population. By default 0.5, also applicable if you lack information. (0 <= p <= 1)
