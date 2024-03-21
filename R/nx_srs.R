@@ -2,18 +2,18 @@
 #'
 #' @param C Level of confidence (0 <= C <= 1)
 #' @param E Sampling error (E > 1).
-#' @param s Standard deviation
-#' @param N Population size, by default is infinite. Must be a positive integer.
+#' @param sd_exp Expected standard deviation (sd_exp > 0)
+#' @param N A positive integer indicating the number of elements in the population. By default, infinite.
 #'
 #' @return The function returns the sample size needed to estimate the mean of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume.
 #' @export
 #'
-#' @examples nm_srs(0.95, 50, 400)
-#' @examples nm_srs(0.95, 50, 400, 10000)
-#' @examples nm_srs(0.95, 100, 400, 10000)
+#' @examples nx_srs(C = 0.95, E = 50, sd_exp = 400)
+#' @examples nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 10000)
+#' @examples nx_srs(C = 0.95, E = 100, sd_exp = 400, N = 10000)
 
 # Sample size function
-nm_srs <- function(C, E, s, N = Inf) {
+nx_srs <- function(C, E, sd_exp, N = Inf) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -24,8 +24,8 @@ nm_srs <- function(C, E, s, N = Inf) {
     stop("Parameter 'E' must be a positive number")
   }
 
-  if (s < 0) {
-    stop("Parameter 's' must be a positive integer")
+  if (sd_exp < 0) {
+    stop("Parameter 'sd_exp' must be a positive number")
   }
 
   if (!missing(N)) {
@@ -35,7 +35,7 @@ nm_srs <- function(C, E, s, N = Inf) {
   }
 
   # Formula to obtain the adjusted sample size
-  n <- qnorm(C + (1 - C) / 2, 0, 1)^2 * s^2 / E^2
+  n <- qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2
   fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
   n_ajusted <- ceiling(n * fcf)
   return(n_ajusted)

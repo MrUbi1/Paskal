@@ -1,22 +1,21 @@
-#' Confidence interval of the proportion estimated from a Simple Random Sampling plan
+#' Confidence interval of the proportion under a Simple Random Sampling framework
 #'
-#' @param C Level of confidence. (0 <= C <= 1)
-#' @param e Sampling error. (0 <= e <= 1).
-#' @param n_real Real sample size. (n > 0).
-#' @param p_est Sample proportion. (0 <= p <= 1)
-#' @param p_exp Expected proportion in the population. By default 0.5. (0 <= p <= 1)
-#' @param N Population size, by default is infinite. Must be a positive integer.
+#' @param C Level of confidence (0 <= C <= 1)
+#' @param e Sampling error (0 <= e <= 1)
+#' @param n_real Real sample size (n_real > 0)
+#' @param p_est Sample proportion (0 <= p_est <= 1)
+#' @param p_exp Expected proportion in the population. By default 0.5 (0 <= p_exp <= 1)
+#' @param N A positive integer indicating the number of elements in the population. By default, infinite.
 #'
-#' @return The function returns the sample size needed to estimate the proportion of occurrence of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume, when conducting a Simple Random Sampling plan, among others with some restrictions.
+#' @return The function returns the interval of confidence of the population proportion, and information regarding the sufficiency of the sample size.
 #' @export
 #'
-#' @examples np_srs(0.90, 0.04)
-#' @examples np_srs(0.90, 0.04, 0.5)
-#' @examples np_srs(0.90, 0.04, 0.5, 20000)
-#' @examples np_srs(0.90, 0.04, N = 20000)
+#' @examples cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4)
+#' @examples cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 400, p_est = 0.4)
+#' @examples cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4, N = 5000)
 
-#Interval of confidence function
-cip_srs <- function(C, e, p_exp = 0.5, n_real, p_est, N = Inf) {
+#Confidence interval function
+cp_srs <- function(C,e, p_exp = 0.5, n_real, p_est, N = Inf) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
