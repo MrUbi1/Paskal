@@ -4,16 +4,16 @@
 \alias{np_srs}
 \title{Sample size needed to estimate the proportion with a Simple Random Sampling plan}
 \usage{
-np_srs(C, e, p = 0.5, N = Inf)
+np_srs(C, e, p_exp = 0.5, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence. (0 <= C <= 1)}
 
 \item{e}{Sampling error. (0 <= e <= 1).}
 
-\item{p}{Expected proportion in the population. By default 0.5, also applicable if you lack information. (0 <= p <= 1)}
+\item{p_exp}{Expected proportion in the population. By default 0.5, also applicable if you lack information. (0 <= p_exp <= 1)}
 
-\item{N}{Population size, by default is infinite. Must be a positive integer.}
+\item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
 }
 \value{
 The function returns the sample size needed to estimate the proportion of occurrence of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume, when conducting a Simple Random Sampling plan, among others with some restrictions.
@@ -22,8 +22,8 @@ The function returns the sample size needed to estimate the proportion of occurr
 Sample size needed to estimate the proportion with a Simple Random Sampling plan
 }
 \examples{
-np_srs(0.90, 0.04)
-np_srs(0.90, 0.04, 0.5)
-np_srs(0.90, 0.04, 0.5, 20000)
-np_srs(0.90, 0.04, N = 20000)
+np_srs(C = 0.90, e = 0.04)
+np_srs(C = 0.90, e = 0.04, p_exp = 0.5)
+np_srs(C = 0.90, e = 0.04, p_exp = 0.5, N = 20000)
+np_srs(C = 0.90, e = 0.04, N = 20000)
 }

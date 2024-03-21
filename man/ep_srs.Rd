@@ -4,16 +4,16 @@
 \alias{ep_srs}
 \title{Sampling error when estimating the proportion with a Simple Random Sampling plan}
 \usage{
-ep_srs(C, n, p = 0.5, N = Inf)
+ep_srs(C, n_real, p_est = 0.5, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
 
-\item{n}{Given sample size}
+\item{n_real}{Given sample size (n_real > 0)}
 
-\item{p}{Expected or estimated (preferred) proportion in the population.}
+\item{p_est}{Sample proportion (0 <= p_est <= 1).}
 
-\item{N}{Population size. Must be a positive integer.}
+\item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
 }
 \value{
 The function returns the sample error consistent with the estimation of the proportion of occurrence of a phenomena, given the sample size.
@@ -22,8 +22,8 @@ The function returns the sample error consistent with the estimation of the prop
 Sampling error when estimating the proportion with a Simple Random Sampling plan
 }
 \examples{
-ep_srs(0.90, 415)
-ep_srs(0.90, 415, 0.5)
-ep_srs(0.90, 415, 0.5, 20000)
-ep_srs(0.90, 415, N = 20000)
+ep_srs(C = 0.90, n_real = 415)
+ep_srs(C = 0.90, n_real = 415, p_est = 0.5)
+ep_srs(C = 0.90, n_real = 415, p_est = 0.5, N = 20000)
+ep_srs(C = 0.90, n_real = 415, N = 20000)
 }

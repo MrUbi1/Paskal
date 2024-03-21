@@ -13,6 +13,7 @@
 #' @examples nt_srs(C = 0.95, E = 2000, sd_exp = 2.05, N = 1200)
 
 
+
 # Sample size function
 nt_srs <- function(C, E, sd_exp, N) {
 

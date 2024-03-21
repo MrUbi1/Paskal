@@ -15,9 +15,6 @@
 #' @examples ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 6, N = 1200)
 
 
-nt_srs(C = 0.95, E = 1000, sd_exp = 4.1, N = 1200)87
-
-
 #Confidence interval function
 ct_srs <- function(C, E, t_est, sd_exp, n_real, sd_est, N) {
 
