@@ -4,9 +4,9 @@
 \alias{ex_srs}
 \title{Sampling error when estimating the total with a Simple Random Sampling plan}
 \usage{
-ex_srs(C, n_real, sd_exp, N = Inf)
+ex_srs(C, n_real, sd_exp, parameter = FALSE, N = Inf)
 
-ex_srs(C, n_real, sd_exp, N = Inf)
+ex_srs(C, n_real, sd_exp, parameter = FALSE, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
@@ -14,6 +14,8 @@ ex_srs(C, n_real, sd_exp, N = Inf)
 \item{n_real}{Given sample size (n_real > 0)}
 
 \item{sd_exp}{Expected standard deviation (sd_exp > 0)}
+
+\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
 
 \item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
 }
@@ -30,8 +32,8 @@ Sampling error when estimating the mean with a Simple Random Sampling plan
 \examples{
 ex_srs(C = 0.95, n_real = 87, sd_exp = 4.1, N = 1200)
 ex_srs(C = 0.95, n_real = 23, sd_exp = 4.1, N = 1200)
-ex_srs(C = 0.95, n_real = 6, sd_exp = 2.1, N = 1200)
+ex_srs(C = 0.95, n_real = 6, sd_exp = 2.1, parameter = TRUE, N = 1200)
 ex_srs(C = 0.95, n_real = 140, sd_exp = 600)
 ex_srs(C = 0.95, n_real = 140, sd_exp = 800)
-ex_srs(C = 0.95, n_real = 140, sd_exp = 800, N = 2000)
+ex_srs(C = 0.95, n_real = 140, sd_exp = 800, parameter = TRUE, N = 2000)
 }

@@ -4,7 +4,7 @@
 \alias{nx_srs}
 \title{Sample size needed to estimate the mean with a Simple Random Sampling plan}
 \usage{
-nx_srs(C, E, sd_exp, N = Inf)
+nx_srs(C, E, sd_exp, parameter = FALSE, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
@@ -12,6 +12,8 @@ nx_srs(C, E, sd_exp, N = Inf)
 \item{E}{Sampling error (E > 1).}
 
 \item{sd_exp}{Expected standard deviation (sd_exp > 0)}
+
+\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
 
 \item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
 }
@@ -23,6 +25,7 @@ Sample size needed to estimate the mean with a Simple Random Sampling plan
 }
 \examples{
 nx_srs(C = 0.95, E = 50, sd_exp = 400)
-nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 10000)
+nx_srs(C = 0.95, E = 50, sd_exp = 400, parameter = TRUE, N = 10000)
+nx_srs(C = 0.95, E = 50, sd_exp = 400, parameter = FALSE, N = 10000)
 nx_srs(C = 0.95, E = 100, sd_exp = 400, N = 10000)
 }

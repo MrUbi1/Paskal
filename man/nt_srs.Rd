@@ -4,7 +4,7 @@
 \alias{nt_srs}
 \title{Sample size needed to estimate the total with a Simple Random Sampling plan}
 \usage{
-nt_srs(C, E, sd_exp, N)
+nt_srs(C, E, sd_exp, parameter = FALSE, N)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
@@ -12,6 +12,8 @@ nt_srs(C, E, sd_exp, N)
 \item{E}{Sampling error (E > 1).}
 
 \item{sd_exp}{Expected standard deviation (sd_exp > 0)}
+
+\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
 
 \item{N}{A positive integer indicating the number of elements in the population.}
 }
@@ -24,5 +26,5 @@ Sample size needed to estimate the total with a Simple Random Sampling plan
 \examples{
 nt_srs(C = 0.95, E = 1000, sd_exp = 4.1, N = 1200)
 nt_srs(C = 0.95, E = 2000, sd_exp = 4.1, N = 1200)
-nt_srs(C = 0.95, E = 2000, sd_exp = 2.05, N = 1200)
+nt_srs(C = 0.95, E = 2000, sd_exp = 2.05, parameter = TRUE, N = 1200)
 }

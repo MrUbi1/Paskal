@@ -4,7 +4,7 @@
 \alias{ep_srs}
 \title{Sampling error when estimating the proportion with a Simple Random Sampling plan}
 \usage{
-ep_srs(C, n_real, p_est = 0.5, N = Inf)
+ep_srs(C, n_real, p_est = 0.5, parameter = FALSE, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
@@ -12,6 +12,8 @@ ep_srs(C, n_real, p_est = 0.5, N = Inf)
 \item{n_real}{Given sample size (n_real > 0)}
 
 \item{p_est}{Sample proportion (0 <= p_est <= 1).}
+
+\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
 
 \item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
 }
@@ -24,6 +26,6 @@ Sampling error when estimating the proportion with a Simple Random Sampling plan
 \examples{
 ep_srs(C = 0.90, n_real = 415)
 ep_srs(C = 0.90, n_real = 415, p_est = 0.5)
-ep_srs(C = 0.90, n_real = 415, p_est = 0.5, N = 20000)
+ep_srs(C = 0.90, n_real = 415, p_est = 0.5, parameter = TRUE, N = 20000)
 ep_srs(C = 0.90, n_real = 415, N = 20000)
 }

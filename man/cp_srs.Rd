@@ -4,7 +4,7 @@
 \alias{cp_srs}
 \title{Confidence interval of the proportion under a Simple Random Sampling framework}
 \usage{
-cp_srs(C, e, p_exp = 0.5, n_real, p_est, N = Inf)
+cp_srs(C, e, p_exp = 0.5, n_real, p_est, parameter = FALSE, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence (0 <= C <= 1)}
@@ -17,6 +17,8 @@ cp_srs(C, e, p_exp = 0.5, n_real, p_est, N = Inf)
 
 \item{p_est}{Sample proportion (0 <= p_est <= 1)}
 
+\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
+
 \item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
 }
 \value{
@@ -28,5 +30,5 @@ Confidence interval of the proportion under a Simple Random Sampling framework
 \examples{
 cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4)
 cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 400, p_est = 0.4)
-cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4, N = 5000)
+cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4, parameter = TRUE, N = 5000)
 }

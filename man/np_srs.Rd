@@ -4,7 +4,7 @@
 \alias{np_srs}
 \title{Sample size needed to estimate the proportion with a Simple Random Sampling plan}
 \usage{
-np_srs(C, e, p_exp = 0.5, N = Inf)
+np_srs(C, e, p_exp = 0.5, parameter = FALSE, N = Inf)
 }
 \arguments{
 \item{C}{Level of confidence. (0 <= C <= 1)}
@@ -12,6 +12,8 @@ np_srs(C, e, p_exp = 0.5, N = Inf)
 \item{e}{Sampling error. (0 <= e <= 1).}
 
 \item{p_exp}{Expected proportion in the population. By default 0.5, also applicable if you lack information. (0 <= p_exp <= 1)}
+
+\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
 
 \item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
 }
@@ -24,6 +26,6 @@ Sample size needed to estimate the proportion with a Simple Random Sampling plan
 \examples{
 np_srs(C = 0.90, e = 0.04)
 np_srs(C = 0.90, e = 0.04, p_exp = 0.5)
-np_srs(C = 0.90, e = 0.04, p_exp = 0.5, N = 20000)
+np_srs(C = 0.90, e = 0.04, p_exp = 0.5, parameter = TRUE, N = 20000)
 np_srs(C = 0.90, e = 0.04, N = 20000)
 }

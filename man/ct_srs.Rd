@@ -4,7 +4,7 @@
 \alias{ct_srs}
 \title{Confidence interval of the total under a Simple Random Sampling framework}
 \usage{
-ct_srs(C, E, t_est, sd_exp, n_real, sd_est, N)
+ct_srs(C, E, t_est, sd_exp, n_real, sd_est, parameter = FALSE, N)
 }
 \arguments{
 \item{C}{Level of confidence. (0 <= C <= 1)}
@@ -19,6 +19,8 @@ ct_srs(C, E, t_est, sd_exp, n_real, sd_est, N)
 
 \item{sd_est}{Sample standar deviation (sd_est > 0)}
 
+\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
+
 \item{N}{A positive integer indicating the number of elements in the population.}
 }
 \value{
@@ -29,5 +31,5 @@ Confidence interval of the total under a Simple Random Sampling framework
 }
 \examples{
 ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 4.1, N = 1200)
-ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 6, N = 1200)
+ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 6, parameter = TRUE, N = 1200)
 }

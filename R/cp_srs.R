@@ -5,6 +5,7 @@
 #' @param n_real Real sample size (n_real > 0)
 #' @param p_est Sample proportion (0 <= p_est <= 1)
 #' @param p_exp Expected proportion in the population. By default 0.5 (0 <= p_exp <= 1)
+#' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #' @param N A positive integer indicating the number of elements in the population. By default, infinite.
 #'
 #' @return The function returns the interval of confidence of the population proportion, and information regarding the sufficiency of the sample size.
@@ -12,10 +13,10 @@
 #'
 #' @examples cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4)
 #' @examples cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 400, p_est = 0.4)
-#' @examples cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4, N = 5000)
+#' @examples cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4, parameter = TRUE, N = 5000)
 
 #Confidence interval function
-cp_srs <- function(C,e, p_exp = 0.5, n_real, p_est, N = Inf) {
+cp_srs <- function(C,e, p_exp = 0.5, n_real, p_est, parameter = FALSE, N = Inf) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -51,7 +52,10 @@ cp_srs <- function(C,e, p_exp = 0.5, n_real, p_est, N = Inf) {
   cat(inference, "\n")
 
   # Calculus of needed sample size, given 'e'
-  n_needed <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2
+  n_needed = ifelse(parameter == TRUE,
+  qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2,
+  qt(C + (1 - C) / 2, N)^2 * p_est * (1 - p_est) / e^2)
+
   fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
   n_needed_adj <- ceiling(n_needed * fcf_needed)
 

@@ -3,6 +3,7 @@
 #' @param C Level of confidence (0 <= C <= 1)
 #' @param n_real Given sample size (n_real > 0)
 #' @param p_est Sample proportion (0 <= p_est <= 1).
+#' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #' @param N A positive integer indicating the number of elements in the population. By default, infinite.
 #'
 #' @return The function returns the sample error consistent with the estimation of the proportion of occurrence of a phenomena, given the sample size.
@@ -10,11 +11,11 @@
 #'
 #' @examples ep_srs(C = 0.90, n_real = 415)
 #' @examples ep_srs(C = 0.90, n_real = 415, p_est = 0.5)
-#' @examples ep_srs(C = 0.90, n_real = 415, p_est = 0.5, N = 20000)
+#' @examples ep_srs(C = 0.90, n_real = 415, p_est = 0.5, parameter = TRUE, N = 20000)
 #' @examples ep_srs(C = 0.90, n_real = 415, N = 20000)
 
 # Sample error function
-ep_srs <- function(C, n_real, p_est = 0.5, N = Inf) {
+ep_srs <- function(C, n_real, p_est = 0.5, parameter = FALSE, N = Inf) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -37,7 +38,10 @@ ep_srs <- function(C, n_real, p_est = 0.5, N = Inf) {
 
   # Function of difference, aimed to iterate with different values of 'e'
   difference <- function(e) {
-    n_theo = ((qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est)) / e^2)
+    n_theo = ifelse(parameter == TRUE,
+    qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2,
+    qt(C + (1 - C) / 2, N)^2 * p_est * (1 - p_est) / e^2)
+
     fcf <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
     n_adjusted <- n_theo * fcf
     return(abs(n_adjusted - n_real))

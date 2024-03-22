@@ -6,17 +6,18 @@
 #' @param t_est Total estimated from the sample
 #' @param sd_est Sample standar deviation (sd_est > 0)
 #' @param sd_exp Expected standard deviation (sd_exp > 0)
+#' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #' @param N A positive integer indicating the number of elements in the population.
 #'
 #' @return The function returns the interval of confidence of the population total, and information regarding the sufficiency of the sample size.
 #' @export
 #'
 #' @examples ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 4.1, N = 1200)
-#' @examples ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 6, N = 1200)
+#' @examples ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 6, parameter = TRUE, N = 1200)
 
 
 #Confidence interval function
-ct_srs <- function(C, E, t_est, sd_exp, n_real, sd_est, N) {
+ct_srs <- function(C, E, t_est, sd_exp, n_real, sd_est, parameter = FALSE, N) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -51,7 +52,11 @@ ct_srs <- function(C, E, t_est, sd_exp, n_real, sd_est, N) {
   cat(inference, "\n")
 
   # Calculus of needed sample size, given 's_est'
-  n_needed <- N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2
+  n_needed = ifelse(parameter == TRUE,
+  N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2,
+  N^2 * qt(C + (1 - C) / 2, N)^2 * sd_est^2 / E^2)
+
+  #n_needed <- N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2
   fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
   n_needed_adj <- ceiling(n_needed * fcf_needed)
 
