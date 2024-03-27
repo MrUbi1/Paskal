@@ -46,18 +46,30 @@ ct_srs <- function(C, E, t_est, sd_exp, n_real, sd_est, parameter = FALSE, N) {
 
 
   # Calculate the confidence interval
-  p_upper <- round(t_est + E, 2)
-  p_lower <- round(t_est - E, 2)
-  inference = paste0("With ", C * 100, "% confidence, the the population mean is between ", p_lower, " and ", p_upper)
+
+  fcf <- ifelse(is.infinite(N), 1, ((N - n_real) / (N - 1)))
+
+  sd_t_est <- ifelse(is.infinite(N), 1, N) * sd_est / sqrt(n_real) * sqrt(fcf)
+
+  LP <- ifelse(parameter == TRUE, qnorm(C + (1 - C) / 2, 0, 1), qt(C + (1 - C) / 2, N)) * sd_t_est
+
+  p_upper <- round(t_est + LP, 3)
+
+  p_lower <- round(t_est - LP, 3)
+
+  inference <- paste0("With ", C * 100, "% confidence, the population total is between ", p_lower, " and ", p_upper)
+
   cat(inference, "\n")
 
-  # Calculus of needed sample size, given 's_est'
-  n_needed = ifelse(parameter == TRUE,
-  N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2,
-  N^2 * qt(C + (1 - C) / 2, N)^2 * sd_est^2 / E^2)
 
-  #n_needed <- N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2
+  # Calculus of needed sample size, given 's_est'
+  n_needed <- ifelse(parameter == TRUE,
+                    N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2,
+                    N^2 * qt(C + (1 - C) / 2, N)^2 * sd_est^2 / E^2
+                    )
+
   fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+
   n_needed_adj <- ceiling(n_needed * fcf_needed)
 
   compare_sample_sizes(n_real, n_needed_adj)
@@ -67,7 +79,7 @@ compare_sample_sizes <- function(n_real, n_needed_adj) {
   if (n_real < n_needed_adj) {
     cat("Your sample size:", n_real, "\n")
     cat("Needed sample size:", n_needed_adj, "\n")
-    cat("Consider increasing the sample size\n")
+    cat("Consider increasing the sample size if you want to reduce the width of the interval\n")
   } else {
     cat("Your sample size:", n_real, "\n")
     cat("Needed sample size:", n_needed_adj, "\n")
@@ -76,8 +88,5 @@ compare_sample_sizes <- function(n_real, n_needed_adj) {
 }
 
 
-#En el cálculo del intervalo de confianza, p_upper y p_lower se calculan sumando y restando E a t_est.
-#Esto puede no ser correcto si t_est representa la media muestral. Por lo general, se utiliza la fórmula t_est ± E * (sd / sqrt(n))
-#para calcular el intervalo de confianza para la media. Asegúrate de utilizar la fórmula correcta para el cálculo del intervalo de confianza.
-
+# Z ± E * (sd / sqrt(n)) mas sencillo
 

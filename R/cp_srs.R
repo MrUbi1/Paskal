@@ -46,17 +46,29 @@ cp_srs <- function(C,e, p_exp = 0.5, n_real, p_est, parameter = FALSE, N = Inf) 
   }
 
   # Calculate the confidence interval
-  p_upper <- round(min(1, p_est + e),2)
-  p_lower <- round(max(0, p_est - e), 2)
-  inference = paste0("With ", C * 100, "% confidence, the proportion in the population is between ", p_lower, " and ", p_upper)
+
+  fcf <- ifelse(is.infinite(N), 1, ((N - n_real) / (N - 1)))
+
+  sd_p_est <- sqrt((p_est * (1 - p_est) / (n_real - 1)) * fcf)
+
+  LP <- ifelse(parameter == TRUE, qnorm(C + (1 - C) / 2, 0, 1), qt(C + (1 - C) / 2, N)) * sd_p_est
+
+  p_upper <- round(min(1, p_est + LP), 3)
+
+  p_lower <- round(max(0, p_est - LP), 3)
+
+  inference <- paste0("With ", C * 100, "% confidence, the proportion in the population is between ", p_lower, " and ", p_upper)
+
   cat(inference, "\n")
 
   # Calculus of needed sample size, given 'e'
-  n_needed = ifelse(parameter == TRUE,
-  qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2,
-  qt(C + (1 - C) / 2, N)^2 * p_est * (1 - p_est) / e^2)
+  n_needed <- ifelse(parameter == TRUE,
+                    qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2,
+                    qt(C + (1 - C) / 2, N)^2 * p_est * (1 - p_est) / e^2
+                    )
 
   fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+
   n_needed_adj <- ceiling(n_needed * fcf_needed)
 
   compare_sample_sizes(n_real, n_needed_adj)
@@ -65,11 +77,11 @@ cp_srs <- function(C,e, p_exp = 0.5, n_real, p_est, parameter = FALSE, N = Inf) 
 compare_sample_sizes <- function(n_real, n_needed_adj) {
   if (n_real < n_needed_adj) {
     cat("Your sample size:", n_real, "\n")
-    cat("Needed sample size:", n_needed_adj, "\n")
-    cat("Consider increasing the sample size\n")
+    cat("Needed sample size given 'p_est' and 'e':", n_needed_adj, "\n")
+    cat("Consider increasing the sample size if you want to reduce the width of the interval\n")
   } else {
     cat("Your sample size:", n_real, "\n")
-    cat("Needed sample size:", n_needed_adj, "\n")
+    cat("Needed sample size given 'p_est' and 'e':", n_needed_adj, "\n")
     cat("Your sample size seems to be sufficient.\n")
   }
 }

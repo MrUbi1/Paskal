@@ -47,17 +47,29 @@ cx_srs <- function(C, E, x_est, sd_exp, n_real, sd_est, parameter = FALSE, N = I
   }
 
   # Calculate the confidence interval
-  p_upper <- round(x_est + E, 2)
-  p_lower <- round(x_est - E, 2)
-  inference = paste0("With ", C * 100, "% confidence, the the population mean is between ", p_lower, " and ", p_upper)
+
+  fcf <- ifelse(is.infinite(N), 1, ((N - n_real) / (N - 1)))
+
+  sd_x_est <- sd_est / sqrt(n_real) * sqrt(fcf)
+
+  LP <- ifelse(parameter == TRUE, qnorm(C + (1 - C) / 2, 0, 1), qt(C + (1 - C) / 2, N)) * sd_x_est
+
+  p_upper <- round(x_est + LP, 3)
+
+  p_lower <- round(x_est - LP, 3)
+
+  inference <- paste0("With ", C * 100, "% confidence, the population mean is between ", p_lower, " and ", p_upper)
+
   cat(inference, "\n")
 
   # Calculus of needed sample size, given 's_est'
   n_needed = ifelse(parameter == TRUE,
-  qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2,
-  qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2)
+                    qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2,
+                    qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2
+                    )
 
   fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+
   n_needed_adj <- ceiling(n_needed * fcf_needed)
 
   compare_sample_sizes(n_real, n_needed_adj)
@@ -67,7 +79,7 @@ compare_sample_sizes <- function(n_real, n_needed_adj) {
   if (n_real < n_needed_adj) {
     cat("Your sample size:", n_real, "\n")
     cat("Needed sample size:", n_needed_adj, "\n")
-    cat("Consider increasing the sample size\n")
+    cat("Consider increasing the sample size if you want to reduce the width of the interval\n")
   } else {
     cat("Your sample size:", n_real, "\n")
     cat("Needed sample size:", n_needed_adj, "\n")

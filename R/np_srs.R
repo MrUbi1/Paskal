@@ -37,12 +37,15 @@ np_srs <- function(C, e, p_exp = 0.5, parameter = FALSE, N = Inf) {
   }
 
   # Formula to obtain the adjusted sample size
-  n = ifelse(parameter == TRUE,
-  qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2,
-  qt(C + (1 - C) / 2, N)^2 * p_exp * (1 - p_exp) / e^2)
+  n <- ifelse(parameter == TRUE,
+              qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2,
+              qt(C + (1 - C) / 2, N)^2 * p_exp * (1 - p_exp) / e^2
+              )
 
   fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
+
   n_adjusted <- ceiling(n * fcf)
+
   return(n_adjusted)
 }
 

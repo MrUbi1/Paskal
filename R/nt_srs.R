@@ -14,7 +14,6 @@
 #' @examples nt_srs(C = 0.95, E = 2000, sd_exp = 2.05, parameter = TRUE, N = 1200)
 
 
-
 # Sample size function
 nt_srs <- function(C, E, sd_exp, parameter = FALSE, N) {
 
@@ -36,13 +35,15 @@ nt_srs <- function(C, E, sd_exp, parameter = FALSE, N) {
   }
 
   # Formula to obtain the adjusted sample size
-  n = ifelse(parameter == TRUE,
-  N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2,
-  N^2 * qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2)
+  n <- ifelse(parameter == TRUE,
+              N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2,
+              N^2 * qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2
+              )
 
-  #n <- N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2
   fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
+
   n_ajusted <- ceiling(n * fcf)
+
   return(n_ajusted)
 }
 

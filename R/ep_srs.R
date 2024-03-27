@@ -39,11 +39,14 @@ ep_srs <- function(C, n_real, p_est = 0.5, parameter = FALSE, N = Inf) {
   # Function of difference, aimed to iterate with different values of 'e'
   difference <- function(e) {
     n_theo = ifelse(parameter == TRUE,
-    qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2,
-    qt(C + (1 - C) / 2, N)^2 * p_est * (1 - p_est) / e^2)
+                    qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2,
+                    qt(C + (1 - C) / 2, N)^2 * p_est * (1 - p_est) / e^2
+                    )
 
     fcf <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
+
     n_adjusted <- n_theo * fcf
+
     return(abs(n_adjusted - n_real))
   }
 
