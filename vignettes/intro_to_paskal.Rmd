@@ -1,0 +1,168 @@
+---
+title: "Introduction to Paskal"
+output:
+  pdf_document: default
+  html_vignette: default
+#output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to Paskal}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+```{r setup}
+library(sample4audit)
+```
+
+# Breve orientación
+
+Esta es la introducción a Paskal.
+
+El paquete fue concebido para ayudar a los equipos de auditoría de desempeño con ciertos cálculo útiles relacionados con el muestrero estadístico. Este caso de uso le permitirá comprender fácil y rápidamente cómo utilizar las funciones.
+
+Las funciones core del paquete permiten calcular:
+
+n: tamaño de muestra,
+
+e: error de muestreo, o
+
+c: intervalo de confianza;
+
+
+para estimar:
+
+p: proporción,
+
+x: media, o
+
+t: total;
+
+
+mediante los planes de muestreo:
+
+srs: simple al azar,
+
+sys: sistemático, o
+
+sts: estratificado.
+
+Los nombres de las funciones siguen esa lógica, pudiéndose elegir una opción por categoría. Por ejemplo, si quisiera calcular el error de muestreo para la estimación de la media habiendo hecho uso de un muestreo sistemático, la función será la combinación de 'e' (por 'error de muestreo'), 'x' (por 'media') y -separado por un guión bajo- 'sys' (por 'muestreo sistemático'), resulando en 'ex_sys'.
+
+En esta introducción vamos a desarrollar tres casos de uso para las funciones más sencillas del paquete: np_srs, ep_srs y cp_srs.
+
+(Lo invitamos a que haga el ejercicio de adivinar, a partir de su nomenclatura, para que sirven esas funciones. ¿Ya lo hizo? Última oportunidad... Pues arranquemos!)
+
+# Caso de uso 1: cálculo del tamaño de muestra para estimar la proporción mediante un muestreo simple al azar (np_srs)
+
+Supongamos que Ud. desea estimar la proporción de liquidaciones de salarios del mes pasado que tienen algun cálculo incorrecto. La tarea es ardua porque implicaría hacer un recálculo manual de la liquidación de cada uno de los 5000 empleados de la compañía, por lo que recurrirá al muestreo. Por las características de la población (puede identificar fácilmente cada una de las liquidaciones y no le interesa contar con información desagregada), realizará un muestreo simple al azar. 
+
+Usted quiere asegurarse que la muestra sea representativa, por lo que trabajará con un nivel de confianza del 95% (lo que implica que habrá un 95% de probabilidad de que la muestra sea representativa, y un 5% de probabilidad de que no lo sea). 
+
+Al mismo tiempo, querrá ser relativamente preciso en el resultado, por lo que está dispuesto a que el valor del parámetro (es decir, el verdadero valor poblacional), no esté alejado del valor del estimador en +/- 10%.
+
+Supongamos que nunca se hizo este análisis antes, por lo que no sabe si se va a encontrar con una proporción del 10%, 20%, 50% o más de las liquidaciones con errores de cálculo. Al desconocer el valor esperado, toma la decisión conservadora (la que hace relativamente más grande el tamaño de muestra), de modo que p_exp = 0.5, que es el valor predeterminado del argumento.
+
+Pues bien, ya contamos con los datos necesarios para calcular el tamaño de la muestra.<br>
+
+```{r}
+# Sample size needed to estimate the proportion with a Simple Random Sampling plan
+
+# Arguments
+C <- 0.95 # Level of confidence
+e <- 0.1 # Sampling error
+N <- 5000 # Population size
+
+# Note: the first two arguments would be sufficient to calculate the sample size for
+# a large or infinite population, but we will assume here that the population is 
+# relatively small.
+
+# Function
+n <- np_srs(C = C, e = e, N = N) # Call the function
+
+# Output
+print(paste("Sample size:",n,"settlements")) # Print the resulting sampling size
+```
+
+Como se puede apreciar en la ayuda de la función, algunos de sus argumentos tienen valores predeterminados (p_exp = 0.5, parameter = FALSE and N = Inf). 
+
+En otro orden, es oportuno advertir que si el tamaño de la población es muy pequeño y "p_exp" es desconocido (parameter = FALSE), la función de distribución aplicable será la 't-student' en vez de la 'normal', que arroja tamaños de muestra levemente superiores.
+
+# Caso de uso 2: cálculo del error de muestreo al estimar la proporción mediante un muestreo simple al azar
+
+Una situación común al hacer muestreos es que el tamaño de muestra venga dado: en vez de elegir el error de muestreo que estamos dispuestos a admitir resultando en un tamaño de muestra, elegimos el tamaño de la muestra. Nuestra incógnita será, entonces, con qué error de muestreo hemos trabajado. Este caso se presenta cuando existe una urgencia, una ventana de oportunidad o una capacidad fija y predeterminada de análisis, cuando resulta dificil o disfuncional calcular el tamaño de muestra ex-ante.
+
+Persiguiendo fines pedagógicos* (esto no es lo que ocurre en la vida real), vamos a revertir el caso anterior: supongamos que trabajó con un nivel de confianza del 95% y que, de un total de 5000 liquidaciones, pudo elegir al azar  y analizar 95 liquidaciones. ¿Cuál será el error de muestreo compatible con ese escenario? 
+
+(*) Si todo funciona correctamente, el error de muestreo debería ser muy semejante al que en el caso 1 habíamos elegido ex-ante, esto es, un 10%).<br>
+
+```{r}
+# Sampling error when estimating the proportion with a Simple Random Sampling plan
+
+# Arguments
+C <- 0.95 # Level of confidence
+n <- 95 # Simple size
+N <- 5000 # Population sioze
+
+# Function
+e <- ep_srs(C = C, n = n, N = N) # Call the function
+
+# Output
+print(paste("Rounded samplig error:", round(e, 2))) # Print the rounded sampling error
+print(paste("Samplig error:", e)) # Print the rounded sampling error
+```
+
+Nótese que el error de muestreo sin redondear da un número decimal que se acerca mucho, pero que no es igual a nuestro error de muestreo de 0.1. Esto se debe a que los tamaños de muestra deben ser números enteros, redondeándose hacia arriba el tamaño de muestra exacto -aunque irrealizable-  que arroja la función antes del redondeo. De hecho, si en la función anterior pudiéramos ingresar como tamaño de muestra el número exacto previo al redondeo, entonces también obtendríamos el error de muestreo definido.
+
+# Caso de uso 3: cálculo del intervalo de confianza de la proporción estimada mediante un muestreo simple al azar
+
+Cualquiera que haya sido el camino elegido (el caso 1 o el 2), al final del día tendremos nuestro estimador 'p' (p_est). Con ese dato y algunos otros podremos construir nuestro intervalo de confianza para hacer una inferencia estadística sobre la población. Vamos a suponer que hemos relevado 95 liquidaciones y que el 30% de ellas contienen algún cálculo incorrecto (p_est = 0.3). El cálculo sería:<br>
+
+```{r}
+# Confidence interval of the proportion under a Simple Random Sampling framework
+
+# Arguments
+C <- 0.95 # Level of confidence
+n_real <- 95 # Real sample size
+N <- 5000 # Population size
+e <- 0.1 # Sampling error
+p_est <- 0.3 # Sample estimator value
+
+# Function
+ic <- cp_srs(C = C, n_real = n_real, e = e, p_est = p_est, N = N) # Call the function
+
+# Output
+ic
+```
+
+Como podrá apreciarse, dado que el p_est es distinto a p_exp (que por default había quedado en 0.5), hubiese sido suficiente con un tamaño de muestra menor. Sin embargo, el hecho de haber trabajado "algo de más" se traduce en una menor amplitud relativa (mayor precisión) del intervalo de confianza. Nótese que el rango del intervalo de confianza es de 0.392 - 0.208 = 0.184, que dividido 2 es igual a 0.092, un valor inferior al que elegimos como error de muestreo.
+
+Veamos que hubiese pasado si el resultado hubiese sido el esperado, esto es, si p_est = p_exp = 0.5.
+
+```{r}
+# Confidence interval of the proportion under a Simple Random Sampling framework (with another 'p_est')
+
+# Arguments
+# Arguments
+C <- 0.95 # Level of confidence
+n_real <- 95 # Real sample size
+N <- 5000 # Population size
+e <- 0.1 # Sampling error
+p_est <- 0.3 # New sample estimator value, coincident with the expected value
+
+# Function
+ic <- cp_srs(C = C, n_real = n_real, e = e, p_est = p_est, N = N) # Call the function
+
+# Output
+ic
+```
+
+Nótese que, en este caso, la amplitud del intervalo de confianza coincide con nuestro error de muestreo de +/- 0.1, y el tamaño de muestra real con el necesario.
