@@ -1,11 +1,11 @@
 Package: sample4audit
 Type: Package
-Title: Sample size for performance audit, among other useful tools
+Title: Performance audit sample kit, along lots of other useful things
 Version: 0.1.0
-Author: MPR
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: The package includes functions to calculate the sample size or, alternatively, to calculate the sampling error that has been worked with when the sample size is given. Includes functions for estimating different parameters in different contexts.    The package includes some functions to facilitate the stratification of monetary populations.
-License: What license is it under?
+Author: Martin Rubione <mrubione@udesa.edu.ar>
+Maintainer: Martin Rubione <mrubione@udesa.edu.ar>
+Description: The Paskal package was designed to assist performance auditors with some useful calculations related to statistical sampling, including functions to calculate the sample size, the sampling error, or the confidence interval; when estimating the proportion, the mean, or the total thorigh differente sampling plans.
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3

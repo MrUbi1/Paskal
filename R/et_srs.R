@@ -6,7 +6,7 @@
 #' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #' @param N A positive integer indicating the number of elements in the population.
 #'
-#' @return The function returns the sample error consistent with the estimation of the mean, given the sample size.
+#' @return The function returns the sample error consistent with the estimation of the total, given the sample size.
 #' @export
 #'
 #' @examples ex_srs(C = 0.95, n_real = 87, sd_exp = 4.1, N = 1200)
@@ -15,7 +15,7 @@
 
 
 # Sample error function
-ex_srs <- function(C, n_real, sd_exp, parameter = FALSE, N) {
+et_srs <- function(C, n_real, sd_exp, parameter = FALSE, N) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {

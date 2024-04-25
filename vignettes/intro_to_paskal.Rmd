@@ -1,11 +1,8 @@
 ---
-title: "Introduction to Paskal"
-output:
-  pdf_document: default
-  html_vignette: default
-#output: rmarkdown::html_vignette
+title: "intro_to_paskal"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to Paskal}
+  %\VignetteIndexEntry{intro_to_paskal}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,60 +15,40 @@ knitr::opts_chunk$set(
 ```
 
 
-
 ```{r setup}
 library(sample4audit)
 ```
 
-# Breve orientación
+# Overview
 
-Esta es la introducción a Paskal.
+The Paskal package was designed to assist performance auditors, among others, with some useful calculations related to statistical sampling. This set of use cases allows to quickly and easily understand how to use the library.
 
-El paquete fue concebido para ayudar a los equipos de auditoría de desempeño con ciertos cálculo útiles relacionados con el muestrero estadístico. Este caso de uso le permitirá comprender fácil y rápidamente cómo utilizar las funciones.
+The main functions enable the calculation of the sample size 'n', the sampling error 'e', or the confidence interval 'c'; to estimate the proportion 'p', the mean 'x', or the total 't'; through simple random sampling plans 'srs', systematic 'sys', or stratified 'sts'.
 
-Las funciones core del paquete permiten calcular:
+The names of the functions follow this logic, with one option per category. To calculate the sampling error for the estimation of the mean using systematic sampling, for example, the function would be 'e' (sampling error), 'x' (mean) and 'sys' -separated by a underscore- (for systematic sampling), resulting in 'ex_sys'.
 
-n: tamaño de muestra,
+In this introductory section, we will present three use cases for the most basic functions in the package: np_srs, ep_srs and cp_srs.
 
-e: error de muestreo, o
+# Use Case 1: Sample size calculation
 
-c: intervalo de confianza;
+Before proceeding with the case study, it is important to understand the function and its parameters. This can be achieved by using the 'help' command, which provides detailed information about the function in question.
 
+Usage:<br>
+np_srs(C, e, p_exp = 0.5, N = Inf)
 
-para estimar:
+Arguments:<br>
+C: Level of confidence. (0 <= C <= 1)<br>
+e: Sampling error. (0 <= e <= 1)<br>
+p_exp: Expected proportion in the population. By default, the value is 0.5, which is also applicable if you lack information (0 <= p_exp <= 1).<br>
+N: A positive integer indicating the number of elements in the population. By default, the value is infinite.<br>
 
-p: proporción,
+Note that the function requires two mandatory arguments: the confidence level 'C' and the sampling error 'e'; and two arguments that, because they have predetermined values, are optional: the expected proportion 'p_exp' and the population size 'N'.
 
-x: media, o
+Case Study: Consider the need to determine the proportion of salary settlements from the previous month affected by calculation errors. This would entail surveying all settlements, which would be an arduous and expensive undertaking. The reason for this is that it would involve manually recalculating the settlement of each of the company's employees, which we are going to assume amounts to 5,000. Due to the characteristics of the population, where it is possible to identify each of the settlements, and as we will assume that it is not necessary to have disaggregated information, the proportion will be estimated through simple random sampling.
 
-t: total;
+We choose a confidence level of 95% (meaning that there is a 95% probability of the sample being representative) and a maximum discrepancy between the estimator and the parameter - or sampling error - of 0.1. Finally, if this is the first time the analysis is being carried out, we cannot know the expected value of the p-estimator (we may find that 10%, 20%, 50% or more of the settlements have calculation errors).
 
-
-mediante los planes de muestreo:
-
-srs: simple al azar,
-
-sys: sistemático, o
-
-sts: estratificado.
-
-Los nombres de las funciones siguen esa lógica, pudiéndose elegir una opción por categoría. Por ejemplo, si quisiera calcular el error de muestreo para la estimación de la media habiendo hecho uso de un muestreo sistemático, la función será la combinación de 'e' (por 'error de muestreo'), 'x' (por 'media') y -separado por un guión bajo- 'sys' (por 'muestreo sistemático'), resulando en 'ex_sys'.
-
-En esta introducción vamos a desarrollar tres casos de uso para las funciones más sencillas del paquete: np_srs, ep_srs y cp_srs.
-
-(Lo invitamos a que haga el ejercicio de adivinar, a partir de su nomenclatura, para que sirven esas funciones. ¿Ya lo hizo? Última oportunidad... Pues arranquemos!)
-
-# Caso de uso 1: cálculo del tamaño de muestra para estimar la proporción mediante un muestreo simple al azar (np_srs)
-
-Supongamos que Ud. desea estimar la proporción de liquidaciones de salarios del mes pasado que tienen algun cálculo incorrecto. La tarea es ardua porque implicaría hacer un recálculo manual de la liquidación de cada uno de los 5000 empleados de la compañía, por lo que recurrirá al muestreo. Por las características de la población (puede identificar fácilmente cada una de las liquidaciones y no le interesa contar con información desagregada), realizará un muestreo simple al azar. 
-
-Usted quiere asegurarse que la muestra sea representativa, por lo que trabajará con un nivel de confianza del 95% (lo que implica que habrá un 95% de probabilidad de que la muestra sea representativa, y un 5% de probabilidad de que no lo sea). 
-
-Al mismo tiempo, querrá ser relativamente preciso en el resultado, por lo que está dispuesto a que el valor del parámetro (es decir, el verdadero valor poblacional), no esté alejado del valor del estimador en +/- 10%.
-
-Supongamos que nunca se hizo este análisis antes, por lo que no sabe si se va a encontrar con una proporción del 10%, 20%, 50% o más de las liquidaciones con errores de cálculo. Al desconocer el valor esperado, toma la decisión conservadora (la que hace relativamente más grande el tamaño de muestra), de modo que p_exp = 0.5, que es el valor predeterminado del argumento.
-
-Pues bien, ya contamos con los datos necesarios para calcular el tamaño de la muestra.<br>
+Given that the expected value is unknown, the most conservative decision is made, the one that makes the sample size relatively larger, which implies p_exp = 0.5 (precisely, the default value of the argument). With this information, we can now calculate the sample size. The R code could be as follows: 
 
 ```{r}
 # Sample size needed to estimate the proportion with a Simple Random Sampling plan
@@ -81,10 +58,6 @@ C <- 0.95 # Level of confidence
 e <- 0.1 # Sampling error
 N <- 5000 # Population size
 
-# Note: the first two arguments would be sufficient to calculate the sample size for
-# a large or infinite population, but we will assume here that the population is 
-# relatively small.
-
 # Function
 n <- np_srs(C = C, e = e, N = N) # Call the function
 
@@ -92,25 +65,23 @@ n <- np_srs(C = C, e = e, N = N) # Call the function
 print(paste("Sample size:",n,"settlements")) # Print the resulting sampling size
 ```
 
-Como se puede apreciar en la ayuda de la función, algunos de sus argumentos tienen valores predeterminados (p_exp = 0.5, parameter = FALSE and N = Inf). 
+The function indicates that we will have to analyze 95 settlements to estimate the proportion with 95% confidence and a sampling error of +/- 0.1.
 
-En otro orden, es oportuno advertir que si el tamaño de la población es muy pequeño y "p_exp" es desconocido (parameter = FALSE), la función de distribución aplicable será la 't-student' en vez de la 'normal', que arroja tamaños de muestra levemente superiores.
+# Use case 2: Sampling error calculation
 
-# Caso de uso 2: cálculo del error de muestreo al estimar la proporción mediante un muestreo simple al azar
+In this case, the sampling error will be calculated when estimating the proportion through simple random sampling, an issue that is resolved by the 'ep_srs' function.
 
-Una situación común al hacer muestreos es que el tamaño de muestra venga dado: en vez de elegir el error de muestreo que estamos dispuestos a admitir resultando en un tamaño de muestra, elegimos el tamaño de la muestra. Nuestra incógnita será, entonces, con qué error de muestreo hemos trabajado. Este caso se presenta cuando existe una urgencia, una ventana de oportunidad o una capacidad fija y predeterminada de análisis, cuando resulta dificil o disfuncional calcular el tamaño de muestra ex-ante.
+This is a common situation when the sample size is given. Instead of choosing the sampling error that we are willing to admit, which results in a certain sample size, the sample size is chosen, leaving the sampling error as the dependent variable. This happens when there is an urgent need, a limited window of opportunity, a fixed and predetermined analysis capacity, or when it is difficult or dysfunctional to calculate the sample size in advance. We will take advantage of reversing the previous use case so that the example is intuitive. 
 
-Persiguiendo fines pedagógicos* (esto no es lo que ocurre en la vida real), vamos a revertir el caso anterior: supongamos que trabajó con un nivel de confianza del 95% y que, de un total de 5000 liquidaciones, pudo elegir al azar  y analizar 95 liquidaciones. ¿Cuál será el error de muestreo compatible con ese escenario? 
-
-(*) Si todo funciona correctamente, el error de muestreo debería ser muy semejante al que en el caso 1 habíamos elegido ex-ante, esto es, un 10%).<br>
+Consider a scenario where 95 out of 5,000 settlements are randomly selected and analyzed. What would be the sampling error in this case, assuming a confidence level of 95%? We might expect the result to be similar to the prior sampling error of 0.1 observed in case 1. Now we will use the R code to perform the calculation. <br>
 
 ```{r}
 # Sampling error when estimating the proportion with a Simple Random Sampling plan
 
 # Arguments
 C <- 0.95 # Level of confidence
-n <- 95 # Simple size
-N <- 5000 # Population sioze
+n <- 95 # Sample size
+N <- 5000 # Population size
 
 # Function
 e <- ep_srs(C = C, n = n, N = N) # Call the function
@@ -120,11 +91,15 @@ print(paste("Rounded samplig error:", round(e, 2))) # Print the rounded sampling
 print(paste("Samplig error:", e)) # Print the rounded sampling error
 ```
 
-Nótese que el error de muestreo sin redondear da un número decimal que se acerca mucho, pero que no es igual a nuestro error de muestreo de 0.1. Esto se debe a que los tamaños de muestra deben ser números enteros, redondeándose hacia arriba el tamaño de muestra exacto -aunque irrealizable-  que arroja la función antes del redondeo. De hecho, si en la función anterior pudiéramos ingresar como tamaño de muestra el número exacto previo al redondeo, entonces también obtendríamos el error de muestreo definido.
+Note that the unrounded sampling error gives a decimal number that is very close, but is not equal, to our sampling error of 0.1. This is because the sample sizes must be whole numbers, with the exact, but inapplicable, sample size returned by the function being rounded up. In fact, if in the previous function we could enter the exact sample size prior to rounding, then we would obtain the exact previously defined sampling error.
 
-# Caso de uso 3: cálculo del intervalo de confianza de la proporción estimada mediante un muestreo simple al azar
+# Use Case 3: Confidence interval calculation
 
-Cualquiera que haya sido el camino elegido (el caso 1 o el 2), al final del día tendremos nuestro estimador 'p' (p_est). Con ese dato y algunos otros podremos construir nuestro intervalo de confianza para hacer una inferencia estadística sobre la población. Vamos a suponer que hemos relevado 95 liquidaciones y que el 30% de ellas contienen algún cálculo incorrecto (p_est = 0.3). El cálculo sería:<br>
+In this use case, the confidence interval of the estimated proportion will be calculated through simple random sampling. This issue is resolved using the 'cp_srs' function.
+
+Whether we choose sampling error to get the sample size (case 1) or the other way round (case 2), is irrelevant. Ultimately, we will have an estimation of the proportion ‘p_est’. With this data and other relevant information, we can build a confidence interval to make inferences about the population.
+
+For example, after analyzing 95 randomly chosen settlements, let’s suppose that 29 of them were found to have incorrect calculations, resulting in an estimated proportion of approximately 0.3. It should be noted that this function includes arguments that were not present in the previous ones, such as ‘n_real’ (the real sample size) and ‘p_est’, the estimated proportion. It is important to be aware that this number may differ from the expected proportion ‘p_exp’. <br>
 
 ```{r}
 # Confidence interval of the proportion under a Simple Random Sampling framework
@@ -143,9 +118,9 @@ ic <- cp_srs(C = C, n_real = n_real, e = e, p_est = p_est, N = N) # Call the fun
 ic
 ```
 
-Como podrá apreciarse, dado que el p_est es distinto a p_exp (que por default había quedado en 0.5), hubiese sido suficiente con un tamaño de muestra menor. Sin embargo, el hecho de haber trabajado "algo de más" se traduce en una menor amplitud relativa (mayor precisión) del intervalo de confianza. Nótese que el rango del intervalo de confianza es de 0.392 - 0.208 = 0.184, que dividido 2 es igual a 0.092, un valor inferior al que elegimos como error de muestreo.
+As can be seen, given that 'p_est' is different from 'p_exp' (which had been left at the default 0.5), a smaller sample size would have been sufficient. However, the fact of having worked relatively more tahn what was needed translates into a lower relative width (a higher precision) of the confidence interval. In fact, the range of the interval is 0.392 - 0.208 = 0.184, which divided by 2 is equal to 0.092, a lower value than the one we chose as sampling error.
 
-Veamos que hubiese pasado si el resultado hubiese sido el esperado, esto es, si p_est = p_exp = 0.5.
+Now, let's consider what would have happened if the result had been as expected, that is, if p_est = p_exp = 0.5.
 
 ```{r}
 # Confidence interval of the proportion under a Simple Random Sampling framework (with another 'p_est')
@@ -156,7 +131,7 @@ C <- 0.95 # Level of confidence
 n_real <- 95 # Real sample size
 N <- 5000 # Population size
 e <- 0.1 # Sampling error
-p_est <- 0.3 # New sample estimator value, coincident with the expected value
+p_est <- 0.5 # New sample estimator value, coincident with the expected value
 
 # Function
 ic <- cp_srs(C = C, n_real = n_real, e = e, p_est = p_est, N = N) # Call the function
@@ -165,4 +140,4 @@ ic <- cp_srs(C = C, n_real = n_real, e = e, p_est = p_est, N = N) # Call the fun
 ic
 ```
 
-Nótese que, en este caso, la amplitud del intervalo de confianza coincide con nuestro error de muestreo de +/- 0.1, y el tamaño de muestra real con el necesario.
+In this case, the width of the confidence interval aligns with our sampling error of +/- 0.1, and the size of the actual sample is sufficient.
