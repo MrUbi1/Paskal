@@ -1,12 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sample4audit
+# Paskal
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of sample4audit is to …
+The goal of Paskal is to assist performance auditors with some useful
+calculations related to statistical sampling, including functions to
+calculate the sample size, the sampling error, or the confidence
+interval; when estimating the proportion, the mean, or the total through
+different sampling plans.
 
 ## Installation
 
@@ -20,33 +24,30 @@ devtools::install_github("MrUbi1/sample4audit")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+How many measurements should we make to be 95% confident that the
+average transaction duration at a government agency is no more than 2
+minutes up or down from the true value? We don’t know the population
+standard deviation, but a small pilot sample gave us sd = 6.43 minutes.
+We can use simple random sampling. A basic code to solve this problem
+could be as follows:
 
 ``` r
 library(sample4audit)
-## basic example code
+
+# Arguments
+C <- 0.95 # Level of confidence
+E <- 2 # Sampling error
+sd_exp = 6.43 # Expected standard deviation
+N = Inf # Population size
+
+# Function
+n <- nx_srs(C = C, E = E, sd_exp = sd_exp, N = N) # Call the function
+
+# Output
+print(paste("Sample size:",n,"measurements")) # Print the resulting sampling size
+#> [1] "Sample size: 40 measurements"
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+If you’re still unsure if the package is right for you, take a look at
+the “Intro to Paskal” vignette. There you’ll find three use cases that
+demonstrate the full scope of this library.

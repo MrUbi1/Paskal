@@ -15,6 +15,7 @@
 #' @examples np_srs(C = 0.90, e = 0.04, N = 20000)
 
 # Sample size function
+
 np_srs <- function(C, e, p_exp = 0.5, parameter = FALSE, N = Inf) {
 
   # Check parameter ranges
@@ -38,8 +39,8 @@ np_srs <- function(C, e, p_exp = 0.5, parameter = FALSE, N = Inf) {
 
   # Formula to obtain the adjusted sample size
   n <- ifelse(parameter == TRUE,
-              qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2,
-              qt(C + (1 - C) / 2, N)^2 * p_exp * (1 - p_exp) / e^2
+              qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2, # quantile for the normal distribution
+              qt(C + (1 - C) / 2, N)^2 * p_exp * (1 - p_exp) / e^2 # quantile for the t-student distribution
               )
 
   fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))

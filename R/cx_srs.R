@@ -14,7 +14,9 @@
 #'
 #' @examples cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 200, n_real = 250, sd_exp = 200)
 #' @examples cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400, n_real = 400, sd_exp = 200)
-#' @examples cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400, n_real = 250, sd_exp = 200, parameter = TRUE, N = 5000)
+#' @examples
+#' cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400,
+#'         n_real = 250, sd_exp = 200, parameter = TRUE, N = 5000)
 
 #Confidence interval function
 cx_srs <- function(C, E, x_est, sd_exp, n_real, sd_est, parameter = FALSE, N = Inf) {

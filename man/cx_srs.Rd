@@ -32,5 +32,6 @@ Confidence interval of the mean under a Simple Random Sampling framework
 \examples{
 cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 200, n_real = 250, sd_exp = 200)
 cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400, n_real = 400, sd_exp = 200)
-cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400, n_real = 250, sd_exp = 200, parameter = TRUE, N = 5000)
+cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400,
+        n_real = 250, sd_exp = 200, parameter = TRUE, N = 5000)
 }

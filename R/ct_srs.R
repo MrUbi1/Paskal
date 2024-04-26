@@ -13,7 +13,10 @@
 #' @export
 #'
 #' @examples ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 4.1, N = 1200)
-#' @examples ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 6, parameter = TRUE, N = 1200)
+#' @examples
+#' ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1,
+#'        n_real = 87, sd_est = 6, parameter = TRUE, N = 1200)
+
 
 
 #Confidence interval function

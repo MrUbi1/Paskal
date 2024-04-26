@@ -1,0 +1,767 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+interval = c(0.001, 1)
+```
+
+
+```{r}
+interval
+```
+
+```{r}
+# Sample error function
+em_srs <- function(C, n, s, N = Inf) {
+#em_srs <- function(C, n, s, N = Inf) {
+  
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+  
+  if (n <= 0 ) {
+    stop("Parameter 'n' must be higher than 0")
+  }
+
+  
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+  
+  # Function of difference, aimed to iterate with different values of 'E'
+  difference <- function(E) {
+    n_theo = (qnorm(C + (1 - C) / 2, 0, 1)^2 * s^2 / E^2)
+    fcf <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
+    n_adjusted <- n_theo * fcf
+    return(abs(n_adjusted - n))
+  }
+  
+  # Find the value of 'E' that minimizes the difference
+  result <- optimize(f = difference, interval = c(0, 1000000))
+  
+  # Check if the minimum value reached the maximum value (10,000)
+  #if (result$minimum == 10000) {
+  #  warning("The minimum value reached the maximum value of 10,000. The result may not be reliable.")
+  #}
+  
+  # Return the result containing the optimal (minimum) 'E' value
+  return(result$minimum)
+}
+
+```
+
+```{r}
+#em_srs(C, n, s, N = Inf)
+em_srs(0.95, 139, 600, 2000)
+```
+
+
+C=95%, p=
+
+```{r}
+np_srs <- function(C, e, p = 0.5, N = Inf) {
+
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (e < 0 || e > 1) {
+    stop("Parameter 'e' must be in the range 0 <= e <= 1")
+  }
+
+  if (p < 0 || p > 1) {
+    stop("Parameter 'p' must be in the range 0 <= p <= 1")
+  }
+
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+
+  # Formula to obtain the adjusted sample size
+  n <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p * (1 - p) / e^2
+  fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
+  n_adjusted <- ceiling(n * fcf)
+  return(n_adjusted)
+  
+  # Conclucion
+  IC = c(C - e, C + e)
+}
+```
+
+
+```{r}
+p = 0.3
+e = 0.05
+
+IC = c(p - e, p + e)
+IC
+
+class(IC)
+
+conclusion = paste("With 95% confidence, the population proportion is between",p-e,"and", p+e)
+print(conclusion)
+```
+
+```{r}
+N = Inf
+C = 0.95
+p_exp = 0.03
+p_est = 0.04
+e = 0.05
+
+n_exante <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2
+fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
+n_exante_adjusted <- ceiling(n_exante * fcf)
+
+n_mustbe <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2
+fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
+n_mustbe_adjusted <- ceiling(n_mustbe * fcf)
+
+conclusion = paste("With 95% confidence, the population proportion is between",p_est-e,"and", p_est+e)
+print(conclusion)
+
+
+```
+
+
+```{r}
+compare_sample_sizes <- function(n_exante_adjusted, n_mustbe_adjusted) {
+  if (n_exante_adjusted < n_mustbe_adjusted) {
+    print("You need to increase the sample size.")
+  } else {
+    print("Your sample size is sufficient.")
+  }
+}
+
+# Llamada a la función
+compare_sample_sizes(n_exante_adjusted, n_mustbe_adjusted)
+
+```
+
+
+```{r}
+sample_analysis <- function(C, e, n_real, p_est, p_exp = 0.5, N = Inf) {
+  # Calculate the confidence interval
+  inference <- paste0("With ",C * 100,"% confidence, the population proportion is between ", max(0, p_est - e), " and ", p_est + e)
+  print(inference)
+  
+  # Calculate the theoretical vs needed sample size
+  #n_theo <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2
+  #fcf_theo <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
+  #n_theo_adj <- ceiling(n_theo * fcf_theo)
+
+  n_needed <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2
+  fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+  n_needed_adj <- ceiling(n_needed * fcf_needed)
+  
+  # Analizar suficiencia de la muestra
+    compare_sample_sizes <- function(n_real, n_needed_adj) {
+  if (n_real < n_needed_adj) {
+    print(paste("Sample variance is higher than expected. Consider increasing the sample size by", ceiling(n_real - n_needed_adj),"aditional units."))
+  
+#  compare_sample_sizes <- function(n_theo_adj, n_needed_adj) {
+#  if (n_theo_adj < n_needed_adj) {
+#    print(paste("Sample variance is higher than expected. Consider increasing the sample size by", ceiling(n_theo_adj - n_needed_adj),"aditional #units."))
+    
+  } else {
+    print("Your sample size seems to sufficient.")
+  }
+}
+  
+  compare_sample_sizes(n_real, n_needed_adj)
+}
+
+
+```
+
+```{r}
+sample_analysis(C = 0.95, e = 0.05, n_real = 100, p_est = 0.35, p_exp = 0.3, N = 1000)
+```
+
+
+```{r}
+cip_srs <- function(C, n_real, p_est, p_exp = 0.5, N = Inf) {
+  
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+#  if (e < 0 || e > 1) {
+#    stop("Parameter 'e' must be in the range 0 <= e <= 1")
+#  }
+
+  if (n_real != round(n_real) || n_real <= 0) {
+    stop("Parameter 'n_real' must be a positive integer")
+  }
+  
+  if (p_est < 0 || p_est > 1) {
+    stop("Parameter 'p_est' must be in the range 0 <= p_est <= 1")
+  }
+
+  if (p_exp < 0 || p_exp > 1) {
+    stop("Parameter 'p_exp' must be in the range 0 <= p_exp <= 1")
+  }
+  
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+
+  # Function of difference, aimed to iterate with different values of 'e'
+  difference <- function(e) {
+    n_theo = ((qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est)) / e^2)
+    fcf <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
+    n_adjusted <- n_theo * fcf
+    return(abs(n_adjusted - n_real))
+  }
+
+  # Find the value of 'e' that minimizes the difference
+  result <- optimize(f = difference, interval = c(0.001, 1))  
+  
+  e = result
+    
+  # Calculate the confidence interval
+  inference <- paste0("With ",C * 100,"% confidence, the population proportion is between ", max(0, p_est - e), " and ", p_est + e)
+  print(inference)
+  
+  # Compare theoretical vs needed sample size
+  n_needed <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2
+  fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+  n_needed_adj <- ceiling(n_needed * fcf_needed)
+  
+    compare_sample_sizes <- function(n_real, n_needed_adj) {
+  if (n_real < n_needed_adj) {
+    print(paste("Your sample size:",n_real))
+    print(paste("Needed sample size (given 'p_est'):",n_needed_adj))    
+    print(paste("Consider increasing the sample size"))
+    
+  } else {
+    print(paste("Your sample size:",n_real))
+    print(paste("Needed sample size (given 'p_est'):",n_needed_adj))   
+    print("Your sample size seems to sufficient.")
+  }
+}
+  
+  compare_sample_sizes(n_real, n_needed_adj)
+}
+```
+
+```{r}
+cip_srs(C = 0.95, n_real = 10, p_est = 0.35, p_exp = 0.3, N = 2000)
+```
+
+```{r}
+cip_srs <- function(C, n_real, p_est, p_exp = 0.5, N = Inf) {
+  
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (n_real != round(n_real) || n_real <= 0) {
+    stop("Parameter 'n_real' must be a positive integer")
+  }
+  
+  if (p_est < 0 || p_est > 1) {
+    stop("Parameter 'p_est' must be in the range 0 <= p_est <= 1")
+  }
+
+  if (p_exp < 0 || p_exp > 1) {
+    stop("Parameter 'p_exp' must be in the range 0 <= p_exp <= 1")
+  }
+  
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+
+  # Function of difference, aimed to iterate with different values of 'e'
+  difference <- function(e, C, p_est) {
+    n_theo = ((qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est)) / e^2)
+    fcf <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
+    n_adjusted <- n_theo * fcf
+    return(abs(n_adjusted - n_real))
+  }
+  
+  # Find the value of 'e' that minimizes the difference
+  result <- optimize(f = difference, interval = c(0.001, 1), C = C, p_est = p_est)
+  
+  e <- result$minimum
+    
+  # Calculate the confidence interval
+  inference <- paste0("With ",C * 100,"% confidence, the population proportion is between ", max(0, p_est - e), " and ", p_est + e)
+  
+  # Compare theoretical vs needed sample size
+  n_needed <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2
+  fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+  n_needed_adj <- ceiling(n_needed * fcf_needed)
+  
+  compare_sample_sizes(n_real, n_needed_adj)
+}
+
+compare_sample_sizes <- function(n_real, n_needed_adj) {
+  if (n_real < n_needed_adj) {
+    print(paste("Your sample size:", n_real))
+    print(paste("Needed sample size (given 'p_est'):", n_needed_adj))    
+    print("Consider increasing the sample size")
+    
+  } else {
+    print(paste("Your sample size:", n_real))
+    print(paste("Needed sample size (given 'p_est'):", n_needed_adj))   
+    print("Your sample size seems to sufficient.")
+  }
+}
+
+```
+
+
+```{r}
+cip_srs(C = 0.95, n_real = 30, p_est = 0.5, p_exp = 0.2, N = 2000)
+```
+
+
+```{r}
+cip_srs <- function(C, e, p_exp = 0.5, n_real, p_est, N = Inf) {
+  
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (e < 0 || e > 1) {
+    stop("Parameter 'e' must be in the range 0 <= e <= 1")
+  }
+
+  if (n_real != round(n_real) || n_real <= 0) {
+    stop("Parameter 'n_real' must be a positive integer")
+  }
+
+  if (p_est < 0 || p_est > 1) {
+    stop("Parameter 'p_est' must be in the range 0 <= p_est <= 1")
+  }
+
+  if (p_exp < 0 || p_exp > 1) {
+    stop("Parameter 'p_exp' must be in the range 0 <= p_exp <= 1")
+  }
+
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+  
+  # Calculate the confidence interval
+  p_upper <- round(min(1, p_est + e),2)
+  p_lower <- round(max(0, p_est - e), 2)
+  inference = paste0("With ", C * 100, "% confidence, the proportion in the population is between ", p_lower, " and ", p_upper)
+  cat(inference, "\n")
+  
+  # Calculus of needed sample size, given 'e'
+  n_needed <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2
+  fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+  n_needed_adj <- ceiling(n_needed * fcf_needed)
+  
+  compare_sample_sizes(n_real, n_needed_adj)
+}
+
+compare_sample_sizes <- function(n_real, n_needed_adj) {
+  if (n_real < n_needed_adj) {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size:", n_needed_adj, "\n")
+    cat("Consider increasing the sample size\n")
+  } else {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size:", n_needed_adj, "\n")
+    cat("Your sample size seems to be sufficient.\n")
+  }
+}
+
+```
+
+
+np_srs(C = 0.95, e = 0.05, p = 0.5, N = 10000) = 370
+C, e, p_exp = 0.5, n_real, p_est, N = Inf
+
+```{r}
+cip_srs(C = 0.95, e = 0.05, p_exp = 0.4, n_real = 354, p_est = 0.5, 1000)
+```
+cip_srs(C = 0.95, n_real = 370, p_est = 0.5, p_exp = 0.5, N = 10000)
+With 95% confidence, the proportion in the population is between 0.45 and 0.55 
+Value of 'e': 0.05000287 
+Your sample size: 370 
+Needed sample size: 370 
+Your sample size seems to be sufficient
+
+```{r}
+# Generar la población
+N = 1000
+set.seed(123)  # Establecer una semilla para reproducibilidad
+poblacion <- runif(N, min = 5000, max = 20000)
+
+# Calcular la media y el desvío estándar
+media <- mean(poblacion)
+desvio_estandar <- sd(poblacion)
+
+# Mostrar los resultados
+print(paste("N:",N))
+print(paste("Media de la población:", round(media, 2)))
+print(paste("Desvío estándar de la población:", round(desvio_estandar, 2)))
+
+```
+
+```{r}
+# Sample size function
+nx_srs <- function(C, E, sd_exp, N = Inf, parameter = TRUE) {
+
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (E <= 0) {
+    stop("Parameter 'E' must be a positive number")
+  }
+
+  if (sd_exp < 0) {
+    stop("Parameter 'sd_exp' must be a positive number")
+  }
+
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+
+  # Formula to obtain the adjusted sample size
+  n = ifelse(parameter == TRUE, 
+  qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2, 
+  qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2)
+  
+  fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
+  n_ajusted <- ceiling(n * fcf)
+  return(n_ajusted)
+}
+
+
+```
+
+
+  n <- qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2
+
+```{r}
+
+nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 1000, parameter = FALSE)
+nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 1000, parameter = TRUE)
+
+#nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 1000, parameter = FALSE)
+#nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 10000, parameter = FALSE)
+#nx_srs(C = 0.95, E = 50, sd_exp = 400, N = Inf, parameter = FALSE)
+
+```
+```{r}
+
+C = 0.95
+E = 50
+sd_exp = 400
+N = 1000
+
+#qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2, 
+
+qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2
+qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2
+
+
+```
+
+[1] 72
+[1] 198
+[1] 240
+[1] 246
+
+```{r}
+
+C = 0.95
+p_exp = 0.3
+e = 0.05
+
+n = qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2
+Z = qnorm(C + (1 - C) / 2, 0, 1)
+
+print(n)
+print(Z)
+```
+
+```{r}
+p_est = 0.4
+n = 322.68
+N = Inf
+
+FC = ifelse(N == Inf, 1, ((N - n) / (N - 1)))
+
+s_p_est = sqrt(
+  (p_est * (1 - p_est) / (n - 1)) * FC
+  )
+
+LP = Z * s_p_est
+
+print(LP)
+```
+
+
+
+```{r}
+#Confidence interval function
+cp_srs <- function(C,e, p_exp = 0.5, n_real, p_est, parameter = FALSE, N = Inf) {
+
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (e < 0 || e > 1) {
+    stop("Parameter 'e' must be in the range 0 <= e <= 1")
+  }
+
+  if (n_real != round(n_real) || n_real <= 0) {
+    stop("Parameter 'n_real' must be a positive integer")
+  }
+
+  if (p_est < 0 || p_est > 1) {
+    stop("Parameter 'p_est' must be in the range 0 <= p_est <= 1")
+  }
+
+  if (p_exp < 0 || p_exp > 1) {
+    stop("Parameter 'p_exp' must be in the range 0 <= p_exp <= 1")
+  }
+
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+
+  # Calculate the confidence interval
+
+  fcf = ifelse(is.infinite(N), 1, ((N - n_real) / (N - 1)))
+  
+  sd_p_est = sqrt((p_est * (1 - p_est) / (n_real - 1)) * fcf)
+  
+  LP = ifelse(parameter == TRUE, qnorm(C + (1 - C) / 2, 0, 1), qt(C + (1 - C) / 2, N)) * sd_p_est
+  
+  p_upper <- round(min(1, p_est + LP), 3)
+  
+  p_lower <- round(max(0, p_est - LP), 3)
+
+  inference = paste0("With ", C * 100, "% confidence, the proportion in the population is between ", p_lower, " and ", p_upper)
+  
+  cat(inference, "\n")
+
+  # Calculus of needed sample size, given 'e'
+  n_needed = ifelse(parameter == TRUE,
+  qnorm(C + (1 - C) / 2, 0, 1)^2 * p_est * (1 - p_est) / e^2,
+  qt(C + (1 - C) / 2, N)^2 * p_est * (1 - p_est) / e^2
+  )
+
+  fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+  
+  n_needed_adj <- ceiling(n_needed * fcf_needed)
+
+  compare_sample_sizes(n_real, n_needed_adj)
+}
+
+compare_sample_sizes <- function(n_real, n_needed_adj) {
+  if (n_real < n_needed_adj) {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size given 'p_est' and 'e':", n_needed_adj, "\n")
+    cat("Consider increasing the sample size if you want to reduce the width of the interval\n")
+  } else {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size given 'p_est' and 'e':", n_needed_adj, "\n")
+    cat("Your sample size seems to be sufficient.\n")
+  }
+}
+
+```
+
+```{r}
+cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4, parameter = TRUE, N = 5000)
+```
+[1] "fcf: 0.935651130226045"
+[1] "sd_p_est: 0.0247146571743329"
+[1] "LP: 0.048439837951947"
+[1] "brecha: 0.048"
+With 95% confidence, the proportion in the population is between 0.252 and 0.348 
+Your sample size: 250 
+Needed sample size: 304 
+Consider increasing the sample size
+
+```{r}
+#Confidence interval function
+cx_srs <- function(C, E, x_est, sd_exp, n_real, sd_est, parameter = FALSE, N = Inf) {
+
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (E < 0) {
+    stop("Parameter 'E' must be a positive number")
+  }
+
+  if (n_real != round(n_real) || n_real <= 0) {
+    stop("Parameter 'n_real' must be a positive integer")
+  }
+
+  if (sd_est < 0) {
+    stop("Parameter 'sd_est' must be a positive number")
+  }
+
+  if (sd_exp < 0) {
+    stop("Parameter 'sd_exp' must be a positive number")
+  }
+
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
+  }
+
+  # Calculate the confidence interval
+   
+  fcf = ifelse(is.infinite(N), 1, ((N - n_real) / (N - 1)))
+  
+  sd_x_est = sd_est / sqrt(n_real) * sqrt(fcf)
+  
+  LP = ifelse(parameter == TRUE, qnorm(C + (1 - C) / 2, 0, 1), qt(C + (1 - C) / 2, N)) * sd_x_est
+  
+  p_upper <- round(x_est + LP, 3)
+  
+  p_lower <- round(x_est - LP, 3)
+  
+  inference = paste0("With ", C * 100, "% confidence, the population mean is between ", p_lower, " and ", p_upper)
+  
+  cat(inference, "\n")
+
+
+  # Calculus of needed sample size, given 's_est'
+  n_needed = ifelse(parameter == TRUE, 
+                    qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2, 
+                    qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2
+                    )
+
+  fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+  
+  n_needed_adj <- ceiling(n_needed * fcf_needed)
+
+  compare_sample_sizes(n_real, n_needed_adj)
+}
+
+compare_sample_sizes <- function(n_real, n_needed_adj) {
+  if (n_real < n_needed_adj) {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size:", n_needed_adj, "\n")
+    cat("Consider increasing the sample size if you want to reduce the width of the interval\n")
+  } else {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size:", n_needed_adj, "\n")
+    cat("Your sample size seems to be sufficient.\n")
+  }
+}
+```
+
+
+```{r}
+cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400, n_real = 250, sd_exp = 200, parameter = TRUE, N = 5000)
+```
+
+
+```{r}
+#Confidence interval function
+ct_srs <- function(C, E, t_est, sd_exp, n_real, sd_est, parameter = FALSE, N) {
+
+  # Check parameter ranges
+  if (C < 0 || C > 1) {
+    stop("Parameter 'C' must be in the range 0 <= C <= 1")
+  }
+
+  if (E < 0) {
+    stop("Parameter 'E' must be a positive number")
+  }
+
+  if (n_real != round(n_real) || n_real <= 0) {
+    stop("Parameter 'n_real' must be a positive integer")
+  }
+
+  if (sd_est < 0) {
+    stop("Parameter 'sd_est' must be a positive number")
+  }
+
+  if (sd_exp < 0) {
+    stop("Parameter 'sd_exp' must be a positive number")
+  }
+
+  if (N != round(N) || N <= 0) {
+    stop("Parameter 'N' must be a positive integer or Inf")
+  }
+
+
+  # Calculate the confidence interval
+  
+  fcf = ifelse(is.infinite(N), 1, ((N - n_real) / (N - 1)))
+  
+  sd_t_est = ifelse(is.infinite(N), 1, N) * sd_est / sqrt(n_real) * sqrt(fcf)
+  
+  LP = ifelse(parameter == TRUE, qnorm(C + (1 - C) / 2, 0, 1), qt(C + (1 - C) / 2, N)) * sd_t_est
+  
+  p_upper <- round(t_est + LP, 3)
+  
+  p_lower <- round(t_est - LP, 3)
+  
+  inference <- paste0("With ", C * 100, "% confidence, the population total is between ", p_lower, " and ", p_upper)
+  
+  cat(inference, "\n")
+  
+
+  # Calculus of needed sample size, given 's_est'
+  n_needed = ifelse(parameter == TRUE, 
+                    N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2,
+                    N^2 * qt(C + (1 - C) / 2, N)^2 * sd_est^2 / E^2
+                    )
+
+  fcf_needed <- ifelse(is.infinite(N), 1, N / (N + n_needed - 1))
+  
+  n_needed_adj <- ceiling(n_needed * fcf_needed)
+
+  compare_sample_sizes(n_real, n_needed_adj)
+}
+
+compare_sample_sizes <- function(n_real, n_needed_adj) {
+  if (n_real < n_needed_adj) {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size:", n_needed_adj, "\n")
+    cat("Consider increasing the sample size if you want to reduce the width of the interval\n")
+  } else {
+    cat("Your sample size:", n_real, "\n")
+    cat("Needed sample size:", n_needed_adj, "\n")
+    cat("Your sample size seems to be sufficient.\n")
+  }
+}
+```
+
+
+```{r}
+ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 200, sd_est = 6, parameter = TRUE, N = 1200)
+```
+
+
