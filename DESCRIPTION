@@ -1,6 +1,6 @@
-Package: sample4audit
+Package: Paskal
 Type: Package
-Title: Performance audit sample kit, along lots of other useful things
+Title: Performance audit sample kit, along other useful things
 Version: 0.1.0
 Author: Martin Rubione <mrubione@udesa.edu.ar>
 Maintainer: Martin Rubione <mrubione@udesa.edu.ar>
