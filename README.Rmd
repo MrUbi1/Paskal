@@ -26,7 +26,7 @@ You can install the development version of sample4audit from [GitHub](https://gi
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MrUbi1/sample4audit")
+devtools::install_github("MrUbi1/Paskal")
 ```
 
 ## Example
@@ -34,7 +34,7 @@ devtools::install_github("MrUbi1/sample4audit")
 How many measurements should we make to be 95% confident that the average transaction duration at a government agency is no more than 2 minutes up or down from the true value? We don't know the population standard deviation, but a small pilot sample gave us sd = 6.43 minutes. We can use simple random sampling. A basic code to solve this problem could be as follows:
 
 ```{r basic example code}
-library(sample4audit)
+library(Paskal)
 
 # Arguments
 C <- 0.95 # Level of confidence

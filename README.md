@@ -19,7 +19,7 @@ You can install the development version of sample4audit from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MrUbi1/sample4audit")
+devtools::install_github("MrUbi1/Paskal")
 ```
 
 ## Example
@@ -32,7 +32,7 @@ We can use simple random sampling. A basic code to solve this problem
 could be as follows:
 
 ``` r
-library(sample4audit)
+library(Paskal)
 
 # Arguments
 C <- 0.95 # Level of confidence
