@@ -22,7 +22,7 @@ The goal of Paskal is to assist performance auditors with some useful calculatio
 
 ## Installation
 
-You can install the development version of sample4audit from [GitHub](https://github.com/) with:
+You can install the development version of Paskal from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")

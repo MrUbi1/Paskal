@@ -14,7 +14,7 @@ different sampling plans.
 
 ## Installation
 
-You can install the development version of sample4audit from
+You can install the development version of Paskal from
 [GitHub](https://github.com/) with:
 
 ``` r
