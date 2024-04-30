@@ -1,7 +1,7 @@
 Package: Paskal
 Type: Package
 Title: Performance audit sample kit, along other useful things
-Version: 0.1.0.9000
+Version: 0.1.0
 Author: Martin Rubione <mrubione@udesa.edu.ar>
 Maintainer: Martin Rubione <mrubione@udesa.edu.ar>
 Description: The Paskal package was designed to assist performance auditors with some useful calculations related to statistical sampling, including functions to calculate the sample size, the sampling error, or the confidence interval; when estimating the proportion, the mean, or the total thorigh differente sampling plans.
