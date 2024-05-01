@@ -1,3 +1,4 @@
 # Paskal (development version)
 
-* Initial CRAN submission.
+* Readme, Licence, News and Vignette "Intro to Paskal", reade.
+* Nine functions ready for use.
