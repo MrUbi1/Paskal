@@ -1,7 +1,7 @@
 #' Sample size needed to estimate the mean with a Simple Random Sampling plan
 #'
 #' @param C Level of confidence (0 <= C <= 1)
-#' @param E Sampling error (E > 1).
+#' @param E Sampling error (E > 1). # ###REVISAR (no es suficiente con que sea mayor a cero?)
 #' @param sd_exp Expected standard deviation (sd_exp > 0)
 #' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #' @param N A positive integer indicating the number of elements in the population. By default, infinite.
