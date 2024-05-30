@@ -1,4 +1,4 @@
-#' Confidence interval of the proportion under a Simple Random Sampling framework
+#' Confidence interval of the proportion under a Stratified Sampling framework
 #'
 #' @param C Level of confidence (0 <= C <= 1)
 #' @param n A vector with the real sample size for each stratum (n > 0)
