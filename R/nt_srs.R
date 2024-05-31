@@ -1,21 +1,21 @@
-#' Sample size needed to estimate the total with a Simple Random Sampling plan
+#' Sample size required to estimate the total using a simple random sampling design
 #'
-#' @param C Level of confidence (0 <= C <= 1)
-#' @param E Sampling error (E > 1).
-#' @param sd_exp Expected standard deviation (sd_exp > 0)
-#' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
-#' @param N A positive integer indicating the number of elements in the population.
+#' @param C Level of confidence; 0 <= C <= 1.
+#' @param E Sampling error; E > 0.
+#' @param sd_exp Expected standard deviation; sd_exp > 0.
+#' @param N A positive integer representing the number of elements in the population.
+#' @param parameter Type TRUE if you do know the population SD, or type FALSE (default) if it is an estimate.
 #'
-#' @return The function returns the sample size needed to estimate the total of a variable, consistent with the risk ('C' and 'E') that the auditor is willing to assume.
+#' @return This function returns the sample size required to estimate the total of a variable when using a simple random sampling design without replacement, given the level of risk.
 #' @export
 #'
 #' @examples nt_srs(C = 0.95, E = 1000, sd_exp = 4.1, N = 1200)
-#' @examples nt_srs(C = 0.95, E = 2000, sd_exp = 4.1, N = 1200)
-#' @examples nt_srs(C = 0.95, E = 2000, sd_exp = 2.05, parameter = TRUE, N = 1200)
+#' @examples nt_srs(C = 0.95, E = 1500, sd_exp = 4.1, N = 1200)
+#' @examples nt_srs(C = 0.95, E = 2000, sd_exp = 3, N = 5000, parameter = TRUE)
 
 
 # Sample size function
-nt_srs <- function(C, E, sd_exp, parameter = FALSE, N) {
+nt_srs <- function(C, E, sd_exp, N, parameter = FALSE) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -36,14 +36,16 @@ nt_srs <- function(C, E, sd_exp, parameter = FALSE, N) {
 
   # Formula to obtain the adjusted sample size
   n <- ifelse(parameter == TRUE,
-              N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2,
-              N^2 * qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2
+              N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2, # qnorm: quantile of the normal distribution
+              N^2 * qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2 # qt: quantile of the t-student distribution
               )
 
   fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
 
-  n_ajusted <- ceiling(n * fcf)
+  n_adjusted <- ceiling(n * fcf)
 
-  return(n_ajusted)
+  return(list(n = n_adjusted))
 }
 
+#Dudas
+# No me gusta de la fórmula que un N = Inf tiende a n = Inf. Es raro. Chequeé en ambos libros y las fórmulas son equivalentes.

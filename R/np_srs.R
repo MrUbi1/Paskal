@@ -1,22 +1,20 @@
-#' Sample size needed to estimate the proportion with a Simple Random Sampling plan
+#' Sample size required to estimate the proportion using a simple random sampling design
 #'
-#' @param C Level of confidence. (0 <= C <= 1)
-#' @param p_exp Expected proportion in the population. By default 0.5, also applicable if you lack information. (0 <= p_exp <= 1)
-#' @param e Sampling error. (0 <= e <= 1).
-#' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
-#' @param N A positive integer indicating the number of elements in the population. By default, infinite.
+#' @param C Level of confidence; 0 <= C <= 1.
+#' @param e Sampling error; 0 <= e <= 1.
+#' @param p_exp Expected proportion in the population; 0 <= p_exp <= 1. Enter 0.5 (default) if you lack information.
+#' @param N A positive integer representing the number of elements in the population. Defaults to infinite.
 #'
-#' @return The function returns the sample size needed to estimate the proportion of occurrence of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume, when conducting a Simple Random Sampling plan, among others with some restrictions.
+#' @return This function returns the sample size required to estimate the proportion of occurrences of an event when using a simple random sampling design without replacement, given the level of risk.
 #' @export
 #'
 #' @examples np_srs(C = 0.90, e = 0.04)
-#' @examples np_srs(C = 0.90, e = 0.04, p_exp = 0.5)
-#' @examples np_srs(C = 0.90, e = 0.04, p_exp = 0.5, parameter = TRUE, N = 20000)
-#' @examples np_srs(C = 0.90, e = 0.04, N = 20000)
+#' @examples np_srs(C = 0.90, e = 0.1, p_exp = 0.5)
+#' @examples np_srs(C = 0.90, e = 0.1, p_exp = 0.5, N = 1000)
+#' @examples np_srs(C = 0.90, e = 0.1, p_exp = 0.2, N = 1000)
 
 # Sample size function
-
-np_srs <- function(C, e, p_exp = 0.5, parameter = FALSE, N = Inf) {
+np_srs <- function(C, e, p_exp = 0.5, N = Inf) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -37,18 +35,12 @@ np_srs <- function(C, e, p_exp = 0.5, parameter = FALSE, N = Inf) {
     }
   }
 
-  # Formula to obtain the adjusted sample size
-  n <- ifelse(parameter == TRUE,
-              qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2, # quantile for the normal distribution
-              qt(C + (1 - C) / 2, N)^2 * p_exp * (1 - p_exp) / e^2 # quantile for the t-student distribution
-              )
+  # Formula for determining the adjusted sample size
+  n <- qnorm(C + (1 - C) / 2, 0, 1)^2 * p_exp * (1 - p_exp) / e^2 # qnorm: quantile of the normal distribution
 
   fcf <- ifelse(is.infinite(N), 1, N / (N + n - 1))
 
   n_adjusted <- ceiling(n * fcf)
 
-  return(n_adjusted)
+  return(list(n = n_adjusted))
 }
-
-
-
