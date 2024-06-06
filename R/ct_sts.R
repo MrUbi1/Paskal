@@ -1,62 +1,62 @@
-#' Confidence interval of the total under a Stratified Sampling framework
+#' Confidence interval of the total under a stratified sampling design
 #'
-#' @param C Level of confidence (0 <= C <= 1)
-#' @param n A vector with the real sample size for each stratum (n > 0)
-#' @param t_est A vector with the sample total of each stratum (0 <= p_est <= 1)
-#' @param N A vector with the number of elements in each stratum (N > 0).
+#' @param C Level of confidence; 0 <= C <= 1.
+#' @param n_real A vector of positive integers representing the real sample size of each stratum; n_real(i) > 0, for every 'i' stratum.
+#' @param x_est A vector with the sample mean of each stratum.
+#' @param sd_est A vector with the expected standard deviation in each stratum; sd_exp(i) > 0, for every 'i' stratum.
+#' @param N A vector of positive integers representing the number of elements in each stratum; N(i) > 0.
+#' @param parameter Type TRUE if you do know the populations SD in sd_exp, or type FALSE (default) if they are estimates.
 #'
-#' @return The function returns the interval of confidence of the population total
+#' @return This function returns the global confidence interval when using a stratified sampling design without replacement to estimate the total, given the sample size.
 #' @export
 #'
-#' @examples ct_sts(C = 0.95, x_est = c(0.3, 0.5, 0.7), n = c(100, 150, 200), N = c(200, 250, 300))
+#' @examples ct_sts(C = 0.95, n = c(100, 150, 200), x_est = c(0.3, 0.5, 0.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300))
 
 # Confidence interval function
-ct_sts <- function(C, n, x_est, sd_est, parameter = FALSE, N) {
+ct_sts <- function(C, n_real, x_est, sd_est, N, parameter = FALSE) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
     stop("Parameter 'C' must be in the range 0 <= C <= 1")
   }
 
-  if (any(n != round(n)) || any(n <= 0)) {
-    stop("All elements in 'n' must be positive integers")
+  if (any(n_real != round(n_real)) || any(n_real <= 0)) {
+    stop("All elements in 'n_real' must be positive integers")
   }
 
   if (any(sd_est < 0)) {
     stop("All elements in 'sd_est' must be positive numbers")
   }
 
-  #  if (!all(x_est >= 0 & x_est <= 1)) {
-  #    stop("All elements in 'p_est' must be in the range 0 <= p_est <= 1")
-  #  }
-
-  # Ensure 't_est', 'n', 'sd_est' and 'N' are of the same length
-  if (length(x_est) != length(n) ||
-      length(x_est) != length(sd_est) ||
-      length(x_est) != length(N)) {
-    stop("'x_est', 'n', 'sd_est' and 'N' must have the same length")
+  if (any(N != round(N)) || any(N <= 0)) {
+    stop("All elements in 'N' must be positive integers")
   }
 
-  # Calculate the estimated total
-  x_est <- sum(N / sum(N) * x_est)
-  t_est <- x_est * sum(N)
+  # Ensure 'x_est', 'n_real', 'sd_est' and 'N' are of the same length
+  if (length(x_est) != length(n_real) ||
+      length(x_est) != length(sd_est) ||
+      length(x_est) != length(N)) {
+    stop("'x_est', 'n_real', 'sd_est' and 'N' must have the same length")
+  }
 
-  # Calculate the standard deviation of the estimated proportions
+  # Calculate the confidence interval (Ref. 5.4)
+
+  x_est <- sum(N / sum(N) * x_est)
+  t_est <- x_est * sum(N)   # Calculate the estimated total
+
   sd_t_est <- sqrt(sum(N^2 * (N - n) / N * sd_est^2 / n))
 
-  # Calculate the limit points based on the confidence level
   LP <- ifelse(parameter == TRUE,
-               qnorm(C + (1 - C) / 2, 0, 1),
-               qt(C + (1 - C) / 2, sum(n))) * sd_t_est
+               qnorm(C + (1 - C) / 2, 0, 1), # qnorm: quantile of the normal distribution
+               qt(C + (1 - C) / 2, sum(n)) # qt: quantile of the t-student distribution
+               ) * sd_t_est
 
-  # Calculate the upper and lower bounds of the confidence interval
   p_lower <- round(t_est - LP, 3)
+
   p_upper <- round(t_est + LP, 3)
 
-  # Generate the inference statement
-  inference <- paste0("With ", C * 100, "% confidence, the population total is between ", p_lower, " and ", p_upper)
+  inference <- paste0("The population total is between ", p_lower, " and ", p_upper, " with ", C * 100, "% confidence.")
 
-  # Output the results
-  cat(inference, "\n")
-  print(paste('t_est =', t_est))
+  return(list(global_t_est = t_est, margin_of_error = LP, inference = inference))
+
 }

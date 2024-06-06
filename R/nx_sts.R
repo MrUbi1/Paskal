@@ -2,7 +2,7 @@
 #'
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param E Sampling error; E > 0.
-#' @param sd_exp A vector with the expected standard deviation in each stratum; sd_exp > 0.
+#' @param sd_exp A vector with the expected standard deviation in each stratum; sd_exp(i) > 0, for every 'i' stratum.
 #' @param alloc A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.
 #' @param N A vector of positive integers representing the number of elements in each stratum.
 #' @param parameter Type TRUE if you do know the populations SD in sd_exp, or type FALSE (default) if they are estimates.
@@ -52,11 +52,12 @@ nx_sts <- function(C, E, sd_exp, alloc = NULL, N, parameter = FALSE) {
     stop("'sd_exp', 'alloc', and 'N' must have the same length")
   }
 
-  # Formula to obtain the adjusted sample size
+  # Formula to obtain the adjusted sample size (Ref. 5.6)
   n <- if (parameter) {
     Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution
     sum(N^2 * sd_exp^2 / alloc) /
       (sum(N)^2 * E^2 / Z^2 + sum(N * sd_exp^2))
+
   } else {
     t <- qt(C + (1 - C) / 2, sum(N) - 1) # qt: quantile of the t-student distribution
     sum(N^2 * sd_exp^2 / alloc) /

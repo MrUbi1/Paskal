@@ -2,30 +2,30 @@
 % Please edit documentation in R/nx_srs.R
 \name{nx_srs}
 \alias{nx_srs}
-\title{Sample size needed to estimate the mean with a Simple Random Sampling plan}
+\title{Sample size required to estimate the mean using a simple random sampling design}
 \usage{
-nx_srs(C, E, sd_exp, parameter = FALSE, N = Inf)
+nx_srs(C, E, sd_exp, N = Inf, parameter = FALSE)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{E}{Sampling error (E > 1).}
+\item{E}{Sampling error; E > 0.}
 
-\item{sd_exp}{Expected standard deviation (sd_exp > 0)}
+\item{sd_exp}{Expected standard deviation; sd_exp > 0.}
 
-\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
+\item{N}{A positive integer representing the number of elements in the population. Defaults to infinite.}
 
-\item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
+\item{parameter}{Type TRUE if you do know the population SD, or type FALSE (default) if it is an estimate.}
 }
 \value{
-The function returns the sample size needed to estimate the mean of a phenomena, consistent with the risk ('C' and 'e') that the auditor is willing to assume.
+This function returns the sample size required to estimate the mean of a variable when using a simple random sampling design without replacement, given the level of risk.
 }
 \description{
-Sample size needed to estimate the mean with a Simple Random Sampling plan
+Sample size required to estimate the mean using a simple random sampling design
 }
 \examples{
 nx_srs(C = 0.95, E = 50, sd_exp = 400)
 nx_srs(C = 0.95, E = 50, sd_exp = 400, parameter = TRUE, N = 10000)
-nx_srs(C = 0.95, E = 50, sd_exp = 400, parameter = FALSE, N = 10000)
+nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 10000, parameter = FALSE)
 nx_srs(C = 0.95, E = 100, sd_exp = 400, N = 10000)
 }

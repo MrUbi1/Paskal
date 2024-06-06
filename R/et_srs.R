@@ -1,21 +1,21 @@
-#' Sampling error when estimating the total with a Simple Random Sampling plan
+#' Sampling error when estimating the total using a simple random sampling design
 #'
-#' @param C Level of confidence (0 <= C <= 1)
-#' @param n_real Given sample size (n_real > 0)
-#' @param sd_exp Expected standard deviation (sd_exp > 0)
-#' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
-#' @param N A positive integer indicating the number of elements in the population.
+#' @param C Level of confidence; 0 <= C <= 1.
+#' @param n_real Real sample size; n_real > 0.
+#' @param sd_est Expected standard deviation; sd_exp > 0.
+#' @param N A positive integer representing the number of elements in the population.
+#' @param parameter Type TRUE if you do know the population SD, or type FALSE (default) if it is an estimate.
 #'
-#' @return The function returns the sample error consistent with the estimation of the total, given the sample size.
+#' @return This function returns the sampling error when using a simple random sampling design without replacement to estimate the total, given the sample size.
 #' @export
 #'
-#' @examples ex_srs(C = 0.95, n_real = 87, sd_exp = 4.1, N = 1200)
-#' @examples ex_srs(C = 0.95, n_real = 23, sd_exp = 4.1, N = 1200)
-#' @examples ex_srs(C = 0.95, n_real = 6, sd_exp = 2.1, parameter = TRUE, N = 1200)
+#' @examples et_srs(C = 0.95, n_real = 87, sd_est = 4.1, N = 1200)
+#' @examples et_srs(C = 0.95, n_real = 23, sd_est = 4.1, N = 1200)
+#' @examples et_srs(C = 0.95, n_real = 6, sd_est = 2.1, N = 1200, parameter = TRUE)
 
 
 # Sample error function
-et_srs <- function(C, n_real, sd_exp, parameter = FALSE, N) {
+et_srs <- function(C, n_real, sd_est, N, parameter = FALSE) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -26,20 +26,20 @@ et_srs <- function(C, n_real, sd_exp, parameter = FALSE, N) {
     stop("Parameter 'n_real' must be a positive integer")
   }
 
-  if (sd_exp < 0) {
-    stop("Parameter 'sd_exp' must be a positive number")
+  if (sd_est < 0) {
+    stop("Parameter 'sd_est' must be a positive number")
   }
 
   if (N != round(N) || N <= 0) {
-    stop("Parameter 'N' must be a positive integer or Inf")
+    stop("Parameter 'N' must be a positive integer")
   }
 
 
   # Function of difference, aimed to iterate with different values of 'E'
   difference <- function(E) {
     n_theo <- ifelse(parameter == TRUE,
-                     N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_exp^2 / E^2,
-                     N^2 * qt(C + (1 - C) / 2, N)^2 * sd_exp^2 / E^2
+                     N^2 * qnorm(C + (1 - C) / 2, 0, 1)^2 * sd_est^2 / E^2, # qnorm: quantile of the normal distribution
+                     N^2 * qt(C + (1 - C) / 2, N)^2 * sd_est^2 / E^2 # qt: quantile of the t-student distribution
                      )
 
     fcf <- ifelse(is.infinite(N), 1, N / (N + n_theo - 1))
@@ -53,7 +53,8 @@ et_srs <- function(C, n_real, sd_exp, parameter = FALSE, N) {
   result <- optimize(f = difference, interval = c(0, 1000000))
 
   # Return the result containing the optimal (minimum) 'E' value
-  return(result$minimum)
+  return(list(E = result$minimum))
+
 }
 
 

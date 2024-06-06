@@ -2,29 +2,29 @@
 % Please edit documentation in R/nt_srs.R
 \name{nt_srs}
 \alias{nt_srs}
-\title{Sample size needed to estimate the total with a Simple Random Sampling plan}
+\title{Sample size required to estimate the total using a simple random sampling design}
 \usage{
-nt_srs(C, E, sd_exp, parameter = FALSE, N)
+nt_srs(C, E, sd_exp, N, parameter = FALSE)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{E}{Sampling error (E > 1).}
+\item{E}{Sampling error; E > 0.}
 
-\item{sd_exp}{Expected standard deviation (sd_exp > 0)}
+\item{sd_exp}{Expected standard deviation; sd_exp > 0.}
 
-\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
+\item{N}{A positive integer representing the number of elements in the population.}
 
-\item{N}{A positive integer indicating the number of elements in the population.}
+\item{parameter}{Type TRUE if you do know the population SD, or type FALSE (default) if it is an estimate.}
 }
 \value{
-The function returns the sample size needed to estimate the total of a variable, consistent with the risk ('C' and 'E') that the auditor is willing to assume.
+This function returns the sample size required to estimate the total of a variable when using a simple random sampling design without replacement, given the level of risk.
 }
 \description{
-Sample size needed to estimate the total with a Simple Random Sampling plan
+Sample size required to estimate the total using a simple random sampling design
 }
 \examples{
 nt_srs(C = 0.95, E = 1000, sd_exp = 4.1, N = 1200)
-nt_srs(C = 0.95, E = 2000, sd_exp = 4.1, N = 1200)
-nt_srs(C = 0.95, E = 2000, sd_exp = 2.05, parameter = TRUE, N = 1200)
+nt_srs(C = 0.95, E = 1500, sd_exp = 4.1, N = 1200)
+nt_srs(C = 0.95, E = 2000, sd_exp = 3, N = 5000, parameter = TRUE)
 }

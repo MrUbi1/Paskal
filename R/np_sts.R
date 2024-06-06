@@ -2,7 +2,7 @@
 #'
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param e Sampling error; 0 <= e <= 1.
-#' @param p_exp A vector with the expected proportion in each stratum; 0 <= p_exp(i) <= 1, for every 'i'.
+#' @param p_exp A vector with the expected proportion in each stratum; 0 <= p_exp(i) <= 1, for every 'i' stratum.
 #' @param alloc A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.
 #' @param N A vector of positive integers representing the number of elements in each stratum.
 #'
@@ -50,7 +50,7 @@ np_sts <- function(C, e, p_exp, alloc = NULL, N) {
     stop("'p_exp', 'alloc', and 'N' must have the same length")
   }
 
-  # Formula to obtain the adjusted sample size
+  # Formula to obtain the adjusted sample size (Ref. 5.15)
   Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution
   n = sum(N^2 * p_exp * (1 - p_exp) / alloc) / (sum(N)^2 * e^2 / Z^2 + sum(N * p_exp * (1 - p_exp)))
 
