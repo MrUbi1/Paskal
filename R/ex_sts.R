@@ -2,7 +2,7 @@
 #'
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param n_real A vector of positive integers representing the real sample size of each stratum.
-#' @param sd_est A vector with the expected standard deviation in each stratum; sd_exp(i) > 0, for every 'i' stratum.
+#' @param sd_est A vector with the estimated standard deviation in each stratum; sd_est(i) > 0, for every 'i' stratum.
 #' @param alloc A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.
 #' @param N A vector of positive integers representing the number of elements in each stratum; N(i) > 0.
 #' @param parameter Type TRUE if you do know the populations SD in sd_exp, or type FALSE (default) if they are estimates.

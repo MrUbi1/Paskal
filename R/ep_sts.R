@@ -2,7 +2,7 @@
 #'
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param n_real A vector of positive integers representing the real sample size of each stratum; n_real(i) > 0.
-#' @param p_est A vector with the estimated proportion in each stratum; 0 <= p_exp(i) <= 1, for every 'i' stratum.
+#' @param p_est A vector with the estimated proportion in each stratum; 0 <= p_est(i) <= 1, for every 'i' stratum.
 #' @param alloc A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.
 #' @param N A vector of positive integers representing the number of elements in each stratum; N(i) > 0.
 #'
