@@ -4,8 +4,8 @@
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param x_est Sample mean.
 #' @param n_real Real sample size (id est, the number of clusters sampled); n_real > 0.
-#' @param N A positive integer indicating the number of elements in the population (id est, the total number of clusters); N > 0.
-#' @param m Average cluster size, either of the population (prefered) or of the sample; m > 0.
+#' @param N A positive integer indicating the population size (id est, the total number of clusters). Defaults to infinite.
+#' @param m Average cluster size (number of elements), either of the population -preferred- or of a preliminary sample; m > 0.
 #' @param sd_est Estimated standard deviation; sd_est > 0.
 #' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #'
@@ -17,7 +17,7 @@
 
 
 #Confidence interval function
-cx_cls <- function(C, x_est, n_real, N, m, sd_est, parameter = FALSE) {
+cx_cls <- function(C, x_est, n_real, sd_est, m, N = Inf, parameter = FALSE) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
@@ -28,20 +28,23 @@ cx_cls <- function(C, x_est, n_real, N, m, sd_est, parameter = FALSE) {
     stop("Parameter 'n_real' must be a positive integer")
   }
 
-  if (N != round(N) || N <= 0) {
-      stop("Parameter 'N' must be a positive integer")
+  if (sd_est <= 0) {
+    stop("Parameter 'sd_exp' must be a positive number")
   }
 
   if (m <= 0) {
     stop("Parameter 'm' must be a positive number")
   }
 
-  if (sd_est < 0) {
-    stop("Parameter 'sd_exp' must be a positive number")
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
   }
 
 
   # Calculate the confidence interval
+  N <- ifelse(is.infinite(N), 10^10, N)
 
   sd_x_est <- sqrt(((N - n_real) / (N * n_real * m^2)) * sd_est^2)
 

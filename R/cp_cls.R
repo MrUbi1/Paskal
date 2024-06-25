@@ -4,44 +4,50 @@
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param p_est Proportion mean.
 #' @param n_real Real sample size (id est, the number of clusters sampled); n_real > 0.
-#' @param N A positive integer indicating the number of elements in the population (id est, the total number of clusters); N > 0.
-#' @param m Average cluster size, either of the population (prefered) or of the sample; m > 0.
+#' @param N A positive integer indicating the population size (id est, the total number of clusters). Defaults to infinite.
+#' @param m Average cluster size (number of elements), either of the population -preferred- or of a preliminary sample; m > 0.
 #' @param sd_est Estimated standard deviation; sd_est > 0.
 #' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #'
 #' @return This function returns the confidence interval of the population proportion when using a cluster sampling design without replacement, given the sample size.
 #' @export
 #'
-#' @examples cp_cls(C = 0.95, p_est = 0.48, n_real = 25, N = 415, m = 6.04, sd_est = 0.726, parameter = TRUE)
+#' @examples cp_cls(C = 0.95, p_est = 0.48, n_real = 25, N = 415, m = 8, sd_est = 0.73, parameter = TRUE)
 #' @examples cp_cls(C = 0.95, p_est = 0.48, n_real = 19, N = 500, m = 8, sd_est = 0.33, parameter = TRUE)
 
 
 #Confidence interval function
-cp_cls <- function(C, p_est, n_real, N, m, sd_est, parameter = FALSE) {
+cp_cls <- function(C, p_est, n_real, sd_est, m, N = Inf, parameter = FALSE) {
 
   # Check parameter ranges
   if (C < 0 || C > 1) {
     stop("Parameter 'C' must be in the range 0 <= C <= 1")
   }
 
+  if (p_est < 0 || p_est > 1) {
+    stop("Parameter 'p_est' must be in the range 0 <= p_est <= 1")
+  }
+
   if (n_real != round(n_real) || n_real <= 0) {
     stop("Parameter 'n_real' must be a positive integer")
   }
 
-  if (N != round(N) || N <= 0) {
-    stop("Parameter 'N' must be a positive integer")
+  if (sd_est <= 0) {
+    stop("Parameter 'sd_exp' must be a positive number")
   }
 
   if (m <= 0) {
     stop("Parameter 'm' must be a positive number")
   }
 
-  if (sd_est < 0) {
-    stop("Parameter 'sd_exp' must be a positive number")
+  if (!missing(N)) {
+    if (!is.infinite(N) && (N != round(N) || N <= 0)) {
+      stop("Parameter 'N' must be a positive integer or Inf")
+    }
   }
 
-
   # Calculate the confidence interval
+  N <- ifelse(is.infinite(N), 10^10, N)
 
   sd_p_est <- sqrt(((N - n_real) / (N * n_real * m^2)) * sd_est^2)
 

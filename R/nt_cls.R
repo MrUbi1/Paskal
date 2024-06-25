@@ -3,15 +3,14 @@
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param E Sampling error; E > 0.
 #' @param sd_exp Expected standard deviation; sd_exp > 0.
-#' @param m Average cluster size, either of the population (prefered) or of a preliminar sample; m > 0.
-#' @param N A positive integer indicating the population size (id est, the total number of clusters); N > 0.
+#' @param N A positive integer indicating the population size (id est, the total number of clusters). Defaults to infinite.
 #' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #'
 #' @return This function returns the sample size required to estimate the total of a variable when using a cluster sampling design without replacement, given the level of risk.
 #' @export
 #'
-#' @examples nt_cls(C = 0.95, E = 1000000, sd_exp = 25189, N = 415, parameter = TRUE) # Ejemplo 8.6
 #' @examples nt_cls(C = 0.95, E = 500000, sd_exp = 5000, N = 400)
+
 
 # Sample size function
 nt_cls <- function(C, E, sd_exp, N = Inf, parameter = FALSE) {
@@ -25,7 +24,7 @@ nt_cls <- function(C, E, sd_exp, N = Inf, parameter = FALSE) {
     stop("Parameter 'E' must be a positive number")
   }
 
-  if (sd_exp < 0) {
+  if (sd_exp <= 0) {
     stop("Parameter 'sd_exp' must be a positive number")
   }
 
@@ -36,7 +35,7 @@ nt_cls <- function(C, E, sd_exp, N = Inf, parameter = FALSE) {
   }
 
   # Formula to obtain the adjusted sample size (Ref. 5.6)
-  N <- ifelse(is.infinite(N), 9999999, N)
+  N <- ifelse(is.infinite(N), 10^10, N)
 
   n <- if (parameter) {
     Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution

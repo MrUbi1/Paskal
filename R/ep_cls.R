@@ -2,15 +2,15 @@
 #'
 #' @param C Level of confidence; 0 <= C <= 1.
 #' @param n_real A positive integer representing the real sample size (the number of clusters sampled); n_real > 0.
-#' @param sd_est Estimated standard deviation ; sd_est(i) > 0.
-#' @param m Average cluster size (number of elements), either of the population (prefered) or of the sample; m > 0.
-#' @param N A positive integer representing the size of the population (the total number of clusters); N > 0.
+#' @param sd_est Estimated standard deviation ; sd_est > 0.
+#' @param m Average cluster size (number of elements), either of the population -preferred- or of a preliminary sample; m > 0.
+#' @param N A positive integer indicating the population size (id est, the total number of clusters). Defaults to infinite.
 #' @param parameter Type TRUE if you do know the populations SD in sd_exp, or type FALSE (default) if they are estimates.
 #'
 #' @return This function returns the sampling error when using a cluster sampling design without replacement to estimate the proportion, given the sample size.
 #' @export
 #'
-#' @examples ep_cls(C = 0.95, n_real = 31, sd_est = 0.726, m = 6.04, N = 415, parameter = TRUE) # Reversa de np_cls(C = 0.95, e = 0.04, sd_exp = 0.726, m = 6.04, N = 415, parameter = TRUE) = 33
+#' @examples ep_cls(C = 0.95, n_real = 31, sd_est = 0.726, m = 6.04, N = 415, parameter = TRUE)
 
 
 # Sample error function
@@ -21,15 +21,15 @@ ep_cls <- function(C, n_real, sd_est, m, N = Inf, parameter = FALSE) {
     stop("Parameter 'C' must be in the range 0 <= C <= 1")
   }
 
-  if (n_real < 0) {
-    stop("Parameter 'n_real' must be greater than 0")
+  if (n_real != round(n_real) || n_real <= 0) {
+    stop("Parameter 'n_real' must be a positive integer")
   }
 
-  if (sd_est < 0) {
+  if (sd_est <= 0) {
     stop("Parameter 'sd_est' must be a positive number")
   }
 
-  if (m < 0) {
+  if (m <= 0) {
     stop("Parameter 'm' must be a positive number")
   }
 
@@ -42,7 +42,7 @@ ep_cls <- function(C, n_real, sd_est, m, N = Inf, parameter = FALSE) {
 
   # Function of difference, aimed to iterate with different values of 'E' (Ref. 5.6)
   difference <- function(e) {
-    N <- ifelse(is.infinite(N), 9999999, N) # CHEQUEAR ESTO
+    N <- ifelse(is.infinite(N), 10^10, N)
 
     n_adjusted <- if (parameter) {
       Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution
@@ -59,7 +59,7 @@ ep_cls <- function(C, n_real, sd_est, m, N = Inf, parameter = FALSE) {
   # Find the value of 'E' that minimizes the difference
   result <- optimize(f = difference, interval = c(0.001, 1))
 
-  return(list(e = result$minimum)) # other options: n_optimized = ceiling(n_adjusted * alloc), diff = sum(n_adjusted * alloc - n_real)
+  return(list(e = result$minimum))
 }
 
 
