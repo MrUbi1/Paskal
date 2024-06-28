@@ -40,7 +40,7 @@ ep_cls <- function(C, n_real, sd_est, m, N = Inf, parameter = FALSE) {
   }
 
 
-  # Function of difference, aimed to iterate with different values of 'E' (Ref. 5.6)
+  # Function of difference, aimed to iterate with different values of 'E' (Ref. 8.12)
   difference <- function(e) {
     N <- ifelse(is.infinite(N), 10^10, N)
 

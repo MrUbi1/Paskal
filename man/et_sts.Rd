@@ -2,27 +2,29 @@
 % Please edit documentation in R/et_sts.R
 \name{et_sts}
 \alias{et_sts}
-\title{Sampling error when estimating the total with a Stratified Sampling plan}
+\title{Sampling error when estimating the total using a stratified sampling design}
 \usage{
-et_sts(C, n_real, sd_est, alloc = NULL, parameter = FALSE, N)
+et_sts(C, n_real, sd_est, alloc = NULL, N, parameter = FALSE)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{n_real}{Given sample size (n_real > 0)}
+\item{n_real}{A vector of positive integers representing the real sample size of each stratum.}
 
-\item{parameter}{Type TRUE if you do know the populations SD, type FALSE (default) if it is an estimate.}
+\item{sd_est}{A vector with the estimated standard deviation in each stratum; sd_est(i) > 0, for every 'i' stratum.}
 
-\item{N}{A positive integer indicating the number of elements in each strata. # ###REVISAR}
+\item{alloc}{A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.}
 
-\item{p_est}{Sample proportion (0 <= p_est <= 1).}
+\item{N}{A vector of positive integers representing the number of elements in each stratum; N(i) > 0.}
+
+\item{parameter}{Type TRUE if you do know the populations SD in sd_exp, or type FALSE (default) if they are estimates.}
 }
 \value{
-The function returns the sample error consistent with the estimation of the total of a phenomena, given the sample size.
+This function returns the global sampling error when using a stratified sampling design without replacement to estimate the total, given the sample size.
 }
 \description{
-Sampling error when estimating the total with a Stratified Sampling plan
+Sampling error when estimating the total using a stratified sampling design
 }
 \examples{
-et_sts(C = 0.95, n_real = c(48, 14, 7), sd_est = c(5, 15, 10), alloc = c(1/2, 1/4, 1/4), parameter = TRUE, N = c(155, 62, 93))
+et_sts(C = 0.95, n_real = c(57, 29, 29), sd_est = c(5, 15, 10), alloc = c(1/2, 1/4, 1/4), N = c(150, 40, 110), parameter = FALSE)
 }

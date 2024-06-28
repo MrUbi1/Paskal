@@ -43,7 +43,7 @@ cx_cls <- function(C, x_est, n_real, sd_est, m, N = Inf, parameter = FALSE) {
   }
 
 
-  # Calculate the confidence interval
+  # Calculate the confidence interval (Ref. 8.2)
   N <- ifelse(is.infinite(N), 10^10, N)
 
   sd_x_est <- sqrt(((N - n_real) / (N * n_real * m^2)) * sd_est^2)

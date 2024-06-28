@@ -2,29 +2,29 @@
 % Please edit documentation in R/ex_srs.R
 \name{ex_srs}
 \alias{ex_srs}
-\title{Sampling error when estimating the mean with a Simple Random Sampling plan}
+\title{Sampling error when estimating the mean using a simple random sampling design}
 \usage{
-ex_srs(C, n_real, sd_exp, parameter = FALSE, N = Inf)
+ex_srs(C, n_real, sd_est, N = Inf, parameter = FALSE)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{n_real}{Given sample size (n_real > 0)}
+\item{n_real}{Real sample size; n_real > 0.}
 
-\item{sd_exp}{Expected standard deviation (sd_exp > 0)}
+\item{sd_est}{Estimated standard deviation; sd_est > 0.}
 
-\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
+\item{N}{A positive integer representing the number of elements in the population. Defaults to infinite.}
 
-\item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
+\item{parameter}{Type TRUE if you do know the population SD, or type FALSE (default) if it is an estimate.}
 }
 \value{
-The function returns the sample error consistent with the estimation of the mean, given the sample size.
+This function returns the sampling error when using a simple random sampling design without replacement to estimate the mean, given the sample size.
 }
 \description{
-Sampling error when estimating the mean with a Simple Random Sampling plan
+Sampling error when estimating the mean using a simple random sampling design
 }
 \examples{
-ex_srs(C = 0.95, n_real = 140, sd_exp = 600)
-ex_srs(C = 0.95, n_real = 140, sd_exp = 800)
-ex_srs(C = 0.95, n_real = 140, sd_exp = 800, parameter = TRUE, N = 2000)
+ex_srs(C = 0.95, n_real = 140, sd_est = 600)
+ex_srs(C = 0.95, n_real = 140, sd_est = 800)
+ex_srs(C = 0.95, n_real = 140, sd_est = 800, N = 2000, parameter = TRUE)
 }

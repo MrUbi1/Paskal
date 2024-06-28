@@ -39,7 +39,7 @@ np_cls <- function(C, e, sd_exp, m, N = Inf, parameter = FALSE) {
     }
   }
 
-  # Formula to obtain the adjusted sample size (Ref. 5.6)
+  # Formula to obtain the adjusted sample size (Ref. 8.12)
   N <- ifelse(is.infinite(N), 10^10, N)
 
   n <- if (parameter) {

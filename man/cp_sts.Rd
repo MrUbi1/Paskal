@@ -2,25 +2,25 @@
 % Please edit documentation in R/cp_sts.R
 \name{cp_sts}
 \alias{cp_sts}
-\title{Confidence interval of the proportion under a Stratified Sampling framework}
+\title{Confidence interval of the proportion under a stratified sampling design}
 \usage{
-cp_sts(C, n, p_est, N)
+cp_sts(C, n_real, p_est, N)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{n}{A vector with the real sample size for each stratum (n > 0)}
+\item{n_real}{A vector of positive integers representing the real sample size of each stratum; n_real(i) > 0, for every 'i' stratum.}
 
-\item{p_est}{A vector with the sample proportion of each stratum (0 <= p_est <= 1)}
+\item{p_est}{A vector with the estimated proportion in each stratum; 0 <= p_exp(i) <= 1.}
 
-\item{N}{A vector indicating the number of elements in each stratum (N > 0).}
+\item{N}{A vector of positive integers representing the number of elements in each stratum; N(i) > 0.}
 }
 \value{
-The function returns the interval of confidence of the population proportion.
+This function returns the global confidence interval when using a stratified sampling design without replacement to estimate the proportion, given the sample size.
 }
 \description{
-Confidence interval of the proportion under a Stratified Sampling framework
+Confidence interval of the proportion under a stratified sampling design
 }
 \examples{
-cp_sts(C = 0.95, p_est = c(0.3, 0.5, 0.7), n = c(100, 150, 200), N = c(200, 250, 300))
+cp_sts(C = 0.95, n_real = c(100, 150, 200), p_est = c(0.3, 0.5, 0.7), N = c(200, 250, 300))
 }

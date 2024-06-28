@@ -2,33 +2,27 @@
 % Please edit documentation in R/cp_srs.R
 \name{cp_srs}
 \alias{cp_srs}
-\title{Confidence interval of the proportion under a Simple Random Sampling framework}
+\title{Confidence interval of the proportion under a simple random sampling design}
 \usage{
-cp_srs(C, e, p_exp = 0.5, n_real, p_est, parameter = FALSE, N = Inf)
+cp_srs(C, n_real, p_est, N = Inf)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{e}{Sampling error (0 <= e <= 1)}
+\item{n_real}{Real sample size; n_real > 0.}
 
-\item{p_exp}{Expected proportion in the population. By default 0.5 (0 <= p_exp <= 1)}
+\item{p_est}{Sample proportion; 0 <= p_est <= 1.}
 
-\item{n_real}{Real sample size (n_real > 0)}
-
-\item{p_est}{Sample proportion (0 <= p_est <= 1)}
-
-\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
-
-\item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
+\item{N}{A positive integer indicating the number of elements in the population. Defaults to infinite.}
 }
 \value{
-The function returns the interval of confidence of the population proportion, and information regarding the sufficiency of the sample size.
+The function returns the confidence interval of the population proportion.
 }
 \description{
-Confidence interval of the proportion under a Simple Random Sampling framework
+Confidence interval of the proportion under a simple random sampling design
 }
 \examples{
-cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4)
-cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 400, p_est = 0.4)
-cp_srs(C = 0.95, e = 0.05, p_exp = 0.3, n_real = 250, p_est = 0.4, parameter = TRUE, N = 5000)
+cp_srs(C = 0.95, n_real = 250, p_est = 0.4)
+cp_srs(C = 0.95, n_real = 400, p_est = 0.4)
+cp_srs(C = 0.95, n_real = 250, p_est = 0.4, N = 5000)
 }

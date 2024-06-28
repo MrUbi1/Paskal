@@ -2,36 +2,31 @@
 % Please edit documentation in R/cx_srs.R
 \name{cx_srs}
 \alias{cx_srs}
-\title{Confidence interval of the mean under a Simple Random Sampling framework}
+\title{Confidence interval of the mean under a simple random sampling design}
 \usage{
-cx_srs(C, E, x_est, sd_exp, n_real, sd_est, parameter = FALSE, N = Inf)
+cx_srs(C, sd_est, x_est, n_real, parameter = FALSE, N = Inf)
 }
 \arguments{
-\item{C}{Level of confidence. (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{E}{Sampling error. (E > 0)}
+\item{sd_est}{Estimated standard deviation; s_exp > 0.}
 
-\item{x_est}{Sample mean}
+\item{x_est}{Sample mean.}
 
-\item{sd_exp}{Expected standard deviation (s_exp > 0)}
-
-\item{n_real}{Real sample size (n_real > 0)}
-
-\item{sd_est}{Sample standar deviation (s_est > 0)}
+\item{n_real}{Real sample size; n_real > 0.}
 
 \item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
 
-\item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
+\item{N}{A positive integer indicating the number of elements in the population. Defaults to infinite.}
 }
 \value{
-The function returns the interval of confidence of the population mean, and information regarding the sufficiency of the sample size.
+The function returns the confidence interval of the population mean.
 }
 \description{
-Confidence interval of the mean under a Simple Random Sampling framework
+Confidence interval of the mean under a simple random sampling design
 }
 \examples{
-cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 200, n_real = 250, sd_exp = 200)
-cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400, n_real = 400, sd_exp = 200)
-cx_srs(C = 0.95, E = 50, x_est = 3500, sd_est = 400,
-        n_real = 250, sd_exp = 200, parameter = TRUE, N = 5000)
+cx_srs(C = 0.95, sd_est = 200, x_est = 3500, n_real = 250)
+cx_srs(C = 0.95, sd_est = 200, x_est = 3500, n_real = 400)
+cx_srs(C = 0.95, sd_est = 200, x_est = 3500, n_real = 250, N = 5000, parameter = TRUE)
 }

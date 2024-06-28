@@ -35,7 +35,7 @@ et_cls <- function(C, n_real, sd_est, N = Inf, parameter = FALSE) {
   }
 
 
-  # Function of difference, aimed to iterate with different values of 'E' (Ref. 5.6)
+  # Function of difference, aimed to iterate with different values of 'E' (Ref. 8.13 / 8.15)
   difference <- function(E) {
     N <- ifelse(is.infinite(N), 10^10, N)
 

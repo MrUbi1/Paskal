@@ -2,27 +2,27 @@
 % Please edit documentation in R/ep_sts.R
 \name{ep_sts}
 \alias{ep_sts}
-\title{Sampling error when estimating the proportion with a Stratified Sampling plan}
+\title{Sampling error when estimating the proportion using a stratified sampling design}
 \usage{
-ep_sts(C, n_real, p_est, alloc = NULL, parameter = FALSE, N)
+ep_sts(C, n_real, p_est, alloc = NULL, N)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{n_real}{Given sample size (n_real > 0)}
+\item{n_real}{A vector of positive integers representing the real sample size of each stratum; n_real(i) > 0.}
 
-\item{p_est}{Sample proportion (0 <= p_est <= 1).}
+\item{p_est}{A vector with the estimated proportion in each stratum; 0 <= p_est(i) <= 1, for every 'i' stratum.}
 
-\item{parameter}{Type TRUE if you do know the populations SD, type FALSE (default) if it is an estimate. # ###REVISAR}
+\item{alloc}{A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.}
 
-\item{N}{A positive integer indicating the number of elements in each strata. # ###REVISAR}
+\item{N}{A vector of positive integers representing the number of elements in each stratum; N(i) > 0.}
 }
 \value{
-The function returns the sample error consistent with the estimation of the proportion of occurrence of a phenomena, given the sample size.
+This function returns the global sampling error when using a stratified sampling design without replacement to estimate the proportion, given the sample size.
 }
 \description{
-Sampling error when estimating the proportion with a Stratified Sampling plan
+Sampling error when estimating the proportion using a stratified sampling design
 }
 \examples{
-ep_sts(C = 0.95, n_real = c(66, 9, 9), p_est = c(0.2, 0.5, 0.7), alloc = c(0.8, 0.1, 01), parameter = TRUE, N = c(1400, 400, 200))
+ep_sts(C = 0.95, n_real = c(66, 9, 9), p_est = c(0.2, 0.5, 0.7), alloc = c(0.8, 0.1, 0.1), N = c(1400, 400, 200))
 }

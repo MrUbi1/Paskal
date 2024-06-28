@@ -2,35 +2,30 @@
 % Please edit documentation in R/ct_srs.R
 \name{ct_srs}
 \alias{ct_srs}
-\title{Confidence interval of the total under a Simple Random Sampling framework}
+\title{Confidence interval of the total under a simple random sampling design}
 \usage{
-ct_srs(C, E, t_est, sd_exp, n_real, sd_est, parameter = FALSE, N)
+ct_srs(C, sd_est, t_est, n_real, parameter = FALSE, N = Inf)
 }
 \arguments{
-\item{C}{Level of confidence. (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{E}{Sampling error. (E > 0)}
+\item{sd_est}{Expected standard deviation; s_exp > 0.}
 
-\item{t_est}{Total estimated from the sample}
+\item{t_est}{Sample total.}
 
-\item{sd_exp}{Expected standard deviation (sd_exp > 0)}
-
-\item{n_real}{Real sample size (n_real > 0)}
-
-\item{sd_est}{Sample standar deviation (sd_est > 0)}
+\item{n_real}{Real sample size; n_real > 0.}
 
 \item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
 
-\item{N}{A positive integer indicating the number of elements in the population.}
+\item{N}{A positive integer indicating the number of elements in the population. Defaults to infinite.}
 }
 \value{
-The function returns the interval of confidence of the population total, and information regarding the sufficiency of the sample size.
+The function returns the confidence interval of the population total.
 }
 \description{
-Confidence interval of the total under a Simple Random Sampling framework
+Confidence interval of the total under a simple random sampling design
 }
 \examples{
-ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 87, sd_est = 4.1, N = 1200)
-ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1,
-       n_real = 87, sd_est = 6, parameter = TRUE, N = 1200)
+ct_srs(C = 0.95, t_est = 3500, sd_est = 4.1, n_real = 87, N = 1200)
+ct_srs(C = 0.95, t_est = 3500, sd_est = 4.1, n_real = 87, N = 1200, parameter = TRUE)
 }

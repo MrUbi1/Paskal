@@ -11,7 +11,7 @@ np_sts(C, e, p_exp, alloc = NULL, N)
 
 \item{e}{Sampling error; 0 <= e <= 1.}
 
-\item{p_exp}{A vector with the expected proportion in each stratum; 0 <= p_exp(i) <= 1, for every 'i'.}
+\item{p_exp}{A vector with the expected proportion in each stratum; 0 <= p_exp(i) <= 1, for every 'i' stratum.}
 
 \item{alloc}{A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.}
 

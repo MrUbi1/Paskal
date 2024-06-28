@@ -2,25 +2,29 @@
 % Please edit documentation in R/ct_sts.R
 \name{ct_sts}
 \alias{ct_sts}
-\title{Confidence interval of the total under a Stratified Sampling framework}
+\title{Confidence interval of the total under a stratified sampling design}
 \usage{
-ct_sts(C, n, x_est, sd_est, parameter = FALSE, N)
+ct_sts(C, n_real, x_est, sd_est, N, parameter = FALSE)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{n}{A vector with the real sample size for each stratum (n > 0)}
+\item{n_real}{A vector of positive integers representing the real sample size of each stratum; n_real(i) > 0, for every 'i' stratum.}
 
-\item{N}{A vector with the number of elements in each stratum (N > 0).}
+\item{x_est}{A vector with the sample mean of each stratum.}
 
-\item{t_est}{A vector with the sample total of each stratum (0 <= p_est <= 1)}
+\item{sd_est}{A vector with the expected standard deviation in each stratum; sd_exp(i) > 0, for every 'i' stratum.}
+
+\item{N}{A vector of positive integers representing the number of elements in each stratum; N(i) > 0.}
+
+\item{parameter}{Type TRUE if you do know the populations SD in sd_exp, or type FALSE (default) if they are estimates.}
 }
 \value{
-The function returns the interval of confidence of the population total
+This function returns the global confidence interval when using a stratified sampling design without replacement to estimate the total, given the sample size.
 }
 \description{
-Confidence interval of the total under a Stratified Sampling framework
+Confidence interval of the total under a stratified sampling design
 }
 \examples{
-ct_sts(C = 0.95, x_est = c(0.3, 0.5, 0.7), n = c(100, 150, 200), N = c(200, 250, 300))
+ct_sts(C = 0.95, n = c(100, 150, 200), x_est = c(0.3, 0.5, 0.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300))
 }

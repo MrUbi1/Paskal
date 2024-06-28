@@ -49,7 +49,7 @@ ct_cls <- function(C, x_est, n_real, sd_est, m, N = Inf, M = NULL, parameter = F
     }
   }
 
-  # Calculate the confidence interval
+  # Calculate the confidence interval (Ref. 8.4 / 8.7)
   N <- ifelse(is.infinite(N), 10^10, N)
 
   sd_t_est <- ifelse(missing(M),

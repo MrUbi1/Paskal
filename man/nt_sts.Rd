@@ -11,7 +11,7 @@ nt_sts(C, E, sd_exp, alloc = NULL, N, parameter = FALSE)
 
 \item{E}{Sampling error; E > 0.}
 
-\item{sd_exp}{A vector with the expected standard deviation in each stratum; sd_exp > 0.}
+\item{sd_exp}{A vector with the expected standard deviation in each stratum; sd_exp(i) > 0, for every 'i' stratum.}
 
 \item{alloc}{A vector with the relative allocation of sample size for each stratum; 0 < alloc(i) < 1, where sum(alloc(i)) = 1. If not defined (default), its values would be proportional to the size of each stratum.}
 

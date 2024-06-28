@@ -2,30 +2,28 @@
 % Please edit documentation in R/ep_srs.R
 \name{ep_srs}
 \alias{ep_srs}
-\title{Sampling error when estimating the proportion with a Simple Random Sampling plan}
+\title{Sampling error when estimating the proportion using a simple random sampling design}
 \usage{
-ep_srs(C, n_real, p_est = 0.5, parameter = FALSE, N = Inf)
+ep_srs(C, n_real, p_est = 0.5, N = Inf)
 }
 \arguments{
-\item{C}{Level of confidence (0 <= C <= 1)}
+\item{C}{Level of confidence; 0 <= C <= 1.}
 
-\item{n_real}{Given sample size (n_real > 0)}
+\item{n_real}{Real sample size; n_real > 0.}
 
-\item{p_est}{Sample proportion (0 <= p_est <= 1).}
+\item{p_est}{Sample proportion; 0 <= p_est <= 1.}
 
-\item{parameter}{Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.}
-
-\item{N}{A positive integer indicating the number of elements in the population. By default, infinite.}
+\item{N}{A positive integer representing the number of elements in the population. Defaults to infinite.}
 }
 \value{
-The function returns the sample error consistent with the estimation of the proportion of occurrence of a phenomena, given the sample size.
+This function returns the sampling error when using a simple random sampling design without replacement to estimate the proportion, given the sample size.
 }
 \description{
-Sampling error when estimating the proportion with a Simple Random Sampling plan
+Sampling error when estimating the proportion using a simple random sampling design
 }
 \examples{
 ep_srs(C = 0.90, n_real = 415)
-ep_srs(C = 0.90, n_real = 415, p_est = 0.5)
-ep_srs(C = 0.90, n_real = 415, p_est = 0.5, parameter = TRUE, N = 20000)
-ep_srs(C = 0.90, n_real = 415, N = 20000)
+ep_srs(C = 0.90, n_real = 415, p_est = 0.4)
+ep_srs(C = 0.90, n_real = 415, p_est = 0.4, N = 10000)
+ep_srs(C = 0.90, n_real = 415, N = 10000)
 }
