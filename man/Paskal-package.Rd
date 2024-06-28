@@ -6,6 +6,6 @@
 \alias{Paskal-package}
 \title{Paskal: Performance audit sample kit, along other useful things}
 \description{
-The Paskal package was designed to assist performance auditors with some useful calculations related to statistical sampling, including functions to calculate the sample size, the sampling error, or the confidence interval; when estimating the proportion, the mean, or the total thorigh differente sampling plans.
+The Paskal package assists performance auditors with useful statistical sampling calculations. It includes functions to calculate sample size, sampling error, and confidence intervals when estimating proportions, means, or totals through various sampling plans.
 }
 \keyword{internal}

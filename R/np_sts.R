@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples np_sts(C = 0.95, e = 0.1, p_exp = c(0.2, 0.3), N = c(220, 350))
-#' @examples np_sts(C = 0.95, e = 0.1, p_exp = c(0.1, 0.5, 0.5), N = c(150, 40, 110))
+#' @examples np_sts(C = 0.95, e = 0.1, p_exp = c(0.1, 0.5, 0.5), alloc = c(0.3, 0.3, 0.4), N = c(150, 40, 110))
 
 
 # Sample size function
