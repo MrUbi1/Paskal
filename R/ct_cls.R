@@ -13,7 +13,7 @@
 #' @return This function returns the confidence interval of the population total when using a cluster sampling design without replacement, given the sample size.
 #' @export
 #'
-#' @examples ct_cls(C = 0.95, x_est = 9990, n_real = 30, N = 500, m = 8, M = 2500, sd_est = 15000, parameter = TRUE)
+#' @examples ct_cls(C = 0.95, x_est = 9990, n_real = 30, N = 500, m = 8, M = 2500, sd_est = 15000, TRUE)
 #' @examples ct_cls(C = 0.95, x_est = 9990, n_real = 19, N = 500, m = 8, sd_est = 15000, parameter = TRUE)
 
 

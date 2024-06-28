@@ -23,9 +23,9 @@ library(Paskal)
 
 The Paskal package was designed to assist performance auditors, among others, with some useful calculations related to statistical sampling. This set of use cases allows to quickly and easily understand how to use the library.
 
-The main functions enable the calculation of the sample size 'n', the sampling error 'e', or the confidence interval 'c'; to estimate the proportion 'p', the mean 'x', or the total 't'; through simple random sampling plans 'srs', systematic 'sys', or stratified 'sts'.
+The main functions enable the calculation of the sample size 'n', the sampling error 'e', or the confidence interval 'c'; to estimate the proportion 'p', the mean 'x', or the total 't'; through simple random sampling plans 'srs', stratified 'sts' and cluster sumpling 'cls'.
 
-The names of the functions follow this logic, with one option per category. To calculate the sampling error for the estimation of the mean using systematic sampling, for example, the function would be 'e' (sampling error), 'x' (mean) and 'sys' -separated by a underscore- (for systematic sampling), resulting in 'ex_sys'.
+The names of the functions follow this logic, with one option per category. To calculate the sampling error for the estimation of the mean using cluster sampling, for example, the function would be 'e' (sampling error), 'x' (mean) and -separated by a underscore- 'cls' (for cluster sampling), resulting in 'ex_cls'.
 
 In this introductory section, we will present three use cases for the most basic functions in the package: np_srs, ep_srs and cp_srs.
 
@@ -37,10 +37,10 @@ Usage:<br>
 np_srs(C, e, p_exp = 0.5, N = Inf)
 
 Arguments:<br>
-C: Level of confidence. (0 <= C <= 1)<br>
-e: Sampling error. (0 <= e <= 1)<br>
-p_exp: Expected proportion in the population. By default, the value is 0.5, which is also applicable if you lack information (0 <= p_exp <= 1).<br>
-N: A positive integer indicating the number of elements in the population. By default, the value is infinite.<br>
+C: Level of confidence; 0 <= C <= 1.<br>
+e: Sampling error; 0 <= e <= 1.<br>
+p_exp: Expected proportion in the population; 0 <= p_exp <= 1. Enter 0.5 (default) if you lack information.<br>
+N: A positive integer representing the number of elements in the population. Defaults to infinite.<br>
 
 Note that the function requires two mandatory arguments: the confidence level 'C' and the sampling error 'e'; and two arguments that, because they have predetermined values, are optional: the expected proportion 'p_exp' and the population size 'N'.
 
@@ -69,11 +69,9 @@ The function indicates that we will have to analyze 95 settlements to estimate t
 
 # Use case 2: Sampling error calculation
 
-In this case, the sampling error will be calculated when estimating the proportion through simple random sampling, an issue that is resolved by the 'ep_srs' function.
-
 This is a common situation when the sample size is given. Instead of choosing the sampling error that we are willing to admit, which results in a certain sample size, the sample size is chosen, leaving the sampling error as the dependent variable. This happens when there is an urgent need, a limited window of opportunity, a fixed and predetermined analysis capacity, or when it is difficult or dysfunctional to calculate the sample size in advance. We will take advantage of reversing the previous use case so that the example is intuitive. 
 
-Consider a scenario where 95 out of 5,000 settlements are randomly selected and analyzed. What would be the sampling error in this case, assuming a confidence level of 95%? We might expect the result to be similar to the prior sampling error of 0.1 observed in case 1. Now we will use the R code to perform the calculation. <br>
+Consider a scenario where 95 out of 5,000 settlements are randomly selected and analyzed. What would be the sampling error in this case, assuming a confidence level of 95%? We might expect the result to be similar to the prior sampling error of 0.1 observed in case 1. Now we will use the R code to perform the calculation for the 'ep_srs' function. <br>
 
 ```{r}
 # Sampling error when estimating the proportion with a Simple Random Sampling plan
@@ -87,11 +85,11 @@ N <- 5000 # Population size
 e <- ep_srs(C = C, n = n, N = N) # Call the function
 
 # Output
-print(paste("Rounded samplig error:", round(e, 2))) # Print the rounded sampling error
+print(paste("Rounded samplig error:", round(e$e, 2))) # Print the rounded sampling error
 print(paste("Samplig error:", e)) # Print the rounded sampling error
 ```
 
-Note that the unrounded sampling error gives a decimal number that is very close, but is not equal, to our sampling error of 0.1. This is because the sample sizes must be whole numbers, with the exact, but inapplicable, sample size returned by the function being rounded up. In fact, if in the previous function we could enter the exact sample size prior to rounding, then we would obtain the exact previously defined sampling error.
+Note that the unrounded sampling error gives a decimal number that is very close, but is not equal, to our sampling error of 0.1. This happens because the sample sizes must be whole numbers, with the exact but inapplicable sample size returned by the function being rounded up. In fact, if in the previous function we could enter the exact sample size prior to rounding, then we would obtain the exact previously defined sampling error.
 
 # Use Case 3: Confidence interval calculation
 
@@ -107,18 +105,17 @@ For example, after analyzing 95 randomly chosen settlements, let’s suppose tha
 # Arguments
 C <- 0.95 # Level of confidence
 n_real <- 95 # Real sample size
-N <- 5000 # Population size
-e <- 0.1 # Sampling error
 p_est <- 0.3 # Sample estimator value
+N <- 5000 # Population size
 
 # Function
-ic <- cp_srs(C = C, n_real = n_real, e = e, p_est = p_est, N = N) # Call the function
+ic <- cp_srs(C = C, n_real = n_real, p_est = p_est, N = N) # Call the function
 
 # Output
 ic
 ```
 
-As can be seen, given that 'p_est' is different from 'p_exp' (which had been left at the default 0.5), a smaller sample size would have been sufficient. However, the fact of having worked relatively more tahn what was needed translates into a lower relative width (a higher precision) of the confidence interval. In fact, the range of the interval is 0.392 - 0.208 = 0.184, which divided by 2 is equal to 0.092, a lower value than the one we chose as sampling error.
+As can be seen, given that 'p_est' is different from 'p_exp' (which had been left at the default 0.5), a smaller sample size would have been sufficient. However, the fact of having worked relatively more than what was needed translates into a lower relative width (a higher precision) of the confidence interval. In fact, the range of the interval is 0.392 - 0.208 = 0.184, which divided by 2 is equal to 0.092, a lower value than the one we chose as sampling error.
 
 Now, let's consider what would have happened if the result had been as expected, that is, if p_est = p_exp = 0.5.
 
@@ -126,15 +123,13 @@ Now, let's consider what would have happened if the result had been as expected,
 # Confidence interval of the proportion under a Simple Random Sampling framework (with another 'p_est')
 
 # Arguments
-# Arguments
 C <- 0.95 # Level of confidence
 n_real <- 95 # Real sample size
-N <- 5000 # Population size
-e <- 0.1 # Sampling error
 p_est <- 0.5 # New sample estimator value, coincident with the expected value
+N <- 5000 # Population size
 
 # Function
-ic <- cp_srs(C = C, n_real = n_real, e = e, p_est = p_est, N = N) # Call the function
+ic <- cp_srs(C = C, n_real = n_real, p_est = p_est, N = N) # Call the function
 
 # Output
 ic

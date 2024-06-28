@@ -41,11 +41,11 @@ cx_sts <- function(C, n_real, x_est, sd_est, N, parameter = FALSE) {
 
   # Calculate the confidence interval (Ref. 5.2)
 
-  sd_x_est <- sqrt(sum(N^2 * (N - n) / N * sd_est^2 / n) / sum(N)^2)
+  sd_x_est <- sqrt(sum(N^2 * (N - n_real) / N * sd_est^2 / n_real) / sum(N)^2)
 
   LP <- ifelse(parameter == TRUE,
                qnorm(C + (1 - C) / 2, 0, 1), # qnorm: quantile of the normal distribution
-               qt(C + (1 - C) / 2, sum(n)) # qt: quantile of the t-student distribution
+               qt(C + (1 - C) / 2, sum(n_real)) # qt: quantile of the t-student distribution
                ) * sd_x_est
 
   x_est <- sum(N / sum(N) * x_est)

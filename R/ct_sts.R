@@ -10,7 +10,7 @@
 #' @return This function returns the global confidence interval when using a stratified sampling design without replacement to estimate the total, given the sample size.
 #' @export
 #'
-#' @examples ct_sts(C = 0.95, n = c(100, 150, 200), x_est = c(0.3, 0.5, 0.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300))
+#' @examples ct_sts(C = 0.95, n_real = c(100, 150, 200), x_est = c(0.3, 0.5, 0.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300))
 
 # Confidence interval function
 ct_sts <- function(C, n_real, x_est, sd_est, N, parameter = FALSE) {
@@ -44,11 +44,11 @@ ct_sts <- function(C, n_real, x_est, sd_est, N, parameter = FALSE) {
   x_est <- sum(N / sum(N) * x_est)
   t_est <- x_est * sum(N)   # Calculate the estimated total
 
-  sd_t_est <- sqrt(sum(N^2 * (N - n) / N * sd_est^2 / n))
+  sd_t_est <- sqrt(sum(N^2 * (N - n_real) / N * sd_est^2 / n_real))
 
   LP <- ifelse(parameter == TRUE,
                qnorm(C + (1 - C) / 2, 0, 1), # qnorm: quantile of the normal distribution
-               qt(C + (1 - C) / 2, sum(n)) # qt: quantile of the t-student distribution
+               qt(C + (1 - C) / 2, sum(n_real)) # qt: quantile of the t-student distribution
                ) * sd_t_est
 
   p_lower <- round(t_est - LP, 3)

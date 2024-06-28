@@ -26,5 +26,6 @@ This function returns the global confidence interval when using a stratified sam
 Confidence interval of the total under a stratified sampling design
 }
 \examples{
-ct_sts(C = 0.95, n = c(100, 150, 200), x_est = c(0.3, 0.5, 0.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300))
+ct_sts(C = 0.95, n_real = c(100, 150, 200), x_est = c(0.3, 0.5, 0.7),
+                 sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300))
 }
