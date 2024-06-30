@@ -6,6 +6,7 @@ test_that("Parameter ranges works ok", {
   expect_error(nx_sts(C = 0.95, E = 2, sd_exp = c(-5, 15, 10), alloc = c(0.5, 0.2, 0.3), N = c(150, 40, 110), parameter = FALSE), "All elements in 'sd_exp' must be positive integers")
   expect_error(nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15, 10), alloc = c(-0.5, 0.2, 0.3), N = c(150, 40, 110), parameter = FALSE), "All elements in 'alloc' must be greater than 0")
   expect_error(nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15, 10), alloc = c(0.5, 0.2, 0.4), N = c(150, 40, 110), parameter = FALSE), "The sum of elements in 'alloc' must be equal to 1")
+  expect_error(nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15), alloc = c(0.5, 0.2, 0.3), N = c(150, 40, 110), parameter = FALSE), "'sd_exp', 'alloc', and 'N' must have the same length")
   expect_error(nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15, 10), alloc = c(0.5, 0.2, 0.3), N = c(150.1, 40, 110), parameter = FALSE), "All elements in 'N' must be positive integers")
   expect_error(nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15, 10), alloc = c(0.5, 0.2, 0.3), N = c(0, 40, 110), parameter = FALSE), "All elements in 'N' must be positive integers")
 })
