@@ -765,3 +765,60 @@ ct_srs(C = 0.95, E = 1000, t_est = 3500, sd_exp = 4.1, n_real = 200, sd_est = 6,
 ```
 
 
+```{r}
+N = 415
+n_real = 25
+m_avg = 151 # cantidad de elementos muestreados
+sd_real = 25189 
+
+var_est = ((N - n_real) / (N * n_real * (m / n_real)^2 )) * sd_real^2 # para que sea insesgada, n_real >= 20
+  
+LP = 2 * sqrt(var_est)
+
+LP
+
+```
+
+```{r}
+N = 415
+n = 25
+sd_est = 21784
+
+2 * sqrt(N^2 * ((N - n_real) / (N * n_real)) * sd_est^2)
+
+qnorm(C + (1 - C) / 2, 0, 1)
+
+```
+
+
+```{r}
+#cuando conozco M
+N = 415
+n = 25
+sd_est = 25189
+M = 2500
+m = 6.04
+
+Vy <- ((N - n_real) / (N * n_real * m^2)) * sd_est^2
+
+2 * sqrt(M^2 * Vy)
+
+
+
+```
+
+```{r}
+#cuando no conozco M
+N = 415
+n = 25
+sd_est = 21784
+m = 6.04
+
+Vy <- ((N - n_real) / (N * n_real)) * sd_est^2
+
+2 * sqrt(N^2 * Vy)
+
+
+
+```
+

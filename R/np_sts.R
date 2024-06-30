@@ -34,8 +34,8 @@ np_sts <- function(C, e, p_exp, alloc = NULL, N) {
     stop("All elements in 'p_exp' must be in the range 0 <= p_exp <= 1")
   }
 
-  if (!all(alloc > 0)) {
-    stop("All elements in 'alloc' must be greater than 0")
+  if (!all(alloc >= 0 & alloc <= 1)) {
+    stop("All elements in 'alloc' must be in the range 0 <= alloc <= 1")
   }
 
   if (abs(sum(alloc) - 1) > .Machine$double.eps^0.5) {

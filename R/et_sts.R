@@ -26,8 +26,8 @@ et_sts <- function(C, n_real, sd_est, alloc = NULL, N, parameter = FALSE) {
     stop("Parameter 'C' must be in the range 0 <= C <= 1")
   }
 
-  if (any(n_real < 0)) {
-    stop("All elements in 'n_real' must be greater than 0")
+  if (any(n_real != round(n_real)) || any(n_real <= 0)) {
+    stop("All elements in 'n_real' must be positive integers")
   }
 
   if (any(sd_est < 0)) {
@@ -40,6 +40,10 @@ et_sts <- function(C, n_real, sd_est, alloc = NULL, N, parameter = FALSE) {
 
   if (abs(sum(alloc) - 1) > .Machine$double.eps^0.5) {
     stop("The sum of elements in 'alloc' must be equal to 1")
+  }
+
+  if (any(N != round(N)) || any(N <= 0)) {
+    stop("All elements in 'N' must be positive integers")
   }
 
   # Ensure 'n_real', 'sd_est', 'alloc', and 'N' are of the same length
@@ -66,7 +70,7 @@ et_sts <- function(C, n_real, sd_est, alloc = NULL, N, parameter = FALSE) {
   }
 
   # Find the value of 'E' that minimizes the difference
-  result <- optimize(f = difference, interval = c(0.001, 1000000))
+  result <- optimize(f = difference, interval = c(0.001, 10^6))
 
 # Desde aquí se puede eliminar
   # Return the result containing the optimal (minimum) 'E' value

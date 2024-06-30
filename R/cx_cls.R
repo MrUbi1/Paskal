@@ -29,7 +29,7 @@ cx_cls <- function(C, x_est, n_real, sd_est, m, N = Inf, parameter = FALSE) {
   }
 
   if (sd_est <= 0) {
-    stop("Parameter 'sd_exp' must be a positive number")
+    stop("Parameter 'sd_est' must be a positive number")
   }
 
   if (m <= 0) {

@@ -10,7 +10,7 @@
 #' @return The function returns the confidence interval of the population total.
 #' @export
 #'
-#' @examples ct_srs(C = 0.95, t_est = 3500, sd_est = 4.1, n_real = 87, N = 1200)
+#' @examples ct_srs(C = 0.95, t_est = 3500, sd_est = -4.1, n_real = 87, N = 1200)
 #' @examples ct_srs(C = 0.95, t_est = 3500, sd_est = 4.1, n_real = 87, N = 1200, parameter = TRUE)
 
 #Confidence interval function

@@ -57,7 +57,7 @@ ex_cls <- function(C, n_real, sd_est, m, N = Inf, parameter = FALSE) {
   }
 
   # Find the value of 'E' that minimizes the difference
-  result <- optimize(f = difference, interval = c(0.001, 1000000))
+  result <- optimize(f = difference, interval = c(0.001, 10^6))
 
   return(list(E = result$minimum))
 }

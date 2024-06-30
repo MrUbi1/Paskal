@@ -21,9 +21,14 @@ ep_srs <- function(C, n_real, p_est = 0.5, N = Inf) {
     stop("Parameter 'C' must be in the range 0 <= C <= 1")
   }
 
-  if (n_real <= 0 ) {
+  if (!is.numeric(n_real) || n_real <= 0 || n_real != floor(n_real)) {
     stop("Parameter 'n_real' must be a positive integer")
   }
+
+
+#  if (n_real != round(n_real) || n_real <= 0) {
+#    stop("Parameter 'n_real' must be a positive integer")
+#  }
 
   if (p_est < 0 || p_est > 1) {
     stop("Parameter 'p_est' must be in the range 0 <= p_est <= 1")

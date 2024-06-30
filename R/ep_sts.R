@@ -26,8 +26,8 @@ ep_sts <- function(C, n_real, p_est, alloc = NULL, N) {
     stop("Parameter 'C' must be in the range 0 <= C <= 1")
   }
 
-  if (any(n_real < 0)) {
-    stop("All elements in 'n_real' must be greater than 0")
+  if (any(n_real != round(n_real)) || any(n_real <= 0)) {
+    stop("All elements in 'n_real' must be positive integers")
   }
 
   if (any(p_est < 0 | p_est > 1)) {
@@ -40,6 +40,10 @@ ep_sts <- function(C, n_real, p_est, alloc = NULL, N) {
 
   if (abs(sum(alloc) - 1) > .Machine$double.eps^0.5) {
     stop("The sum of elements in 'alloc' must be equal to 1")
+  }
+
+  if (any(N != round(N)) || any(N <= 0)) {
+    stop("All elements in 'N' must be positive integers")
   }
 
   # Ensure 'n_real', 'p_est', 'alloc', and 'N' are of the same length

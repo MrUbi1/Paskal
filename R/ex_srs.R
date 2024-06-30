@@ -22,7 +22,7 @@ ex_srs <- function(C, n_real, sd_est, N = Inf, parameter = FALSE) {
     stop("Parameter 'C' must be in the range 0 <= C <= 1")
   }
 
-  if (n_real <= 0 ) {
+  if (n_real != round(n_real) || n_real <= 0) {
     stop("Parameter 'n_real' must be a positive integer")
   }
 
@@ -51,7 +51,7 @@ ex_srs <- function(C, n_real, sd_est, N = Inf, parameter = FALSE) {
   }
 
   # Find the value of 'E' that minimizes the difference
-  result <- optimize(f = difference, interval = c(0, 1000000))
+  result <- optimize(f = difference, interval = c(0, 10^6))
 
   # Return the result containing the optimal (minimum) 'E' value
   return(list(E = result$minimum))
