@@ -10,7 +10,7 @@
 #' @return This function returns the global sampling error when using a stratified sampling design without replacement to estimate the mean, given the sample size.
 #' @export
 #'
-#' @examples ex_sts(C = 0.95, n_real = c(48, 14, 7), sd_est = c(0.2, 0.5, 0.7), alloc =c(0.7, 0.2, 0.1), N = c(1400.1, 400, 200), parameter = TRUE)
+#' @examples ex_sts(C = 0.95, n_real = c(48, 14, 7), sd_est = c(0.2, 0.5, 0.7), alloc =c(0.7, 0.2, 0.1), N = c(1400, 400, 200), parameter = TRUE)
 
 
 # Sample error function

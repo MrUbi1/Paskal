@@ -11,7 +11,7 @@
 #'
 #' @examples et_srs(C = 0.95, n_real = 87, sd_est = 4.1, N = 1200)
 #' @examples et_srs(C = 0.95, n_real = 23, sd_est = 4.1, N = 1200)
-#' @examples et_srs(C = 0.95, n_real = 6, sd_est = 2.1, N = -1200, parameter = TRUE)
+#' @examples et_srs(C = 0.95, n_real = 6, sd_est = 2.1, N = 1200, parameter = TRUE)
 
 
 # Sample error function

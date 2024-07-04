@@ -44,11 +44,11 @@ N: A positive integer representing the number of elements in the population. Def
 
 Note that the function requires two mandatory arguments: the confidence level 'C' and the sampling error 'e'; and two arguments that, because they have predetermined values, are optional: the expected proportion 'p_exp' and the population size 'N'.
 
-Case Study: Consider the need to determine the proportion of salary settlements from the previous month affected by calculation errors. This would entail surveying all settlements, which would be an arduous and expensive undertaking. The reason for this is that it would involve manually recalculating the settlement of each of the company's employees, which we are going to assume amounts to 5,000. Due to the characteristics of the population, where it is possible to identify each of the settlements, and as we will assume that it is not necessary to have disaggregated information, the proportion will be estimated through simple random sampling.
+Case Study: Consider the need to determine the proportion of salary settlements from the previous month affected by calculation errors. This would entail surveying all documents, which would be an arduous and expensive undertaking. The reason for this is that it would involve manually recalculating the wages of each of the company's employees, which we are going to assume amounts to 5,000. Due to the characteristics of the population, where it is possible to identify each of the wage stubs, and as we will assume that it is not necessary to have disaggregated information, the proportion will be estimated through simple random sampling.
 
-We choose a confidence level of 95% (meaning that there is a 95% probability of the sample being representative) and a maximum discrepancy between the estimator and the parameter - or sampling error - of 0.1. Finally, if this is the first time the analysis is being carried out, we cannot know the expected value of the p-estimator (we may find that 10%, 20%, 50% or more of the settlements have calculation errors).
+We choose a confidence level of 95% (meaning that there is a 95% probability of the sample being representative) and a maximum discrepancy between the estimator and the parameter -or sampling error- of 0.1. Finally, if this is the first time the analysis is being carried out, we cannot know the expected value of 'p' (we may find that 10%, 20%, 50% or more of the documents have calculation errors).
 
-Given that the expected value is unknown, the most conservative decision is made, the one that makes the sample size relatively larger, which implies p_exp = 0.5 (precisely, the default value of the argument). With this information, we can now calculate the sample size. The R code could be as follows: 
+Given that the expected value is unknown, the most conservative decision is the one that makes the sample size relatively larger, which implies p_exp = 0.5 (precisely, the default value of the argument). With this information, we can now calculate the sample size. The R code could be as follows: 
 
 ```{r}
 # Sample size needed to estimate the proportion with a Simple Random Sampling plan
@@ -62,16 +62,16 @@ N <- 5000 # Population size
 n <- np_srs(C = C, e = e, N = N) # Call the function
 
 # Output
-print(paste("Sample size:",n,"settlements")) # Print the resulting sampling size
+print(paste("Sample size:",n,"wage stubs")) # Print the resulting sampling size
 ```
 
-The function indicates that we will have to analyze 95 settlements to estimate the proportion with 95% confidence and a sampling error of +/- 0.1.
+The function indicates that we will have to analyze 95 documents to estimate the proportion with 95% confidence and a sampling error of +/- 0.1.
 
 # Use case 2: Sampling error calculation
 
 This is a common situation when the sample size is given. Instead of choosing the sampling error that we are willing to admit, which results in a certain sample size, the sample size is chosen, leaving the sampling error as the dependent variable. This happens when there is an urgent need, a limited window of opportunity, a fixed and predetermined analysis capacity, or when it is difficult or dysfunctional to calculate the sample size in advance. We will take advantage of reversing the previous use case so that the example is intuitive. 
 
-Consider a scenario where 95 out of 5,000 settlements are randomly selected and analyzed. What would be the sampling error in this case, assuming a confidence level of 95%? We might expect the result to be similar to the prior sampling error of 0.1 observed in case 1. Now we will use the R code to perform the calculation for the 'ep_srs' function. <br>
+Consider a scenario where 95 out of 5,000 documents are randomly selected and analyzed. What would be the sampling error in this case, assuming a confidence level of 95%? We might expect the result to be similar to the prior sampling error of 0.1 observed in case 1. Now we will use the R code to perform the calculation for the 'ep_srs' function. <br>
 
 ```{r}
 # Sampling error when estimating the proportion with a Simple Random Sampling plan
@@ -85,11 +85,11 @@ N <- 5000 # Population size
 e <- ep_srs(C = C, n = n, N = N) # Call the function
 
 # Output
-print(paste("Rounded samplig error:", round(e$e, 2))) # Print the rounded sampling error
-print(paste("Samplig error:", e)) # Print the rounded sampling error
+print(paste("Sampling error (rounded to the second decimal place):", round(e$e, 2))) # Print the round up sampling error
+print(paste("Sampling error:", e)) # Print the sampling error without rounding
 ```
 
-Note that the unrounded sampling error gives a decimal number that is very close, but is not equal, to our sampling error of 0.1. This happens because the sample sizes must be whole numbers, with the exact but inapplicable sample size returned by the function being rounded up. In fact, if in the previous function we could enter the exact sample size prior to rounding, then we would obtain the exact previously defined sampling error.
+Note that the sampling error without rounding gives a decimal number that is very close to, but not equal to, our sampling error of 0.1. This happens because the sample sizes must be whole numbers, with the exact but inapplicable sample size returned by the function being rounded up. In fact, if in the previous function we could enter the exact sample size prior to rounding, then we would obtain the exact previously defined sampling error.
 
 # Use Case 3: Confidence interval calculation
 
@@ -97,7 +97,7 @@ In this use case, the confidence interval of the estimated proportion will be ca
 
 Whether we choose sampling error to get the sample size (case 1) or the other way round (case 2), is irrelevant. Ultimately, we will have an estimation of the proportion ‘p_est’. With this data and other relevant information, we can build a confidence interval to make inferences about the population.
 
-For example, after analyzing 95 randomly chosen settlements, let’s suppose that 29 of them were found to have incorrect calculations, resulting in an estimated proportion of approximately 0.3. It should be noted that this function includes arguments that were not present in the previous ones, such as ‘n_real’ (the real sample size) and ‘p_est’, the estimated proportion. It is important to be aware that this number may differ from the expected proportion ‘p_exp’. <br>
+For example, after analyzing 95 randomly chosen documents, let’s suppose that 29 of them were found to have incorrect calculations, resulting in an estimated proportion of approximately 0.3. It should be noted that this function includes arguments that were not present in the previous ones, such as ‘n_real’ (the real sample size) and ‘p_est’, the estimated proportion. It is important to be aware that this number may differ from the expected proportion ‘p_exp’. <br>
 
 ```{r}
 # Confidence interval of the proportion under a Simple Random Sampling framework
@@ -135,4 +135,4 @@ ic <- cp_srs(C = C, n_real = n_real, p_est = p_est, N = N) # Call the function
 ic
 ```
 
-In this case, the width of the confidence interval aligns with our sampling error of +/- 0.1, and the size of the actual sample is sufficient.
+In this case, the width of the confidence interval aligns with our sampling error of +/- 0.1.
