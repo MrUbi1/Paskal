@@ -1,4 +1,4 @@
-# Paskal (development version)
+# paskal (development version)
 
-* Readme, Licence, News and Vignette "Intro to Paskal", readme.
-* Nine functions ready for use.
+* Readme, Licence, News and Vignette "Intro to paskal", readme.
+* Twenty seven functions ready for use.

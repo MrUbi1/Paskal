@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Paskal
+# paskal
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Paskal is to assist performance auditors with some useful
+The goal of paskal is to assist performance auditors with some useful
 calculations related to statistical sampling, including functions to
 calculate the sample size, the sampling error, or the confidence
 interval; when estimating the proportion, the mean, or the total through
@@ -14,12 +14,12 @@ different sampling plans.
 
 ## Installation
 
-You can install the development version of Paskal from
+You can install the development version of paskal from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MrUbi1/Paskal")
+devtools::install_github("MrUbi1/paskal")
 ```
 
 ## Example
@@ -32,7 +32,7 @@ We can use simple random sampling. A basic code to solve this problem
 could be as follows:
 
 ``` r
-library(Paskal)
+library(paskal)
 
 # Arguments
 C <- 0.95 # Level of confidence
@@ -49,5 +49,5 @@ print(paste("Sample size:",n,"measurements")) # Print the resulting sampling siz
 ```
 
 If you’re still unsure if the package is right for you, take a look at
-the “Intro to Paskal” vignette. There you’ll find three use cases that
+the “Intro to paskal” vignette. There you’ll find three use cases that
 demonstrate the full scope of this library.

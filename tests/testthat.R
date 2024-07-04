@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(Paskal)
+library(paskal)
 
-test_check("Paskal")
+test_check("paskal")

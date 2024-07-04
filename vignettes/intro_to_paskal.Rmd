@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 
 
 ```{r setup}
-library(Paskal)
+library(paskal)
 ```
 
 # Overview
 
-The Paskal package was designed to assist performance auditors, among others, with some useful calculations related to statistical sampling. This set of use cases allows to quickly and easily understand how to use the library.
+The paskal package was designed to assist performance auditors, among others, with some useful calculations related to statistical sampling. This set of use cases allows to quickly and easily understand how to use the library.
 
 The main functions enable the calculation of the sample size 'n', the sampling error 'e', or the confidence interval 'c'; to estimate the proportion 'p', the mean 'x', or the total 't'; through simple random sampling plans 'srs', stratified 'sts' and cluster sumpling 'cls'.
 
