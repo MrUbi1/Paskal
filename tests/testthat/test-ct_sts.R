@@ -16,3 +16,8 @@ test_that("ct_sts works", {
   expect_equal(round(result$margin_of_error, 5), 22.74941)
 })
 
+test_that("ct_sts works for example 5.3", {
+  result <- ct_sts(C = 0.95, n_real = c(20, 8, 12), x_est = c(33.9, 25.12, 19), sd_est = c(5.95, 15.25, 9.36), N = c(155, 62, 93), parameter = TRUE)
+  expect_equal(round(result$global_t_est, 2), 8578.94)
+  expect_equal(round(result$margin_of_error, 4), 852.8979)
+})

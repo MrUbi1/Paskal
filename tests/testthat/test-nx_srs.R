@@ -15,5 +15,8 @@ test_that("nx_srs works", {
   expect_equal(result$n, 240)
 })
 
-
+test_that("nx_srs works for example 4.5", {
+  result <- nx_srs(C = 0.95, E = 3, sd_exp = 25, N = 1000, parameter = TRUE)
+  expect_equal(result$n, 211)
+})
 

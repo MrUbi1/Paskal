@@ -13,3 +13,9 @@ test_that("nx_cls works", {
   result <- nx_cls(C = 0.95, E = 650, sd_exp = 15000, m = 8, N = 500)
   expect_equal(result$n, 31)
 })
+
+test_that("nx_cls works for example 8.6", {
+  result <- nx_cls(C = 0.95, E = 500, sd_exp = 25189, m = 6.04, N = 415, parameter = TRUE)
+  expect_equal(result$n, 163)
+})
+

@@ -20,4 +20,8 @@ test_that("nx_sts works", {
   expect_equal(result$n_i, c(30, 12, 18))
 })
 
-
+test_that("nx_sts works for example 5.5", {
+  result <- nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15, 10), alloc = c(1/3, 1/3, 1/3), N = c(155, 62, 93), parameter = TRUE)
+  expect_equal(result$n, 57)
+  expect_equal(result$n_i, c(19, 19, 19))
+})

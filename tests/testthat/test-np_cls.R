@@ -15,3 +15,9 @@ test_that("np_cls works", {
   expect_equal(result$n, 20)
 })
 
+test_that("np_cls works for 8.10", {
+  result <- np_cls(C = 0.95, e = 0.04, sd_exp = 0.726, m = 6.04, N = 415, parameter = TRUE)
+  expect_equal(result$n, 33)
+})
+
+

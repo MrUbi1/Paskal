@@ -19,3 +19,10 @@ test_that("cp_cls works", {
   expect_equal(round(result$margin_of_error,5), 0.01819)
   expect_equal(result$inference, "The population mean is between 0.462 and 0.498 with 95% confidence. Note that n_real < 20 and the estimated variance may not be unbiased. Consider increasing the sample size.")
 })
+
+test_that("cp_cls works for example 8.9", {
+  result <- cp_cls(C = 0.95, p_est = 0.48, n_real = 25, N = 415, m = 6.04, sd_est = 0.726, parameter = TRUE)
+  expect_equal(round(result$p_est, 2), 0.48)
+  expect_equal(round(result$margin_of_error,5), 0.04568)
+})
+

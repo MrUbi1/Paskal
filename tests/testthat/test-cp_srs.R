@@ -19,5 +19,10 @@ test_that("cp_srs works", {
   expect_equal(round(result$margin_of_error,4), 0.0593)
 })
 
-
+test_that("cp_srs works for example 4.7", {
+  result <- cp_srs(C = 0.95, n_real = 100, p_est = 0.15, N = 300)
+  expect_equal(round(result$margin_of_error,4), 0.0575)
+  result <- cp_srs(C = 0.95, n_real = 100, p_est = 0.65, N = 300)
+  expect_equal(round(result$margin_of_error,4), 0.0768)
+})
 

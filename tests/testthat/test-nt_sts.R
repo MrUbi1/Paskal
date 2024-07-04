@@ -20,3 +20,9 @@ test_that("nt_sts works", {
   expect_equal(result$n_i, c(57, 29, 29))
 })
 
+test_that("nt_sts works for example 5.6", {
+  result <- nt_sts(C = 0.95, E = 400, sd_exp = c(5, 15, 10), alloc = c(1/3, 1/3, 1/3), N = c(155, 62, 93), parameter = TRUE)
+  expect_equal(result$n, 102)
+  expect_equal(result$n_i, c(34, 34, 34))
+})
+

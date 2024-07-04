@@ -17,3 +17,8 @@ test_that("cp_sts works", {
   expect_equal(round(result$margin_of_error, 5), 0.02815)
 })
 
+test_that("cp_sts works for example 5.12", {
+  result <- cp_sts(C = 0.95, n_real = c(20, 8, 12), p_est = c(0.8, 0.25, 0.5), N = c(155, 62, 93))
+  expect_equal(round(result$global_p_est, 1), 0.6)
+  expect_equal(round(result$margin_of_error, 5), 0.13218)
+})

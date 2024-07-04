@@ -18,4 +18,7 @@ test_that("cx_srs works", {
   expect_equal(round(result$margin_of_error,5), 24.16648)
 })
 
-
+test_that("cx_srs works for example 4.2", {
+  result <- cx_srs(C = 0.95, sd_est = 21.1, x_est = 94.22, n_real = 200, N = 1000, parameter = TRUE)
+  expect_equal(round(result$margin_of_error,3), 2.617)
+})

@@ -17,3 +17,8 @@ test_that("cx_cls works", {
   expect_equal(round(result$margin_of_error,3), 826.914)
   expect_equal(result$inference, "The population mean is between 9163.086 and 10816.914 with 95% confidence. Note that n_real < 20 and the estimated variance may not be unbiased. Consider increasing the sample size.")
 })
+
+test_that("cx_cls works for example 8.2", {
+  result <- cx_cls(C = 0.95, x_est = 8801, n_real = 25, N = 415, m = 6.04, sd_est = 25189, parameter = TRUE)
+  expect_equal(round(result$margin_of_error,3), 1584.748)
+})

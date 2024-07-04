@@ -19,7 +19,7 @@ You can install the development version of paskal from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MrUbi1/paskal")
+devtools::install_github("MrUbi1/paskal", build_vignettes = TRUE)
 ```
 
 ## Example

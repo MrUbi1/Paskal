@@ -14,4 +14,7 @@ test_that("ct_srs works", {
   expect_equal(round(result$margin_of_error,4), 997.0796)
 })
 
-
+test_that("ct_srs works for example 4.4", {
+  result <- ct_srs(C = 0.95, t_est = 7732.5, sd_est = 1.5, n_real = 50, N = 750, parameter = TRUE)
+  expect_equal(round(result$margin_of_error,3), 301.456)
+})

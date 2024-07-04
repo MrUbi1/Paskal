@@ -23,3 +23,9 @@ test_that("np_sts works", {
   expect_equal(result$n_i, c(17, 17, 22))
 })
 
+test_that("np_sts works for example 5.16", {
+  result <- np_sts(C = 0.95, e = 0.1, p_exp = c(0.4, 0.4, 0.4), N = c(155, 62, 93))
+  expect_equal(result$n, 73)
+  expect_equal(result$n_i, c(36, 15, 22))
+})
+

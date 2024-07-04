@@ -15,3 +15,9 @@ test_that("cx_sts works", {
   expect_equal(round(result$global_x_est, 1), 3.5)
   expect_equal(round(result$margin_of_error, 5), 0.03025)
 })
+
+test_that("cx_sts works for example 5.2", {
+  result <- cx_sts(C = 0.95, n_real = c(20, 8, 12), x_est = c(33.9, 25.12, 19), sd_est = c(5.95, 15.25, 9.36), N = c(155, 62, 93), parameter = TRUE)
+  expect_equal(round(result$global_x_est, 1), 27.7)
+  expect_equal(round(result$margin_of_error, 5), 2.75128)
+})
