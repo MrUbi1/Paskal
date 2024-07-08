@@ -10,6 +10,7 @@ test_that("Parameter ranges works ok", {
   expect_error(cx_cls(C = 0.95, x_est = 9990, n_real = 30, N = -500, m = 8, sd_est = 15000, parameter = TRUE), "Parameter 'N' must be a positive integer or Inf")
 })
 
+# Ref. to 8.2
 test_that("cx_cls works", {
   result <- cx_cls(C = 0.95, x_est = 9990, n_real = 30, N = 500, m = 8, sd_est = 15000, parameter = TRUE)
   expect_equal(round(result$margin_of_error,3), 650.508)

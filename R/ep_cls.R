@@ -10,6 +10,12 @@
 #' @return This function returns the sampling error when using a cluster sampling design without replacement to estimate the proportion, given the sample size.
 #' @export
 #'
+#' @details
+#' The function looks for the value of 'e' that, given the real sampling size, fits:
+#' \deqn{n = \frac{N \cdot \text{sd}^2}{\frac{N \cdot e^2 \cdot m^2}{Z^2} + \text{sd}^2}}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function,
+#' compatible with the chosen confidence level 'C'.
+#'
 #' @examples ep_cls(C = 0.95, n_real = 31, sd_est = 0.726, m = 6.04, N = 415, parameter = TRUE)
 
 
@@ -40,7 +46,7 @@ ep_cls <- function(C, n_real, sd_est, m, N = Inf, parameter = FALSE) {
   }
 
 
-  # Function of difference, aimed to iterate with different values of 'E' (Ref. 8.12)
+  # Function of difference, aimed to iterate with different values of 'e'
   difference <- function(e) {
     N <- ifelse(is.infinite(N), 10^10, N)
 

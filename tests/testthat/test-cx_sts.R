@@ -10,6 +10,7 @@ test_that("Parameter ranges works ok", {
   expect_error(cx_sts(C = 0.95, n_real = c(100, 150, 200), x_est = c(3.2, 3.5, 3.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300, 1)), "'x_est', 'n_real', 'sd_est' and 'N' must have the same length")
 })
 
+# Ref. to 5.2
 test_that("cx_sts works", {
   result <- cx_sts(C = 0.95, n_real = c(100, 150, 200), x_est = c(3.2, 3.5, 3.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300), parameter = TRUE)
   expect_equal(round(result$global_x_est, 1), 3.5)

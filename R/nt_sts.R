@@ -10,6 +10,12 @@
 #' @return This function returns the sample size required to estimate the mean of a variable when using a stratified sampling design without replacement, given the level of risk.
 #' @export
 #'
+#' @details
+#' The function to calculate the sample size is:
+#' \deqn{n = \frac{\sum_{i=1}^{s} \frac{N_i^2 \cdot \text{sd}_i^2}{\text{alloc}_i} }{ N^2 \cdot \frac{E^2}{N^2 \cdot Z^2} + \sum_{i=1}^{s} N_i \cdot \text{sd}_i^2 }}
+#' where 'sd' is parameter 'sd_exp', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples nt_sts(C = 0.95, E = 200, sd_exp = c(5, 15), alloc = c(1/2, 1/2), N = c(155, 62), parameter = TRUE)
 #' @examples nt_sts(C = 0.95, E = 400, sd_exp = c(5, 15, 10), alloc = c(1/2, 1/4, 1/4), N = c(150, 40, 110), parameter = FALSE)
 
@@ -52,7 +58,7 @@ nt_sts <- function(C, E, sd_exp, alloc = NULL, N, parameter = FALSE) {
     stop("'sd_exp', 'alloc', and 'N' must have the same length")
   }
 
-  # Formula to obtain the adjusted sample size (Ref.5.6)
+  # Formula to obtain the adjusted sample size
   n <- if (parameter) {
     Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution
     sum(N^2 * sd_exp^2 / alloc) /

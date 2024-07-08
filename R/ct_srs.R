@@ -7,6 +7,12 @@
 #' @param N A positive integer indicating the number of elements in the population. Defaults to infinite.
 #' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #'
+#' @details
+#' The function to calculate the limit of precision is:
+#' \deqn{LP = Z \cdot \sqrt{ \frac{\text{sd}^2}{n} \cdot \frac{(N - n)} {N} \cdot N^2}}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @return The function returns the confidence interval of the population total.
 #' @export
 #'

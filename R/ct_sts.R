@@ -10,6 +10,12 @@
 #' @return This function returns the global confidence interval when using a stratified sampling design without replacement to estimate the total, given the sample size.
 #' @export
 #'
+#' @details
+#' The function to calculate the limit of precision is:
+#' \deqn{LP = Z \cdot \sqrt{ \sum_{i=1}^{s} N_i^2  \cdot \frac{\text{sd}_i^2}{n_i} \cdot \frac{(N_i - n_i)}{N_i}  }}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples ct_sts(C = 0.95, n_real = c(100, 150, 200), x_est = c(0.3, 0.5, 0.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300))
 
 # Confidence interval function
@@ -39,7 +45,7 @@ ct_sts <- function(C, n_real, x_est, sd_est, N, parameter = FALSE) {
     stop("'x_est', 'n_real', 'sd_est' and 'N' must have the same length")
   }
 
-  # Calculate the confidence interval (Ref. 5.4)
+  # Calculate the confidence interval
 
   x_est <- sum(N / sum(N) * x_est)
   t_est <- x_est * sum(N)   # Calculate the estimated total

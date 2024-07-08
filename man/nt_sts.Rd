@@ -25,6 +25,12 @@ This function returns the sample size required to estimate the mean of a variabl
 \description{
 Sample size required to estimate the total using a stratified sampling design
 }
+\details{
+The function to calculate the sample size is:
+\deqn{n = \frac{\sum_{i=1}^{s} \frac{N_i^2 \cdot \text{sd}_i^2}{\text{alloc}_i} }{ N^2 \cdot \frac{E^2}{N^2 \cdot Z^2} + \sum_{i=1}^{s} N_i \cdot \text{sd}_i^2 }}
+where 'sd' is parameter 'sd_exp', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 nt_sts(C = 0.95, E = 200, sd_exp = c(5, 15), alloc = c(1/2, 1/2), N = c(155, 62), parameter = TRUE)
 nt_sts(C = 0.95, E = 400, sd_exp = c(5, 15, 10), alloc = c(1/2, 1/4, 1/4), N = c(150, 40, 110), parameter = FALSE)

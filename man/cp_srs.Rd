@@ -21,6 +21,12 @@ The function returns the confidence interval of the population proportion.
 \description{
 Confidence interval of the proportion under a simple random sampling design
 }
+\details{
+The function to calculate the limit of precision is:
+\deqn{LP = Z \cdot \sqrt{\frac{p \cdot (1 - p)}{(n - 1)} \cdot \frac{(N - n)} {N}}}
+where 'p' is parameter 'p_est', and 'Z' is the quantile of the two-tailed normal distribution function,
+compatible with the chosen confidence level 'C'.
+}
 \examples{
 cp_srs(C = 0.95, n_real = 250, p_est = 0.4)
 cp_srs(C = 0.95, n_real = 400, p_est = 0.4)

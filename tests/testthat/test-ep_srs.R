@@ -20,3 +20,8 @@ test_that("ep_srs works", {
   result <- ep_srs(C = 0.90, n_real = 415, N = 10000)
   expect_equal(round(result$e, 4), 0.0395)
 })
+
+test_that("ep_srs works for reverse of example 4.8", {
+  result <- ep_srs(C = 0.95, n_real = 323, p_est = 0.5, N = 2000)
+  expect_equal(round(result$e, 2), 0.05)
+})

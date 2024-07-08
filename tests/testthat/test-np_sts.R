@@ -14,6 +14,7 @@ test_that("Parameter ranges works ok", {
   expect_error(np_sts(C = 0.95, e = 0.1, p_exp = c(0.2, 0.3), alloc = c(0.5, 0.5), N = c(-220, 350)), "All elements in 'N' must be positive integers")
 })
 
+# Ref. to 8.13 & 8.15
 test_that("np_sts works", {
   result <- np_sts(C = 0.95, e = 0.1, p_exp = c(0.2, 0.3), N = c(220, 350))
   expect_equal(result$n, 66)

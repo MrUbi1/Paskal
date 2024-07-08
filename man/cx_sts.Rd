@@ -25,6 +25,12 @@ This function returns the global confidence interval when using a stratified sam
 \description{
 Confidence interval of the mean under a stratified sampling design
 }
+\details{
+The function to calculate the limit of precision is:
+\deqn{LP = Z \cdot \sqrt{ \frac{1}{N^2} \cdot \sum_{i=1}^{s} N_i^2  \cdot \frac{\text{sd}_i^2}{n_i} \cdot \frac{(N_i - n_i)}{N_i} }}
+where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 cx_sts(C = 0.95, n_real = c(100, 150, 200), x_est = c(3.2, 3.5, 3.7), sd_est = c(0.5, 0.6, 0.4), N = c(200, 250, 300), parameter = TRUE)
 }

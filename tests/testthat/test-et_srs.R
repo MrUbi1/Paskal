@@ -18,3 +18,9 @@ test_that("et_srs works", {
   expect_equal(round(result$E, 3), 2012.174)
 })
 
+test_that("et_srs works for reverse of example 4.6", {
+  result <- et_srs(C = 0.95, n_real = 122, sd_est = 6, N = 1000, parameter = TRUE)
+  expect_equal(round(result$E, 0), 998)
+})
+
+

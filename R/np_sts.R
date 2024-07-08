@@ -9,6 +9,12 @@
 #' @return This function returns the sample size required to estimate the proportion of occurrences of an event when using a stratified sampling design without replacement, given the level of risk.
 #' @export
 #'
+#' @details
+#' The function to calculate the sample size is:
+#' \deqn{n = \frac{\sum_{i=1}^{s} \frac{N_i^2 \cdot \text{p}_i \cdot (1 - \text{p}_i)}{\text{alloc}_i}}{N^2 \cdot \frac{e^2}{Z^2} + \sum_{i=1}^{s} N_i \cdot \text{p}_i \cdot (1 - \text{p}_i) }}
+#' where p is parameter 'p_exp', and 'Z' is the quantile of the two-tailed normal distribution function,
+#' compatible with the chosen confidence level 'C'.
+#'
 #' @examples np_sts(C = 0.95, e = 0.1, p_exp = c(0.2, 0.3), N = c(220, 350))
 #' @examples np_sts(C = 0.95, e = 0.1, p_exp = c(0.1, 0.5, 0.5), alloc = c(0.3, 0.3, 0.4), N = c(150, 40, 110))
 
@@ -50,7 +56,7 @@ np_sts <- function(C, e, p_exp, alloc = NULL, N) {
     stop("'p_exp', 'alloc', and 'N' must have the same length")
   }
 
-  # Formula to obtain the adjusted sample size (Ref. 5.15)
+  # Formula to obtain the adjusted sample size
   Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution
   n = sum(N^2 * p_exp * (1 - p_exp) / alloc) / (sum(N)^2 * e^2 / Z^2 + sum(N * p_exp * (1 - p_exp)))
 
@@ -60,13 +66,5 @@ np_sts <- function(C, e, p_exp, alloc = NULL, N) {
 
 }
 
-#Dudas
-# Tiene sentido que el muestreo estratificado sea con N infinito? Qué pasa si no tenemos N, por ejemplo, al extraer muestras de estratos geológicos?
-# Ojo que si hay más de un estrato y las alocaciones son distintas al proporcional, con e cercano 0 se da que n > N, por ejemplo:
-C <- 0.95
-e <- 0.1
-p_exp <- c(0.7, 0.95)
-alloc = c(0.1, 0.9)
-N <- c(450, 50)
-np_sts(C, e, p_exp, alloc, N)
+
 

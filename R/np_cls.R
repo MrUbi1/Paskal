@@ -10,6 +10,12 @@
 #' @return This function returns the sample size required to estimate the proportion of a variable when using a cluster sampling design without replacement, given the level of risk.
 #' @export
 #'
+#' @details
+#' The function to calculate the sample size is:
+#' \deqn{n = \frac{N \cdot \text{sd}^2}{\frac{N \cdot e^2 \cdot m^2}{Z^2} + \text{sd}^2}}
+#' where 'sd' is parameter 'sd_exp', and 'Z' is the quantile of the two-tailed normal distribution function,
+#' compatible with the chosen confidence level 'C'.
+#'
 #' @examples np_cls(C = 0.95, e = 0.04, sd_exp = 0.726, m = 8, N = 500)
 
 
@@ -39,7 +45,7 @@ np_cls <- function(C, e, sd_exp, m, N = Inf, parameter = FALSE) {
     }
   }
 
-  # Formula to obtain the adjusted sample size (Ref. 8.12)
+  # Formula to obtain the adjusted sample size
   N <- ifelse(is.infinite(N), 10^10, N)
 
   n <- if (parameter) {
@@ -55,5 +61,4 @@ np_cls <- function(C, e, sd_exp, m, N = Inf, parameter = FALSE) {
 
 }
 
-#Dudas
-# Con la t-student no me queda claro si df = 'N', o 'n', o 'n-1'. Si fuera n, como hago?
+

@@ -27,6 +27,12 @@ This function returns the confidence interval of the population proportion when 
 \description{
 Confidence interval of the proportion under a cluster sampling design
 }
+\details{
+The function to calculate the limit of precision is:
+\deqn{LP = Z \cdot \sqrt{ \frac{p.(1 - p)}{(n - 1)} \cdot \frac{(N - n)}{N \cdot m^2} }}
+where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 cp_cls(C = 0.95, p_est = 0.48, n_real = 25, N = 415, m = 8, sd_est = 0.73, parameter = TRUE)
 cp_cls(C = 0.95, p_est = 0.48, n_real = 19, N = 500, m = 8, sd_est = 0.33, parameter = TRUE)

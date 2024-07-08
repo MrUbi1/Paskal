@@ -21,6 +21,12 @@ This function returns the sampling error when using a simple random sampling des
 \description{
 Sampling error when estimating the proportion using a simple random sampling design
 }
+\details{
+The function looks for the value of 'e' that, given the real sampling size, fits:
+\deqn{n = \frac{N \cdot \text{p} \cdot (1 - \text{p})}{(N - 1) \cdot \frac{e^2}{Z^2} + \text{p} \cdot (1 - \text{p}) }}
+where 'p' is parameter 'p_est', and 'Z' is the quantile of the two-tailed normal distribution function,
+compatible with the chosen confidence level 'C'.
+}
 \examples{
 ep_srs(C = 0.90, n_real = 415)
 ep_srs(C = 0.90, n_real = 415, p_est = 0.4)

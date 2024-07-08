@@ -23,9 +23,17 @@ This function returns the sample size required to estimate the mean of a variabl
 \description{
 Sample size required to estimate the mean using a simple random sampling design
 }
+\details{
+The function to calculate the sample size is:
+\deqn{n = \frac{N \cdot \text{sd}^2}{(N - 1) \cdot \frac{E^2}{Z^2} + \text{sd}^2 }}
+where 'sd' is parameter 'sd_exp', and Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 nx_srs(C = 0.95, E = 50, sd_exp = 400)
 nx_srs(C = 0.95, E = 50, sd_exp = 400, parameter = TRUE, N = 10000)
 nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 10000, parameter = FALSE)
 nx_srs(C = 0.95, E = 100, sd_exp = 400, N = 10000)
+
+
 }

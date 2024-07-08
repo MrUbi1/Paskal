@@ -11,6 +11,7 @@ test_that("Parameter ranges works ok", {
   expect_error(cp_sts(C = 0.95, n_real = c(100, 150, 200), p_est = c(0.3, 0.5, 0.7), N = c(200, 250, 300, 1)), "'p_est', 'n_real', and 'N' must have the same length")
 })
 
+# Ref. to 5.14
 test_that("cp_sts works", {
   result <- cp_sts(C = 0.95, n_real = c(100, 150, 200), p_est = c(0.3, 0.5, 0.7), N = c(200, 250, 300))
   expect_equal(round(result$global_p_est, 4), 0.5267)

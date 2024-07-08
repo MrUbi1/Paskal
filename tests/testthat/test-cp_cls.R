@@ -10,6 +10,7 @@ test_that("Parameter ranges works ok", {
   expect_error(cp_cls(C = 0.95, p_est = 0.48, n_real = 25, N = -415, m = 8, sd_est = 0.73, parameter = TRUE), "Parameter 'N' must be a positive integer or Inf")
 })
 
+# Ref. to 8.17
 test_that("cp_cls works", {
   result <- cp_cls(C = 0.95, p_est = 0.48, n_real = 25, N = 415, m = 8, sd_est = 0.73, parameter = TRUE)
   expect_equal(round(result$p_est, 2), 0.48)

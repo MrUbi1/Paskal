@@ -17,7 +17,7 @@ test_that("nt_srs works", {
   expect_equal(result$n, 208)
 })
 
-test_that("nt_srs works for 4.6", {
+test_that("nt_srs works for example 4.6", {
   result <- nt_srs(C = 0.95, E = 1000, sd_exp = 6, N = 1000, parameter = TRUE)
   expect_equal(result$n, 122)
 })

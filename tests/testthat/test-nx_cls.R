@@ -9,6 +9,7 @@ test_that("Parameter ranges works ok", {
   expect_error(nx_cls(C = 0.95, E = 650, sd_exp = 15000, m = 8, N = -500), "Parameter 'N' must be a positive integer or Inf")
 })
 
+# Ref. to 8.12
 test_that("nx_cls works", {
   result <- nx_cls(C = 0.95, E = 650, sd_exp = 15000, m = 8, N = 500)
   expect_equal(result$n, 31)

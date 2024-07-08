@@ -25,6 +25,12 @@ The function returns the confidence interval of the population total.
 \description{
 Confidence interval of the total under a simple random sampling design
 }
+\details{
+The function to calculate the limit of precision is:
+\deqn{LP = Z \cdot \sqrt{ \frac{\text{sd}^2}{n} \cdot \frac{(N - n)} {N} \cdot N^2}}
+where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 ct_srs(C = 0.95, t_est = 3500, sd_est = 4.1, n_real = 87, N = 1200)
 ct_srs(C = 0.95, t_est = 3500, sd_est = 4.1, n_real = 87, N = 1200, parameter = TRUE)

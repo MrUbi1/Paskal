@@ -9,6 +9,12 @@
 #' @return This function returns the sampling error when using a cluster sampling design without replacement to estimate the total, given the sample size.
 #' @export
 #'
+#' @details
+#' The function looks for the value of 'E' that, given the real sampling size, fits:
+#' \deqn{n = \frac{N \cdot \text{sd}^2}{\frac{E^2}{N \cdot Z^2} + \text{sd}^2}}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples et_cls(C = 0.95, n_real = 213, sd_est = 25189, N = 415, parameter = TRUE)
 
 
@@ -35,7 +41,7 @@ et_cls <- function(C, n_real, sd_est, N = Inf, parameter = FALSE) {
   }
 
 
-  # Function of difference, aimed to iterate with different values of 'E' (Ref. 8.13 / 8.15)
+  # Function of difference, aimed to iterate with different values of 'E'
   difference <- function(E) {
     N <- ifelse(is.infinite(N), 10^10, N)
 

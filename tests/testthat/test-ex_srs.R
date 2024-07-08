@@ -17,3 +17,9 @@ test_that("ex_srs works", {
   result <- ex_srs(C = 0.95, n_real = 140, sd_est = 800, N = 2000, parameter = TRUE)
   expect_equal(round(result$E, 4), 127.8275)
 })
+
+test_that("ex_srs works for reverse of example 4.5", {
+  result <- ex_srs(C = 0.95, n_real = 211, sd_est = 25, N = 1000, parameter = TRUE)
+  expect_equal(round(result$E, 0), 3)
+})
+

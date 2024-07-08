@@ -12,6 +12,13 @@
 #' @return This function returns the confidence interval of the population proportion when using a cluster sampling design without replacement, given the sample size.
 #' @export
 #'
+#' @details
+#' The function to calculate the limit of precision is:
+#' \deqn{LP = Z \cdot \sqrt{ \frac{p.(1 - p)}{(n - 1)} \cdot \frac{(N - n)}{N \cdot m^2} }}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+#'
+#'
 #' @examples cp_cls(C = 0.95, p_est = 0.48, n_real = 25, N = 415, m = 8, sd_est = 0.73, parameter = TRUE)
 #' @examples cp_cls(C = 0.95, p_est = 0.48, n_real = 19, N = 500, m = 8, sd_est = 0.33, parameter = TRUE)
 
@@ -46,7 +53,7 @@ cp_cls <- function(C, p_est, n_real, sd_est, m, N = Inf, parameter = FALSE) {
     }
   }
 
-  # Calculate the confidence interval (8.17)
+  # Calculate the confidence interval
   N <- ifelse(is.infinite(N), 10^10, N)
 
   sd_p_est <- sqrt(((N - n_real) / (N * n_real * m^2)) * sd_est^2)

@@ -10,6 +10,13 @@
 #' @return This function returns the global sampling error when using a stratified sampling design without replacement to estimate the mean, given the sample size.
 #' @export
 #'
+#' @details
+#' The function looks for the value of 'E' that, given the real sampling size for each stratum, fits:
+#' \deqn{n = \frac{\sum_{i=1}^{s} \frac{N_i^2 \cdot \text{sd}_i^2}{\text{alloc}_i}}{N^2 \cdot \frac{E^2}{Z^2} + \sum_{i=1}^{s} N_i \cdot \text{sd}_i^2 }}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function,
+#' compatible with the chosen confidence level 'C'.
+#' If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples ex_sts(C = 0.95, n_real = c(48, 14, 7), sd_est = c(0.2, 0.5, 0.7), alloc =c(0.7, 0.2, 0.1), N = c(1400, 400, 200), parameter = TRUE)
 
 
@@ -53,7 +60,7 @@ ex_sts <- function(C, n_real, sd_est, alloc = NULL, N, parameter = FALSE) {
     stop("'n_real', 'sd_est', 'alloc', and 'N' must have the same length")
   }
 
-  # Function of difference, aimed to iterate with different values of 'E' (Ref. 5.6)
+  # Function of difference, aimed to iterate with different values of 'E'
   difference <- function(E) {
     n_adjusted <- if (parameter) {
       Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution
@@ -73,23 +80,6 @@ ex_sts <- function(C, n_real, sd_est, alloc = NULL, N, parameter = FALSE) {
   # Find the value of 'E' that minimizes the difference
   result <- optimize(f = difference, interval = c(0.001, 10^6))
 
-# Desde aquí se puede eliminar
-  # Return the result containing the optimal (minimum) 'E' value
-  E_min <- result$minimum
-  n_adjusted <- if (parameter) {
-    Z <- qnorm(C + (1 - C) / 2, 0, 1) # qnorm: quantile of the normal distribution
-    sum(N^2 * sd_est^2 / alloc) /
-      (sum(N)^2 * E_min^2 / Z^2 + sum(N * sd_est^2))
-
-  } else {
-    t <- qt(C + (1 - C) / 2, sum(n_real) - 1) # qt: quantile of the t-student distribution
-    sum(N^2 * sd_est^2 / alloc) /
-      (sum(N)^2 * E_min^2 / t^2 + sum(N * sd_est^2))
-  }
-# Hasta aquí (una vez chequeadas las funciones)
-
-  return(list(E = result$minimum)) # other options: n_optimized = ceiling(n_adjusted * alloc), diff = sum(n_adjusted * alloc - n_real)
+  return(list(E = result$minimum))
 }
 
-#Dudas
-# Dejo o elimino la verificación? (ver leyenda '#Desde aquí...'). Valido para

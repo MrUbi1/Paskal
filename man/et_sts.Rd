@@ -25,6 +25,12 @@ This function returns the global sampling error when using a stratified sampling
 \description{
 Sampling error when estimating the total using a stratified sampling design
 }
+\details{
+The function looks for the value of 'E' that, given the real sampling size for each stratum, fits:
+\deqn{n = \frac{\sum_{i=1}^{s} \frac{N_i^2 \cdot \text{sd}_i^2}{\text{alloc}_i} }{ N^2 \cdot \frac{E^2}{N^2 \cdot Z^2} + \sum_{i=1}^{s} N_i \cdot \text{sd}_i^2 }}
+where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 et_sts(C = 0.95, n_real = c(57, 29, 29), sd_est = c(5, 15, 10), alloc = c(1/2, 1/4, 1/4), N = c(150, 40, 110), parameter = FALSE)
 }

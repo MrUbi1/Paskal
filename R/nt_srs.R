@@ -9,6 +9,12 @@
 #' @return This function returns the sample size required to estimate the total of a variable when using a simple random sampling design without replacement, given the level of risk.
 #' @export
 #'
+#' @details
+#' The function to calculate the sample size is:
+#' \deqn{n = \frac{N \cdot \text{sd}^2}{(N - 1) \cdot \frac{E^2}{N^2 \cdot Z^2} + \text{sd}^2 }}
+#' where 'sd' is parameter 'sd_exp', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples nt_srs(C = 0.95, E = 1000, sd_exp = 4.1, N = 1200)
 #' @examples nt_srs(C = 0.95, E = 1500, sd_exp = 4.1, N = 1200)
 #' @examples nt_srs(C = 0.95, E = 2000, sd_exp = 3, N = 5000, parameter = TRUE)
@@ -47,5 +53,4 @@ nt_srs <- function(C, E, sd_exp, N, parameter = FALSE) {
   return(list(n = n_adjusted))
 }
 
-#Dudas
-# No me gusta de la fórmula que un N = Inf tiende a n = Inf. Es raro. Chequeé en ambos libros y las fórmulas son equivalentes.
+

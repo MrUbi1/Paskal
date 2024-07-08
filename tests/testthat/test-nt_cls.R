@@ -8,6 +8,7 @@ test_that("Parameter ranges works ok", {
   expect_error(nt_cls(C = 0.95, E = 500000, sd_exp = 5000, N = -400), "Parameter 'N' must be a positive integer or Inf")
 })
 
+# Ref. to 8.13 & 8.15
 test_that("nt_cls works", {
   result <- nt_cls(C = 0.95, E = 500000, sd_exp = 5000, N = 400)
   expect_equal(result$n, 54)

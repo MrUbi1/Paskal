@@ -8,6 +8,12 @@
 #' @return This function returns the sample size required to estimate the proportion of occurrences of an event when using a simple random sampling design without replacement, given the level of risk.
 #' @export
 #'
+#' @details
+#' The function to calculate the sample size is:
+#' \deqn{n = \frac{N \cdot \text{p} \cdot (1 - \text{p})}{(N - 1) \cdot \frac{e^2}{Z^2} + \text{p} \cdot (1 - \text{p}) }}
+#' where 'p' is parameter 'p_exp', and 'Z' is the quantile of the two-tailed normal distribution function,
+#' compatible with the chosen confidence level 'C'.
+#'
 #' @examples np_srs(C = 0.90, e = 0.04)
 #' @examples np_srs(C = 0.90, e = 0.1, p_exp = 0.5)
 #' @examples np_srs(C = 0.90, e = 0.1, p_exp = 0.5, N = 1000)

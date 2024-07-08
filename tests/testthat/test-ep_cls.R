@@ -10,8 +10,13 @@ test_that("Parameter ranges works ok", {
   expect_error(ep_cls(C = 0.95, n_real = 31, sd_est = 0.726, m = 6.04, N = -415, parameter = TRUE), "Parameter 'N' must be a positive integer or Inf")
 })
 
+# Ref. 8.12
 test_that("ep_cls works", {
   result <- ep_cls(C = 0.95, n_real = 31, sd_est = 0.726, m = 6.04, N = 415, parameter = TRUE)
   expect_equal(round(result$e, 2), 0.04)
 })
 
+test_that("ep_cls works for reverse of example 8.10", {
+  result <- ep_cls(C = 0.95, n_real = 33, sd_est = 0.726, m = 6.04, N = 415, parameter = TRUE)
+  expect_equal(round(result$e, 2), 0.04)
+})

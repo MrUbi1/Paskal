@@ -23,6 +23,12 @@ This function returns the sample size required to estimate the total of a variab
 \description{
 Sample size required to estimate the total using a simple random sampling design
 }
+\details{
+The function to calculate the sample size is:
+\deqn{n = \frac{N \cdot \text{sd}^2}{(N - 1) \cdot \frac{E^2}{N^2 \cdot Z^2} + \text{sd}^2 }}
+where 'sd' is parameter 'sd_exp', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 nt_srs(C = 0.95, E = 1000, sd_exp = 4.1, N = 1200)
 nt_srs(C = 0.95, E = 1500, sd_exp = 4.1, N = 1200)

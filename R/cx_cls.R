@@ -12,6 +12,12 @@
 #' @return This function returns the confidence interval of the population mean when using a cluster sampling design without replacement, given the sample size.
 #' @export
 #'
+#' @details
+#' The function to calculate the limit of precision is:
+#' \deqn{LP = Z \cdot \sqrt{ \frac{\text{sd}^2}{n} \cdot \frac{(N - n)}{N \cdot m^2} }}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples cx_cls(C = 0.95, x_est = 9990, n_real = 30, N = 500, m = 8, sd_est = 15000, parameter = TRUE)
 #' @examples cx_cls(C = 0.95, x_est = 9990, n_real = 19, N = 500, m = 8, sd_est = 15000, parameter = TRUE)
 
@@ -43,7 +49,7 @@ cx_cls <- function(C, x_est, n_real, sd_est, m, N = Inf, parameter = FALSE) {
   }
 
 
-  # Calculate the confidence interval (Ref. 8.2)
+  # Calculate the confidence interval
   N <- ifelse(is.infinite(N), 10^10, N)
 
   sd_x_est <- sqrt(((N - n_real) / (N * n_real * m^2)) * sd_est^2)

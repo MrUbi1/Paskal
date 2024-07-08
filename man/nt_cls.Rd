@@ -23,6 +23,12 @@ This function returns the sample size required to estimate the total of a variab
 \description{
 Sample size required to estimate the total using a cluster sampling design
 }
+\details{
+The function to calculate the sample size is:
+\deqn{n = \frac{N \cdot \text{sd}^2}{\frac{E^2}{N \cdot Z^2} + \text{sd}^2}}
+where 'sd' is parameter 'sd_exp', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 nt_cls(C = 0.95, E = 500000, sd_exp = 5000, N = 400)
 }

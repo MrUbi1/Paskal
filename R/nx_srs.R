@@ -9,10 +9,18 @@
 #' @return This function returns the sample size required to estimate the mean of a variable when using a simple random sampling design without replacement, given the level of risk.
 #' @export
 #'
+#' @details
+#' The function to calculate the sample size is:
+#' \deqn{n = \frac{N \cdot \text{sd}^2}{(N - 1) \cdot \frac{E^2}{Z^2} + \text{sd}^2 }}
+#' where 'sd' is parameter 'sd_exp', and Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples nx_srs(C = 0.95, E = 50, sd_exp = 400)
 #' @examples nx_srs(C = 0.95, E = 50, sd_exp = 400, parameter = TRUE, N = 10000)
 #' @examples nx_srs(C = 0.95, E = 50, sd_exp = 400, N = 10000, parameter = FALSE)
 #' @examples nx_srs(C = 0.95, E = 100, sd_exp = 400, N = 10000)
+#'
+#'
 
 # Sample size function
 nx_srs <- function(C, E, sd_exp, N = Inf, parameter = FALSE) {
@@ -49,5 +57,3 @@ nx_srs <- function(C, E, sd_exp, N = Inf, parameter = FALSE) {
   return(list(n = n_adjusted))
 }
 
-#Dudas
-# Con la t-student no me queda claro si df = 'N', o 'n', o 'n-1'. Si fuera n, como hago?

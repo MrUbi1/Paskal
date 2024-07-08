@@ -21,6 +21,12 @@ This function returns the sample size required to estimate the proportion of occ
 \description{
 Sample size required to estimate the proportion using a simple random sampling design
 }
+\details{
+The function to calculate the sample size is:
+\deqn{n = \frac{N \cdot \text{p} \cdot (1 - \text{p})}{(N - 1) \cdot \frac{e^2}{Z^2} + \text{p} \cdot (1 - \text{p}) }}
+where 'p' is parameter 'p_exp', and 'Z' is the quantile of the two-tailed normal distribution function,
+compatible with the chosen confidence level 'C'.
+}
 \examples{
 np_srs(C = 0.90, e = 0.04)
 np_srs(C = 0.90, e = 0.1, p_exp = 0.5)

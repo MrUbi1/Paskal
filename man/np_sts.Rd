@@ -23,6 +23,12 @@ This function returns the sample size required to estimate the proportion of occ
 \description{
 Sample size required to estimate the proportion using a stratified sampling design
 }
+\details{
+The function to calculate the sample size is:
+\deqn{n = \frac{\sum_{i=1}^{s} \frac{N_i^2 \cdot \text{p}_i \cdot (1 - \text{p}_i)}{\text{alloc}_i}}{N^2 \cdot \frac{e^2}{Z^2} + \sum_{i=1}^{s} N_i \cdot \text{p}_i \cdot (1 - \text{p}_i) }}
+where p is parameter 'p_exp', and 'Z' is the quantile of the two-tailed normal distribution function,
+compatible with the chosen confidence level 'C'.
+}
 \examples{
 np_sts(C = 0.95, e = 0.1, p_exp = c(0.2, 0.3), N = c(220, 350))
 np_sts(C = 0.95, e = 0.1, p_exp = c(0.1, 0.5, 0.5), alloc = c(0.3, 0.3, 0.4), N = c(150, 40, 110))

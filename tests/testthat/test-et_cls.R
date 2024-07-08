@@ -9,7 +9,13 @@ test_that("Parameter ranges works ok", {
   expect_error(et_cls(C = 0.95, n_real = 213, sd_est = 25189, N = -415), "Parameter 'N' must be a positive integer or Inf")
 })
 
+# Ref. to 8.13 / 8.15
 test_that("et_cls works", {
   result <- et_cls(C = 0.95, n_real = 213, sd_est = 25189, N = 415, parameter = TRUE)
   expect_equal(round(result$E, 0), 979420)
+})
+
+test_that("et_cls works for reverse of example 8.7", {
+  result <- et_cls(C = 0.95, n_real = 209, sd_est = 25189, N = 415, parameter = TRUE)
+  expect_equal(round(result$E, 0), 998490)
 })

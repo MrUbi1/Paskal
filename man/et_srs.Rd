@@ -23,6 +23,12 @@ This function returns the sampling error when using a simple random sampling des
 \description{
 Sampling error when estimating the total using a simple random sampling design
 }
+\details{
+The function looks for the value of 'E' that, given the real sampling size, fits:
+\deqn{n = \frac{N \cdot \text{sd}^2}{(N - 1) \cdot \frac{E^2}{N^2 \cdot Z^2} + \text{sd}^2 }}
+where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+If 'sd_exp' is unknown, the t-student is used instead of the normal distribution.
+}
 \examples{
 et_srs(C = 0.95, n_real = 87, sd_est = 4.1, N = 1200)
 et_srs(C = 0.95, n_real = 23, sd_est = 4.1, N = 1200)

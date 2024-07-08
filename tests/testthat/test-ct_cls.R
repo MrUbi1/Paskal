@@ -11,6 +11,7 @@ test_that("Parameter ranges works ok", {
   expect_error(ct_cls(C = 0.95, x_est = 9990, n_real = 30, N = -500, m = 8, M = 2500, sd_est = 15000, TRUE), "Parameter 'N' must be a positive integer or Inf")
 })
 
+# Ref. to 8.4 / 8.7
 test_that("ct_cls works", {
   result <- ct_cls(C = 0.95, x_est = 9990, n_real = 30, N = 500, m = 8, M = 2500, sd_est = 15000, TRUE)
   expect_equal(round(result$t_est,0), 24975000)

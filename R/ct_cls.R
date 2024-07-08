@@ -10,6 +10,15 @@
 #' @param sd_est Estimated standard deviation; sd_est > 0.
 #' @param parameter Type TRUE if you do know the populations sd, type FALSE (default) if it is an estimate.
 #'
+#' @details
+#' The function to calculate the limit of precision if M is unknown is:
+#' \deqn{LP = Z \cdot \sqrt{ N^2 \cdot \frac {\text{sd}^2}{n} \cdot \frac{(N - n)} {N} }}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+#'
+#' Alternatively, if M is known, the function is as follows:
+#' \deqn{LP = Z \cdot \sqrt{ M^2 \cdot \frac {\text{sd}^2}{n} \cdot \frac{(N - n)} {N \cdot m^2} }}
+#'
 #' @return This function returns the confidence interval of the population total when using a cluster sampling design without replacement, given the sample size.
 #' @export
 #'
@@ -49,7 +58,7 @@ ct_cls <- function(C, x_est, n_real, sd_est, m, N = Inf, M = NULL, parameter = F
     }
   }
 
-  # Calculate the confidence interval (Ref. 8.4 / 8.7)
+  # Calculate the confidence interval
   N <- ifelse(is.infinite(N), 10^10, N)
 
   sd_t_est <- ifelse(missing(M),

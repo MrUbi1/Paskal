@@ -23,6 +23,12 @@ This function returns the global sampling error when using a stratified sampling
 \description{
 Sampling error when estimating the proportion using a stratified sampling design
 }
+\details{
+The function looks for the value of 'e' that, given the real sampling size for each stratum, fits:
+\deqn{n = \frac{\sum_{i=1}^{s} \frac{N_i^2 \cdot \text{p}_i \cdot (1 - \text{p}_i)}{\text{alloc}_i}}{N^2 \cdot \frac{e^2}{Z^2} + \sum_{i=1}^{s} N_i \cdot \text{p}_i \cdot (1 - \text{p}_i) }}
+where p is parameter 'p_est', and 'Z' is the quantile of the two-tailed normal distribution function,
+compatible with the chosen confidence level 'C'.
+}
 \examples{
 ep_sts(C = 0.95, n_real = c(66, 9, 9), p_est = c(0.2, 0.5, 0.7), alloc = c(0.8, 0.1, 0.1), N = c(1400, 400, 200))
 }

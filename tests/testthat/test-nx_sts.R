@@ -11,6 +11,7 @@ test_that("Parameter ranges works ok", {
   expect_error(nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15, 10), alloc = c(0.5, 0.2, 0.3), N = c(0, 40, 110), parameter = FALSE), "All elements in 'N' must be positive integers")
 })
 
+#  Ref. to 5.6
 test_that("nx_sts works", {
   result <- nx_sts(C = 0.95, E = 2, sd_exp = c(5, 15), N = c(220, 350), parameter = TRUE)
   expect_equal(result$n, 114)

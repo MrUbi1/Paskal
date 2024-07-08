@@ -10,6 +10,12 @@
 #' @return The function returns the confidence interval of the population mean.
 #' @export
 #'
+#' @details
+#' The function to calculate the limit of precision is:
+#' \deqn{LP = Z \cdot \sqrt{\frac{\text{sd}^2}{n} \cdot \frac{(N - n)} {N}}}
+#' where 'sd' is parameter 'sd_est', and 'Z' is the quantile of the two-tailed normal distribution function, compatible with the chosen confidence level 'C'.
+#' If 'sd_est' is unknown, the t-student is used instead of the normal distribution.
+#'
 #' @examples cx_srs(C = 0.95, sd_est = 200, x_est = 3500, n_real = 250)
 #' @examples cx_srs(C = 0.95, sd_est = 200, x_est = 3500, n_real = 400)
 #' @examples cx_srs(C = 0.95, sd_est = 200, x_est = 3500, n_real = 250, N = 5000, parameter = TRUE)
